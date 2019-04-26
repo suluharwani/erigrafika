@@ -10,6 +10,7 @@ class Admin extends CI_Controller {
 	{
 		$data['title'] = "Erigrafika";
 		
+
 		$this->load->view('admin/dashboard', $data);
 	}
 	public function contact(){
