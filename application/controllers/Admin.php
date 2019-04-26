@@ -9,10 +9,11 @@ class Admin extends CI_Controller {
 	public function index()
 	{
 		$data['title'] = "Erigrafika";
+		
 		$this->load->view('admin/dashboard', $data);
 	}
 	public function contact(){
-		
+
 	}
 
 }
