@@ -8,7 +8,7 @@ class Admin extends CI_Controller {
   }
 	public function index()
 	{
-		$data['title'] = "title";
+		$data['title'] = "Erigrafika";
 		$this->load->view('admin/dashboard', $data);
 	}
 
