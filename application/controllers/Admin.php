@@ -9,7 +9,24 @@ class Admin extends CI_Controller {
 	public function index()
 	{
 		$data['title'] = "Erigrafika";
-		
+		$this->load->model('Mdl_web_profile', 'web_profile');
+
+		$query_web_profile = $this->web_profile->logo_perusahaan();
+		foreach ($query_web_profile as $logo) {
+			$logo_perusahaan = $logo->thumb;
+			$title_logo = $logo->title;
+		}
+		if (!is_null($logo_perusahaan)) {
+			$data['logo'] = $logo_perusahaan;
+		}else {
+			$data['logo'] = 'default.png';
+		}
+		if (!is_null($title_logo)) {
+			$data['title_logo'] = $title_logo;
+		}else {
+			$data['title_logo'] = 'default.png';
+		}
+
 
 		$this->load->view('admin/dashboard', $data);
 	}
