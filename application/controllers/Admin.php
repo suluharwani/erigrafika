@@ -9,6 +9,7 @@ class Admin extends CI_Controller {
 	}
 	public function index()
 	{
+		
 
 		$web_info = $this->web_info();
 

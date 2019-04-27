@@ -8,6 +8,12 @@ class Mdl_pengunjung extends CI_Model {
 		$query = $this->db->get('pengunjung');
 		return $query;
 	}
+	public function pengunjung_sama(){
+		$hari_ini = date("Y/m/d");
+		$this->db->where(array('tanggal'=>$hari_ini, 'ip_address'=>$this->input->ip_address()));
+		$query = $this->db->get('pengunjung');
+		return $query;
+	}
 }
 
 /* End of file Mdl_pengunjung.php */

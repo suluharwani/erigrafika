@@ -9,6 +9,18 @@ class Home extends CI_Controller {
 
 	public function index()
 	{
+		//kunjungan web
+		$ip = $this->input->ip_address();
+		$this->load->model('Mdl_pengunjung');
+		$jumlah_pengunjung = $this->Mdl_pengunjung->pengunjung_sama()->num_rows();
+		if ($jumlah_pengunjung<1) {
+			$object = array(
+						'ip_address' => $ip,
+						'tanggal'=>date("Y/m/d")
+			);
+			$this->db->insert('pengunjung', $object);
+		}
+		//kunjungan web
 		$data['title'] = "Eri Grafika";
 		$data['nama'] = "Eri Grafika";
 		$data['slider'] = $this->db->get('web_slider');
@@ -44,7 +56,7 @@ class Home extends CI_Controller {
 		}
 		return $lo;
 	}
-	
+
 
 }
 
