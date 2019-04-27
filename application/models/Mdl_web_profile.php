@@ -8,6 +8,10 @@ public function logo_perusahaan(){
 	$query = $this->db->get('logo', 1);
 	return $query;
 }
+public function info_profile(){
+	$query = $this->db->get('web_info', 1);
+	return $query;
+}
 	
 
 }

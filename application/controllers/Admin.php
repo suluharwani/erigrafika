@@ -9,7 +9,9 @@ class Admin extends CI_Controller {
   }
 	public function index()
 	{
-		$data['title'] = "Erigrafika";
+		$web_info = $this->web_info();
+
+		$data['title'] = $web_info['nama_web'];
 		$this->load->model('Mdl_web_profile', 'web_profile');
 
 		$query_web_profile = $this->web_profile->logo_perusahaan();
@@ -53,6 +55,23 @@ class Admin extends CI_Controller {
          		$adm['jabatan_admin'] = "Admin";
          	}
          	return $adm;
+         }
+         function web_info(){
+         	$this->load->model('Mdl_web_profile');
+         	$info_web = $this->Mdl_web_profile->info_profile();
+         	foreach ($info_web->result() as $inf) {
+         		if (isset($inf->nama_web)) {
+         			$info['nama_web'] = $inf->nama_web;
+         		}else {
+         			$info['nama_web'] = "";
+         		}
+         		if (isset($inf->alamat)) {
+         			$info['alamat'] = $inf->alamat;
+         		}else {
+         			$info['alamat']="";
+         		}
+         	}
+         	return $info;
          }
          function admin_info(){
 		// $this->_make_sure_is_admin();
