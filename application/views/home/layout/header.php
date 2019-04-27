@@ -56,7 +56,7 @@
                 <nav class="classy-navbar justify-content-between" id="uzaNav">
 
                     <!-- Logo -->
-                    <a class="nav-brand" href="index.html"><img src="<?=base_url('assets/logo/thumb/').$logo?>" alt="<?=$title?>"></a>
+                    <a class="nav-brand" href="index.html"><img src="<?=base_url('assets/logo/thumb/').$logo?>" width="150px" alt="<?=$title_logo?>"></a>
                     
 
                     <!-- Navbar Toggler -->
