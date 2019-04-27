@@ -14,6 +14,11 @@ class Mdl_pengunjung extends CI_Model {
 		$query = $this->db->get('pengunjung');
 		return $query;
 	}
+	public function pengunjung_sepanjang_waktu(){
+		$this->db->select('id');
+		$query = $this->db->get('pengunjung');
+		return $query;
+	}
 }
 
 /* End of file Mdl_pengunjung.php */

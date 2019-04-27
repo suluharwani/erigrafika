@@ -108,13 +108,32 @@ foreach ($slider->result() as $slide) {?>
                         <p>At vero eos et accusam et justo duo dolores et ea rebum. Stet gubergren no sea takimata.</p>
                     </div>
                 </div>
-
+                 <div class="col-12 col-lg-4">
+                    <div class="single-service-area mb-80">
+                        <!-- Service Icon -->
+                        <div class="service-icon">
+                            <i class="icon_cone_alt"></i>
+                        </div>
+                        <h5>Business Strategy</h5>
+                        <p>At vero eos et accusam et justo duo dolores et ea rebum. Stet gubergren no sea takimata.</p>
+                    </div>
+                </div>
+                 <div class="col-12 col-lg-4">
+                    <div class="single-service-area mb-80">
+                        <!-- Service Icon -->
+                        <div class="service-icon">
+                            <i class="icon_cone_alt"></i>
+                        </div>
+                        <h5>Business Strategy</h5>
+                        <p>At vero eos et accusam et justo duo dolores et ea rebum. Stet gubergren no sea takimata.</p>
+                    </div>
+                </div>
                 <!-- Single Service Area -->
                 <div class="col-12 col-lg-4">
                     <div class="single-service-area mb-80">
                         <!-- Service Icon -->
                         <div class="service-icon">
-                            <i class="icon_piechart"></i>
+                            <i class="social_youtube_square"></i>
                         </div>
                         <h5>Market Analytics</h5>
                         <p>At vero eos et accusam et justo duo dolores et ea rebum. Stet gubergren no sea takimata.</p>

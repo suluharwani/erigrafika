@@ -21,8 +21,8 @@
             <span class="info-box-icon bg-aqua"><i class="ion ion-ios-gear-outline"></i></span>
 
             <div class="info-box-content">
-              <span class="info-box-text">CPU Traffic</span>
-              <span class="info-box-number">90<small>%</small></span>
+              <span class="info-box-text">Memory Terpakai</span>
+              <span class="info-box-number"><?=$memory_usage?><small></small></span>
             </div>
             <!-- /.info-box-content -->
           </div>
@@ -31,11 +31,11 @@
         <!-- /.col -->
         <div class="col-md-3 col-sm-6 col-xs-12">
           <div class="info-box">
-            <span class="info-box-icon bg-red"><i class="fa fa-google-plus"></i></span>
+            <span class="info-box-icon bg-red"><i class="fa fa-chrome"></i></span>
 
             <div class="info-box-content">
-              <span class="info-box-text">Likes</span>
-              <span class="info-box-number">41,410</span>
+              <span class="info-box-text">Pengunjung Hari Ini</span>
+              <span class="info-box-number"><?=$pengunjung_hari_ini?> Perangkat</span>
             </div>
             <!-- /.info-box-content -->
           </div>
@@ -48,11 +48,11 @@
 
         <div class="col-md-3 col-sm-6 col-xs-12">
           <div class="info-box">
-            <span class="info-box-icon bg-green"><i class="ion ion-ios-cart-outline"></i></span>
+            <span class="info-box-icon bg-green"><i class="fa fa-bar-chart"></i></span>
 
             <div class="info-box-content">
-              <span class="info-box-text">Sales</span>
-              <span class="info-box-number">760</span>
+              <span class="info-box-text">Kunjungan Total</span>
+              <span class="info-box-number"><?=$pengunjung_sepanjang_waktu?> Perangkat</span>
             </div>
             <!-- /.info-box-content -->
           </div>

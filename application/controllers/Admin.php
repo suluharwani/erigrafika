@@ -9,13 +9,16 @@ class Admin extends CI_Controller {
 	}
 	public function index()
 	{
-		
+		$this->_make_sure_is_admin();
 
 		$web_info = $this->web_info();
 
 		$data['title'] = $web_info['nama_web'];
 		$this->load->model('Mdl_web_profile', 'web_profile');
-
+		$data['memory_usage'] = $this->memory_usage();
+		$this->load->model('Mdl_pengunjung');
+		$data['pengunjung_hari_ini'] = $this->Mdl_pengunjung->pengunjung_hari_ini()->num_rows();
+		$data['pengunjung_sepanjang_waktu'] = $this->Mdl_pengunjung->pengunjung_sepanjang_waktu()->num_rows();
 		$query_web_profile = $this->web_profile->logo_perusahaan();
 		foreach ($query_web_profile->result() as $logo) {
 			$logo_perusahaan = $logo->logo;
@@ -36,11 +39,10 @@ class Admin extends CI_Controller {
 		$this->load->view('admin/dashboard', $data);
 	}
 	public function profile(){
-
-
+		$this->_make_sure_is_admin();
 	}
 	function _admin_data(){
-		// $this->_make_sure_is_admin();
+		$this->_make_sure_is_admin();
 		$admin_data = $this->admin_info();
 		foreach ($admin_data->result() as $value) {
 			$adm['id_admin'] = $value->id_admin;
@@ -59,6 +61,7 @@ class Admin extends CI_Controller {
 		return $adm;
 	}
 	function web_info(){
+		$this->_make_sure_is_admin();
 		$this->load->model('Mdl_web_profile');
 		$info_web = $this->Mdl_web_profile->info_profile();
 		foreach ($info_web->result() as $inf) {
@@ -76,7 +79,7 @@ class Admin extends CI_Controller {
 		return $info;
 	}
 	function admin_info(){
-		// $this->_make_sure_is_admin();
+		$this->_make_sure_is_admin();
 		$id_admin = $this->session->userdata('id_admin_login');
 		if ($id_admin == null) {
 			redirect('login','refresh');
@@ -108,29 +111,39 @@ class Admin extends CI_Controller {
 	}
 	function _make_sure_is_admin(){
 		$is_user = $this->session->userdata('status_login_admin');
-		$admin_data = $this->admin_info();
-		foreach ($admin_data->result() as $value) {
-			$level_admin = $value->level;
-		}
-
-		if ($is_user == "admin_login") {
-			if ($level_admin==3) {
-				redirect("/dashboard",'refresh');
-			}
-		}else {
+		if ($is_user != "admin_login") {
 			$this->session->sess_destroy();
 			redirect('login','refresh');
 		}
 	}
-function convert($size)
-{
-    $unit=array('b','kb','mb','gb','tb','pb');
-    return @round($size/pow(1024,($i=floor(log($size,1024)))),2).' '.$unit[$i];
+	function convert($size){
+		$unit=array('b','kb','mb','gb','tb','pb');
+		return @round($size/pow(1024,($i=floor(log($size,1024)))),2).' '.$unit[$i];
+	}
+// 	function memory_usage(){
+// 	return $this->convert(memory_get_usage(true)); // 123 kb
+// }
+function memory_usage() {
+	
+	$mem = memory_get_usage(true);
+	
+	if ($mem < 1024) {
+		
+		$$memory = $mem .' B'; 
+		
+	} elseif ($mem < 1048576) {
+		
+		$memory = round($mem / 1024, 2) .' KB';
+		
+	} else {
+		
+		$memory = round($mem / 1048576, 2) .' MB';
+		
+	}
+	
+	return $memory;
+	
 }
-function memory_usage(){
-	echo $this->convert(memory_get_usage(true)); // 123 kb
-}
-
 
 
 }
