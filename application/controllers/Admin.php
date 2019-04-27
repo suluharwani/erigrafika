@@ -30,9 +30,10 @@ class Admin extends CI_Controller {
 
 		$this->load->view('admin/dashboard', $data);
 	}
-	public function contact(){
+	public function profile(){
 
 	}
+
 
 
 }
