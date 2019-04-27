@@ -51,7 +51,7 @@ class Login extends CI_Controller {
 					foreach ($adm->result() as $value) {
 						$id_admin = $value->id;
 					}
-					$this->session->set_userdata(array('status_login' => 'admin_login', 'id_admin_login' => $id_admin));
+					$this->session->set_userdata(array('status_login_admin' => 'admin_login', 'id_admin_login' => $id_admin));
 					redirect('/admin');
 				}else{
 					$data['salah'] = '<label class="text-danger"><span><i class="fa fa-times" aria-hidden="true">
