@@ -34,6 +34,10 @@ class Admin extends CI_Controller {
 		}else {
 			$data['title_logo'] = 'DEFAULT.png';
 		}
+		$stat_pengunjung = $this->Mdl_pengunjung->pengunjung_tahunan();
+		foreach ($stat_pengunjung->result() as $statistik_p) {
+			//belum selesai
+		}
 
 
 		$this->load->view('admin/dashboard', $data);

@@ -19,6 +19,13 @@ class Mdl_pengunjung extends CI_Model {
 		$query = $this->db->get('pengunjung');
 		return $query;
 	}
+	public function pengunjung_tahunan(){
+		$tahun_ini = date("Y");
+		$this->db->where("DATE_FORMAT(event_startdate ,'%Y')", $tahun_ini);
+		$query = $this->db->get('pengunjung');
+		return $query;
+	}
+
 }
 
 /* End of file Mdl_pengunjung.php */
