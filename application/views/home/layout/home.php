@@ -286,8 +286,8 @@ foreach ($slider->result() as $slide) {?>
                                         <i class="icon_star"></i>
                                         <i class="icon_star"></i>
                                         <i class="icon_star"></i>
-                                        <i class="icon_star"></i>
-                                        <i class="icon_star"></i>
+                                     <!--    <i class="icon_star"></i> -->
+                                       <!--  <i class="icon_star"></i> -->
                                     </div>
                                     <!-- Author Info -->
                                     <div class="author-info">

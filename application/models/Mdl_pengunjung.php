@@ -21,7 +21,18 @@ class Mdl_pengunjung extends CI_Model {
 	}
 	public function pengunjung_tahunan(){
 		$tahun_ini = date("Y");
-		$this->db->where("DATE_FORMAT(event_startdate ,'%Y')", $tahun_ini);
+		$this->db->distinct();
+		$this->db->select('monthname(tanggal) as tanggal');
+		$this->db->where("year(tanggal)", $tahun_ini);
+		$query = $this->db->get('pengunjung');
+		return $query;
+	}
+	public function jumlah_pengunjung_tahunan(){
+		$tahun_ini = date("Y");
+
+		$this->db->select('count(ip_address) as jumlah_ip');
+		$this->db->group_by('month(tanggal)');
+		$this->db->where("year(tanggal)", $tahun_ini);
 		$query = $this->db->get('pengunjung');
 		return $query;
 	}

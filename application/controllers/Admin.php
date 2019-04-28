@@ -35,10 +35,15 @@ class Admin extends CI_Controller {
 			$data['title_logo'] = 'DEFAULT.png';
 		}
 		$stat_pengunjung = $this->Mdl_pengunjung->pengunjung_tahunan();
-		foreach ($stat_pengunjung->result() as $statistik_p) {
-			//belum selesai
+		$stat_jumlah_pengunjung = $this->Mdl_pengunjung->jumlah_pengunjung_tahunan();
+		foreach ($stat_pengunjung->result_array() as $statistik_p) {
+			$bulan[] = $statistik_p['tanggal'];
 		}
-
+		foreach ($stat_jumlah_pengunjung->result_array() as $statistik_jumlah) {
+			$jumlah_pengunjung[] = $statistik_jumlah['jumlah_ip'];
+		}
+		$data['array_statistik_bulan'] = json_encode($bulan);
+		$data['array_statistik_jumlah_ip'] = json_encode($jumlah_pengunjung);
 
 		$this->load->view('admin/dashboard', $data);
 	}
