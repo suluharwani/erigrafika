@@ -47,6 +47,10 @@ class Admin extends CI_Controller {
 
 		$this->load->view('admin/dashboard', $data);
 	}
+	public function slider(){
+		$data['title'] = "Slider";
+		$this->load->view('admin/slider', $data);
+	}
 	public function profile(){
 		$this->_make_sure_is_admin();
 	}
