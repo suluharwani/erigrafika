@@ -116,6 +116,12 @@ class Admin extends CI_Controller {
 		$query = $this->db->insert("web_slider", $object_foto);
 		echo json_encode($query);
 	}
+	function slider_list(){
+		$this->load->model('Mdl_slider');
+		$query = $this->Mdl_slider->slider_list()->result();
+		echo json_encode($query);
+
+	}
 
 	public function profile(){
 		$this->_make_sure_is_admin();

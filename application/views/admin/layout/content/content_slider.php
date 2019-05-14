@@ -97,24 +97,71 @@
             </div>
           </div>
           <div class="box-body">
-            Start creating your amazing application!
+            <div class="table-responsive" >
+             <table class="table table-bordered table-striped" id="mydata">
+              <thead>
+                <tr>
+                  <th>No</th>
+                  <th>Nama</th>
+                  <th>Keterangan</th>
+                  <th>Gambar</th>
+                  <th style="text-align: right;">Actions</th>
+                </tr>
+              </thead>
+              <tbody id="slider_list">
+
+              </tbody>
+            </table>  
           </div>
-          <!-- /.box-body -->
-          <div class="box-footer">
-            Footer
-          </div>
-          <!-- /.box-footer-->
         </div>
-        <!-- /.box -->
+        <!-- /.box-body -->
+        <div class="box-footer">
+          Footer
+        </div>
+        <!-- /.box-footer-->
+      </div>
+      <!-- /.box -->
 
-      </section>
-      <!-- /.content -->
-    </div>
-    <!-- /.content-wrapper -->
-    <script src="<?=base_url('assets/AdminLTE/')?>bower_components/jquery/dist/jquery.min.js"></script>
+    </section>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
 
-    <script type="text/javascript">
-     $('#submitslider').submit(function(e){
+
+  <script type="text/javascript">
+    $(document).ready(function() {
+      $('#mydata').DataTable();
+     
+    } );
+     show_slider();
+    function show_slider(){
+      $.ajax({
+        type  : 'ajax',
+        url   : "<?php echo base_url('admin/slider_list')?>",
+        async : false,
+        dataType : 'json',
+        success : function(data){
+          var html = '';
+          var i;
+          for(i=0; i<data.length; i++){
+            no = i+1;
+            html += '<tr>'+
+            '<td>'+ no++ +'</td>'+
+            '<td>'+data[i].nama.substr(0, 50)+'</td>'+
+            '<td>'+data[i].keterangan.substr(0, 50)+'</td>'+
+            '<td> <img src="<?php echo base_url('assets/slider/thumb/')?>'+data[i].thumb+'"></td>'+
+            '<td style="text-align:right;">'+
+            '<a href="javascript:void(0);" class="btn btn-info btn-sm slider_edit" >Edit</a>'+' '+
+            '<a href="javascript:void(0);" class="btn btn-danger btn-sm item_delete" slider_hapus="'+data[i].id+'" >Delete</a>'+
+            '</td>'+
+            '</tr>';
+          }
+          $('#slider_list').html(html);
+        }
+
+      });
+    }
+    $('#submitslider').submit(function(e){
       e.preventDefault(); 
 
       $.ajax({
@@ -132,7 +179,7 @@
       $('#wait').show();
     },
     success: function(data){
-     $('#modal_tambah_slider').modal('hide');
+      show_slider();
      swal ( "Sukses" ,  "Foto Slider Berhasil Ditambahkan!" ,  "success", {
       buttons: false,
       timer: 1000,

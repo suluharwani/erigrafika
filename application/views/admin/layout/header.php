@@ -17,17 +17,21 @@
   <!-- Theme style -->
   <link rel="stylesheet" href="<?=base_url('assets/AdminLTE/')?>dist/css/AdminLTE.min.css">
   <!-- AdminLTE Skins. Choose a skin from the css/skins
-       folder instead of downloading all of them to reduce the load. -->
-  <link rel="stylesheet" href="<?=base_url('assets/AdminLTE/')?>dist/css/skins/_all-skins.min.css">
+   folder instead of downloading all of them to reduce the load. -->
+   <link rel="stylesheet" href="<?=base_url('assets/AdminLTE/')?>dist/css/skins/_all-skins.min.css">
 
-  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+   <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+   <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
   <!--[if lt IE 9]>
   <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
   <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-  <![endif]-->
+<![endif]-->
+<script src="<?=base_url('assets/adminLTE')?>/bower_components/jquery/dist/jquery.min.js"></script>
 
-  <!-- Google Font -->
-  <link rel="stylesheet"
-        href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+<script src="<?=base_url('assets/adminLTE')?>/bower_components/datatables.net/js/jquery.dataTables.min.js"></script>
+<script src="<?=base_url('assets/adminLTE')?>/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
+
+<!-- Google Font -->
+<link rel="stylesheet"
+href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
 </head>

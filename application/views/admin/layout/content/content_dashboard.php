@@ -840,4 +840,4 @@
   <script type="text/javascript">
   var data_bulan = <?=$array_statistik_bulan?>;
   var data_jumlah = <?=$array_statistik_jumlah_ip?>;
-</script>
+</script><script src="<?=base_url('assets/AdminLTE/')?>dist/js/pages/dashboard2.js"></script>
