@@ -126,14 +126,38 @@
     <!-- /.content -->
   </div>
   <!-- /.content-wrapper -->
+  <!--MODAL HAPUS-->
+  <div class="modal fade" id="ModalHapusSlider" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">X</span></button> -->
+          <h4 class="modal-title" id="myModalLabel">Hapus Slider</h4>
+        </div>
+        <form class="form-horizontal">
+          <div class="modal-body">
 
+            <input type="hidden" name="kode" id="id_slider_hapus" value="">
+            <div class="alert alert-warning"><p>Apakah Anda yakin mau menghapus <u> <span id="nama_slider_hapus"></span></u>?</p>
+            </div>
+
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Tutup</button>
+            <button class="btn_hapus btn btn-danger" id="btn_hapus_slider">Hapus</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <!--END MODAL HAPUS-->
 
   <script type="text/javascript">
     $(document).ready(function() {
       $('#mydata').DataTable();
-     
+
     } );
-     show_slider();
+    show_slider();
     function show_slider(){
       $.ajax({
         type  : 'ajax',
@@ -151,8 +175,7 @@
             '<td>'+data[i].keterangan.substr(0, 50)+'</td>'+
             '<td> <img src="<?php echo base_url('assets/slider/thumb/')?>'+data[i].thumb+'"></td>'+
             '<td style="text-align:right;">'+
-            '<a href="javascript:void(0);" class="btn btn-info btn-sm slider_edit" >Edit</a>'+' '+
-            '<a href="javascript:void(0);" class="btn btn-danger btn-sm item_delete" slider_hapus="'+data[i].id+'" >Delete</a>'+
+            '<a href="javascript:void(0);" class="btn btn-danger btn-sm slider_delete" slider_hapus_id="'+data[i].id+'" slider_nama="'+data[i].nama+'"    >Delete</a>'+
             '</td>'+
             '</tr>';
           }
@@ -180,15 +203,15 @@
     },
     success: function(data){
       show_slider();
-     swal ( "Sukses" ,  "Foto Slider Berhasil Ditambahkan!" ,  "success", {
-      buttons: false,
-      timer: 1000,
-    } );
+      swal ( "Sukses" ,  "Foto Slider Berhasil Ditambahkan!" ,  "success", {
+        buttons: false,
+        timer: 1000,
+      } );
 
-     show_slider();
-     $('#wait').hide();
-   },
-   error:function(data) {
+      show_slider();
+      $('#wait').hide();
+    },
+    error:function(data) {
      swal ( "Gagal" ,  "Foto Slider Gagal Ditambahkan!" ,  "error", {
       buttons: false,
       timer: 1000,
@@ -196,5 +219,33 @@
      $('#wait').hide();
    }
  });
+    });
+    $('#slider_list').on('click','.slider_delete',function(){
+      var id=$(this).attr('slider_hapus_id');
+      var nama=$(this).attr('slider_nama');
+
+      $('#id_slider_hapus').val(id);
+      $('#nama_slider_hapus').html(nama);
+      $('#ModalHapusSlider').modal('show');
+
+    });
+    $('#btn_hapus_slider').on('click',function(){
+      var id_slider = $('#id_slider_hapus').val();
+      $.ajax({
+        type : "POST",
+        url  : "<?php echo site_url('admin/hapus_slider')?>",
+        dataType : "JSON",
+        data : {id_slider:id_slider},
+        success: function(data){
+              // $('[name="kode"]').val("");
+              $('#ModalHapusSlider').modal('hide');
+              show_slider();
+              swal ( "Sukses" ,  "Sub Kategori Berhasil Dihapus!" ,  "success", {
+                buttons: false,
+                timer: 1000,
+              } );
+            }
+          });
+      return false;
     });
   </script>

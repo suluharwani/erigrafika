@@ -56,7 +56,7 @@ class Admin extends CI_Controller {
 	public function tambah_slider(){
 		$adm = $this->_admin_data();
 		$id_admin = $adm['id_admin'];
-
+		$nama_slider = $this->input->post('nama_slider');
 		$this->load->library('upload');
 		$config['upload_path']          = './assets/slider/asli/';
 		$config['allowed_types']        = 'gif|jpg|png|jpeg|pdf';
@@ -108,13 +108,42 @@ class Admin extends CI_Controller {
 		$object_foto = array(
 			'gambar' => $file['file_name'],
 			'thumb' =>  $file['file_name'],
-			'nama' => $this->input->post('nama_slider'),
+			'nama' => $nama_slider,
+			'url' => str_replace(' ', '_', $nama_slider),
 			'keterangan' => $this->input->post('keterangan_slider'),
 			'tanggal' => date("Y-m-d"),
 			'id_admin' => $id_admin
 		);  
 		$query = $this->db->insert("web_slider", $object_foto);
 		echo json_encode($query);
+	}
+	function hapus_slider(){
+		$id = $this->input->post('id_slider');
+		$this->_hapus_gambar_slider($id);
+		$this->db->where('id', $id);
+		$query = $this->db->delete('web_slider');
+		echo json_encode($query);
+	}
+	function _hapus_gambar_slider($id){
+		$query = $this->db->get_where('web_slider',array('id'=>$id));
+		foreach ($query->result() as $row) {
+			$gambar = $row->gambar;
+			$thumb = $row->thumb;
+		}
+		$path1 =  "./assets/slider/asli/".$gambar."";
+		$path2 =  "./assets/slider/thumb/".$thumb."";
+		$path3 =  "./assets/slider/fix/".$gambar."";
+		if (file_exists($path1)) {
+			unlink($path1);
+		}
+		if (file_exists($path2)) {
+			unlink($path2);
+		}
+		if (file_exists($path3)) {
+			unlink($path3);
+		}
+
+
 	}
 	function slider_list(){
 		$this->load->model('Mdl_slider');
