@@ -1,4 +1,20 @@
+<style type="text/css">
+  #image-preview{
+    display:none;
+    width : 250px;
+  }
+</style>
+<script type="text/javascript" charset="utf-8" async defer>
+  function previewImage() {
+    document.getElementById("image-preview").style.display = "block";
+    var oFReader = new FileReader();
+    oFReader.readAsDataURL(document.getElementById("gambar_slider").files[0]);
 
+    oFReader.onload = function(oFREvent) {
+      document.getElementById("image-preview").src = oFREvent.target.result;
+    };
+  };
+</script>
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->

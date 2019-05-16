@@ -24,12 +24,13 @@ foreach ($slider->result() as $slide) {?>
                                 <div class="welcome-text">
                                     <h2 data-animation="fadeInUp" data-delay="100ms"><?=$slide->nama?></h2>
                                     <h5 data-animation="fadeInUp" data-delay="400ms"><?=$slide->keterangan?></h5>
+                                    <a href="<?=base_url('home/download_gambar/'.$slide->gambar.'')?>" class="btn uza-btn btn-2" data-animation="fadeInUp" data-delay="700ms">Download Gambar</a>
                                 </div>
                             </div>
                             <!-- Welcome Thumbnail -->
                             <div class="col-12 col-md-6">
                                 <div class="welcome-thumbnail">
-                                    <img src="<?=base_url('assets/slider/fix/'.$slide->gambar)?>" alt="" data-animation="slideInRight" data-delay="400ms">
+                                    <img src="<?=base_url('assets/slider/fix/'.$slide->gambar)?>" alt="<?=$slide->url?>" data-animation="slideInRight" data-delay="400ms">
                                 </div>
                             </div>
                         </div>

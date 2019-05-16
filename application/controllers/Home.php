@@ -5,6 +5,7 @@ class Home extends CI_Controller {
 	function __construct() {
     parent::__construct();
     date_default_timezone_set('Asia/Jakarta');
+    $this->load->helper('download');
   }
 
 	public function index()
@@ -55,6 +56,10 @@ class Home extends CI_Controller {
 			$lo['title_logo'] = 'DEFAULT.png';
 		}
 		return $lo;
+	}
+	function download_gambar($gambar){
+		$path =  "./assets/slider/asli/".$gambar."";
+		force_download($path, NULL);
 	}
 
 

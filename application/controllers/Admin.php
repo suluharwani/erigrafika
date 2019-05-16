@@ -53,7 +53,7 @@ class Admin extends CI_Controller {
 		$data['title'] = "Slider";
 		$this->load->view('admin/slider', $data);
 	}
-	public function tambah_slider(){
+	function tambah_slider(){
 		$adm = $this->_admin_data();
 		$id_admin = $adm['id_admin'];
 		$nama_slider = $this->input->post('nama_slider');
@@ -142,14 +142,19 @@ class Admin extends CI_Controller {
 		if (file_exists($path3)) {
 			unlink($path3);
 		}
-
-
 	}
+	
 	function slider_list(){
 		$this->load->model('Mdl_slider');
 		$query = $this->Mdl_slider->slider_list()->result();
 		echo json_encode($query);
 
+	}
+	public function video(){
+		$this->_make_sure_is_admin();
+		$admin_data = $this->admin_info();
+		$data['title'] = "Video";
+		$this->load->view('admin/video', $data);
 	}
 
 	public function profile(){
