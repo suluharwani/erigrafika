@@ -156,6 +156,70 @@ class Admin extends CI_Controller {
 		$data['title'] = "Video";
 		$this->load->view('admin/video', $data);
 	}
+	function video_list(){
+		$this->load->model('Mdl_video');
+		$query = $this->Mdl_video->list_video()->result();
+		echo json_encode($query);
+	}
+	function tambah_video(){
+		$judul =  $this->input->post('judul_video');
+		$this->load->library('upload');
+		$config['upload_path']          = './assets/web_video/gambar/';
+		$config['allowed_types']        = 'gif|jpg|png|jpeg|pdf';
+		$config['max_size']             = 100000;
+		$config['max_width']            = 20000;
+		$config['max_height']           = 20000;
+		$config['file_name']            = $judul;
+		$this->load->library('upload', $config);
+		$this->upload->initialize($config);
+		if (!$this->upload->do_upload('gambar_video')) { 
+			$error = array('error' => $this->upload->display_errors()); 
+		} else { 
+			$file = $this->upload->data();
+
+			$path =  "./assets/web_video/gambar/".$file['file_name']."";
+			$new_path =  "./assets/web_video/thumb/";
+			$new_path_view =  "./assets/web_video/fix/";
+			$width = 150;
+			$height = 100;
+			$width_fix = 1366;
+              // $height_fix = 1200;
+			$this->load->library('image_lib');
+
+			$this->image_lib->initialize(array(
+				'image_library' => 'gd2',
+				'source_image' => $path,
+				'new_image' => $new_path,
+				'maintain_ratio' => true,
+				'master_dim' => 'width',
+				'width' => $width,
+				'height' => $height
+			));
+
+			$this->image_lib->resize();
+
+			$this->image_lib->initialize(array(
+				'image_library' => 'gd2',
+				'quality' =>'50%',
+				'source_image' => $path,
+				'new_image' => $new_path_view,
+				'maintain_ratio' => true,
+				'master_dim' => 'width',
+				'width' => $width_fix,
+				'height' => $width_fix*0.6
+			));
+
+			$this->image_lib->resize();
+		}
+		$object_video = array(
+			'judul' =>$judul,
+			'keterangan' => $this->input->post('keterangan_video'),
+			'gambar' => $file['file_name'],
+			'link_video' => $this->input->post('link_video')
+		);  
+		$query = $this->db->insert("web_video", $object_video);
+		echo json_encode($query);
+	}
 
 	public function profile(){
 		$this->_make_sure_is_admin();

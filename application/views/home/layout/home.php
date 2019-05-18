@@ -57,7 +57,7 @@ foreach ($slider->result() as $slide) {?>
                         <img src="<?=base_url('assets/home-master/')?>img/bg-img/2.jpg" alt="">
                         <!-- Video Area -->
                         <div class="uza-video-area hi-icon-effect-8">
-                            <a href="https://www.youtube.com/watch?v=sSakBz_eYzQ" class="hi-icon video-play-btn"><i class="fa fa-play" aria-hidden="true"></i></a>
+                            <a href="https://www.youtube.com/watch?v=dLmMH-UX_5U" class="hi-icon video-play-btn"><i class="fa fa-play" aria-hidden="true"></i></a>
                         </div>
                     </div>
                 </div>
