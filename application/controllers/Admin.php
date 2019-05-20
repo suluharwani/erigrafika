@@ -213,12 +213,55 @@ class Admin extends CI_Controller {
 		}
 		$object_video = array(
 			'judul' =>$judul,
+			'status' =>0,
 			'keterangan' => $this->input->post('keterangan_video'),
 			'gambar' => $file['file_name'],
 			'link_video' => $this->input->post('link_video')
 		);  
 		$query = $this->db->insert("web_video", $object_video);
 		echo json_encode($query);
+	}
+	function hapus_video(){
+		$id = $this->input->post('id_video');
+		$this->hapus_gambar_video($id);
+		$this->db->where('id', $id);
+		$query = $this->db->delete('web_video');
+		echo json_encode($query);
+	}
+	function hapus_gambar_video($id){
+		
+		$query = $this->db->get_where('web_video', array('id'=>$id));
+		foreach ($query->result() as $value) {
+		$gambar = $value->gambar;			
+		}
+		$path1 =  "./assets/web_video/asli/".$gambar."";
+		$path2 =  "./assets/web_video/gambar/".$gambar."";
+		$path3 =  "./assets/web_video/thumb/".$gambar."";
+		if (file_exists($path1)) {
+			unlink($path1);
+		}
+		if (file_exists($path2)) {
+			unlink($path2);
+		}
+		if (file_exists($path3)) {
+			unlink($path3);
+		}
+
+	}
+	function aktivasi_video(){
+		$id = $this->input->post('id_video');
+		$video_aktif = $this->db->get_where('web_video', array('status'=>1))->result();
+		if ($video_aktif) {
+			foreach ($video_aktif as $value) {
+				$id_aktif = $value->id;
+				$this->db->where('id', $id_aktif);
+				$this->db->update('web_video', array('status'=>0));
+			}
+		}
+		$this->db->where('id', $id);
+		$query = $this->db->update('web_video', array('status'=>1));
+		echo json_encode($query);
+
 	}
 
 	public function profile(){

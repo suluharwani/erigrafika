@@ -240,7 +240,7 @@
               // $('[name="kode"]').val("");
               $('#ModalHapusSlider').modal('hide');
               show_slider();
-              swal ( "Sukses" ,  "Sub Kategori Berhasil Dihapus!" ,  "success", {
+              swal ( "Sukses" ,  "Slider Berhasil Dihapus!" ,  "success", {
                 buttons: false,
                 timer: 1000,
               } );
