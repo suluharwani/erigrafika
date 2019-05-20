@@ -25,6 +25,7 @@ class Home extends CI_Controller {
 		$data['title'] = "Eri Grafika";
 		$data['nama'] = "Eri Grafika";
 		$data['slider'] = $this->db->get('web_slider');
+		$data['video'] = $this->db->get_where('web_video', array('status'=>1));
 		$this->db->select_min('id');
 		$min_id = $this->db->get('web_slider')->result();
 		foreach ($min_id as $value) {
