@@ -7,6 +7,7 @@ class Home extends CI_Controller {
     date_default_timezone_set('Asia/Jakarta');
     $this->load->helper('download');
   }
+  public $view_home = "home/layout";
 
 	public function index()
 	{
@@ -35,9 +36,17 @@ class Home extends CI_Controller {
 		$data['logo'] = $logo['logo'];
 		$data['title_logo'] = $logo['title_logo'];
 
-		
-		$this->load->view('home/home', $data);	
+		$data['content'] = $this->load->view("$this->view_home/home", $data, TRUE);
+		$this->load->view('home/template', $data);	
 
+	}
+	public function about(){
+		$logo = $this->_logo();
+		$data['logo'] = $logo['logo'];
+		$data['title_logo'] = $logo['title_logo'];
+		$data['title'] = "About";
+		$data['content'] = $this->load->view("$this->view_home/about", $data, TRUE);
+		$this->load->view('home/template', $data);	
 	}
 	function _logo(){
 		$this->load->model('Mdl_web_profile', 'web_profile');
