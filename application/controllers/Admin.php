@@ -47,6 +47,12 @@ class Admin extends CI_Controller {
 
 		$this->load->view('admin/dashboard', $data);
 	}
+	public function layanan(){
+		$this->_make_sure_is_admin();
+
+		$data['title'] = "Layanan";
+		$this->load->view('admin/layanan', $data);
+	}
 	public function slider(){
 		$this->_make_sure_is_admin();
 

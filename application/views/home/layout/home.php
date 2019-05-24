@@ -94,7 +94,7 @@ if ($video->result()) {
             <!-- Section Heading -->
             <div class="col-12">
                 <div class="section-heading text-center">
-                    <h2>Our Services</h2>
+                    <h2>Layanan kami</h2>
                 </div>
             </div>
         </div>
@@ -106,7 +106,7 @@ if ($video->result()) {
                 <div class="single-service-area mb-80">
                     <!-- Service Icon -->
                     <div class="service-icon">
-                        <i class="icon_cone_alt"></i>
+                        <img src="<?=base_url('assets/logo/asli/')?>logo2.png" width="90px">
                     </div>
                     <h5>Business Strategy</h5>
                     <p>At vero eos et accusam et justo duo dolores et ea rebum. Stet gubergren no sea takimata.</p>
@@ -160,6 +160,80 @@ if ($video->result()) {
     </div>
 </section>
 <!-- ***** Services Area End ***** -->
+<!-- ***** keuanggulan Area Start ***** -->
+<section class="uza-services-area section-padding-80-0">
+    <div class="container">
+        <div class="row">
+            <!-- Section Heading -->
+            <div class="col-12">
+                <div class="section-heading text-center">
+                    <h2>Keunggulan Kami</h2>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+
+            <!-- Single Service Area -->
+            <div class="col-12 col-lg-4">
+                <div class="single-service-area mb-80">
+                    <!-- Service Icon -->
+                    <div class="service-icon">
+                        <img src="<?=base_url('assets/logo/asli/')?>logo2.png" width="90px">
+                    </div>
+                    <h5>Business Strategy</h5>
+                    <p>At vero eos et accusam et justo duo dolores et ea rebum. Stet gubergren no sea takimata.</p>
+                </div>
+            </div>
+            <div class="col-12 col-lg-4">
+                <div class="single-service-area mb-80">
+                    <!-- Service Icon -->
+                    <div class="service-icon">
+                        <i class="icon_cone_alt"></i>
+                    </div>
+                    <h5>Business Strategy</h5>
+                    <p>At vero eos et accusam et justo duo dolores et ea rebum. Stet gubergren no sea takimata.</p>
+                </div>
+            </div>
+            <div class="col-12 col-lg-4">
+                <div class="single-service-area mb-80">
+                    <!-- Service Icon -->
+                    <div class="service-icon">
+                        <i class="icon_cone_alt"></i>
+                    </div>
+                    <h5>Business Strategy</h5>
+                    <p>At vero eos et accusam et justo duo dolores et ea rebum. Stet gubergren no sea takimata.</p>
+                </div>
+            </div>
+            <!-- Single Service Area -->
+            <div class="col-12 col-lg-4">
+                <div class="single-service-area mb-80">
+                    <!-- Service Icon -->
+                    <div class="service-icon">
+                        <i class="social_youtube_square"></i>
+                    </div>
+                    <h5>Market Analytics</h5>
+                    <p>At vero eos et accusam et justo duo dolores et ea rebum. Stet gubergren no sea takimata.</p>
+                </div>
+            </div>
+
+            <!-- Single Service Area -->
+            <div class="col-12 col-lg-4">
+                <div class="single-service-area mb-80">
+                    <!-- Service Icon -->
+                    <div class="service-icon">
+                        <i class="icon_easel"></i>
+                    </div>
+                    <h5>Marketing Social</h5>
+                    <p>At vero eos et accusam et justo duo dolores et ea rebum. Stet gubergren no sea takimata.</p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+<!-- ***** keuanggulan Area End ***** -->
+
 
 <!-- ***** Portfolio Area Start ***** -->
 <section class="uza-portfolio-area section-padding-80">
@@ -168,7 +242,7 @@ if ($video->result()) {
             <!-- Section Heading -->
             <div class="col-12">
                 <div class="section-heading text-center">
-                    <h2>Our Portfolio</h2>
+                    <h2>Portfolio</h2>
                     <p>We stay on top of our industry by being experts in yours.</p>
                 </div>
             </div>
