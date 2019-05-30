@@ -59,7 +59,77 @@ class Admin extends CI_Controller {
 		$data['title'] = "Slider";
 		$this->load->view('admin/slider', $data);
 	}
+	function layanan_list(){
+		$this->load->model('Mdl_layanan');
+		$query = $this->Mdl_layanan->list_layanan()->result();
+		echo json_encode($query);
+	}
+	function tambah_layanan(){
+		$this->_make_sure_is_admin();
+		$adm = $this->_admin_data();
+		$id_admin = $adm['id_admin'];
+		$nama_layanan = $this->input->post('judul_layanan');
+		$this->load->library('upload');
+		$config['upload_path']          = './assets/layanan/asli/';
+		$config['allowed_types']        = 'gif|jpg|png|jpeg|pdf';
+		$config['max_size']             = 100000;
+		$config['max_width']            = 20000;
+		$config['max_height']           = 20000;
+		$config['file_name']            = $this->input->post('judul_layanan');
+		$this->load->library('upload', $config);
+		$this->upload->initialize($config);
+		if (!$this->upload->do_upload('gambar_layanan')) { 
+			$error = array('error' => $this->upload->display_errors()); 
+		} else { 
+			$file = $this->upload->data();
+
+			$path =  "./assets/layanan/asli/".$file['file_name']."";
+			$new_path =  "./assets/layanan/thumb/";
+			$new_path_view =  "./assets/layanan/fix/";
+			$width = 150;
+			$height = 100;
+			$width_fix = 1366;
+              // $height_fix = 1200;
+			$this->load->library('image_lib');
+
+			$this->image_lib->initialize(array(
+				'image_library' => 'gd2',
+				'source_image' => $path,
+				'new_image' => $new_path,
+				'maintain_ratio' => true,
+				'master_dim' => 'width',
+				'width' => $width,
+				'height' => $height
+			));
+
+			$this->image_lib->resize();
+
+			$this->image_lib->initialize(array(
+				'image_library' => 'gd2',
+				'quality' =>'50%',
+				'source_image' => $path,
+				'new_image' => $new_path_view,
+				'maintain_ratio' => true,
+				'master_dim' => 'width',
+				'width' => $width_fix,
+				'height' => $width_fix*0.6
+			));
+
+			$this->image_lib->resize();
+		}
+		$object_foto = array(
+			'gambar' => $file['file_name'],
+			'nama' => $nama_layanan,
+			'url' => str_replace(' ', '_', $nama_layanan),
+			'keterangan' => $this->input->post('keterangan_layanan'),
+			'tanggal' => date("Y-m-d"),
+			'id_admin' => $id_admin
+		);  
+		$query = $this->db->insert("web_layanan", $object_foto);
+		echo json_encode($query);
+	}
 	function tambah_slider(){
+		$this->_make_sure_is_admin();
 		$adm = $this->_admin_data();
 		$id_admin = $adm['id_admin'];
 		$nama_slider = $this->input->post('nama_slider');
@@ -238,7 +308,7 @@ class Admin extends CI_Controller {
 		
 		$query = $this->db->get_where('web_video', array('id'=>$id));
 		foreach ($query->result() as $value) {
-		$gambar = $value->gambar;			
+			$gambar = $value->gambar;			
 		}
 		$path1 =  "./assets/web_video/asli/".$gambar."";
 		$path2 =  "./assets/web_video/gambar/".$gambar."";

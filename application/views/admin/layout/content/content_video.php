@@ -223,6 +223,7 @@
 
       });
     }
+
     $('#submitvideo').submit(function(e){
       e.preventDefault(); 
 
@@ -248,17 +249,19 @@
       } );
 
       show_video();
-      $('#wait').hide();
+      $("form").trigger("reset");
     },
     error:function(data) {
      swal ( "Gagal" ,  "Foto Slider Gagal Ditambahkan!" ,  "error", {
       buttons: false,
       timer: 1000,
     } );
-     $('#wait').hide();
+     $("form").trigger("reset");
    }
+
  });
     });
+
     $('#video_list').on('click','.video_delete',function(){
       var id=$(this).attr('video_hapus_id');
       var nama=$(this).attr('video_judul');

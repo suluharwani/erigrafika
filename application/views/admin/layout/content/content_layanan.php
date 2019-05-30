@@ -8,7 +8,7 @@
   function previewImage() {
     document.getElementById("image-preview").style.display = "block";
     var oFReader = new FileReader();
-    oFReader.readAsDataURL(document.getElementById("gambar_video").files[0]);
+    oFReader.readAsDataURL(document.getElementById("gambar_layanan").files[0]);
 
     oFReader.onload = function(oFREvent) {
       document.getElementById("image-preview").src = oFREvent.target.result;
@@ -30,7 +30,7 @@
   </section>
 
   <!-- Main content -->
-  <section class="content">
+  <section class="content">  
 
     <!-- Default box -->
     <div class="box">
@@ -52,24 +52,20 @@
             </div>
             <!-- /.box-header -->
             <!-- form start -->
-            <form enctype="multipart/form-data" id="submitvideo">
+            <form enctype="multipart/form-data" id="submitlayanan">
               <div class="box-body">
                 <div class="form-group">
-                  <label for="judul_video">Judul</label>
-                  <input type="text" class="form-control" id="judul_video" name="judul_video" placeholder="Nama Slider">
+                  <label for="judul_layanan">Judul</label>
+                  <input type="text" class="form-control" id="judul_layanan" name="judul_layanan" placeholder="Nama Layanan" required>
                 </div>
                 <div class="form-group">
-                  <label for="keterangan_video">Keterangan</label>
-                  <textarea class="form-control" id="keterangan_video" name="keterangan_video"></textarea>
+                  <label for="keterangan_layanan">Keterangan</label>
+                  <textarea class="form-control" id="keterangan_layanan" name="keterangan_layanan"></textarea>
                 </div>
                 <div class="form-group">
-                  <label for="gambar_video">Gambar</label>
-                  <input type="file" id="gambar_video" name="gambar_video" onchange="previewImage();">
+                  <label for="gambar_layanan">Gambar</label>
+                  <input type="file" id="gambar_layanan" name="gambar_layanan" onchange="previewImage();" required>
                   <img id="image-preview" alt="image preview"/>
-                </div>
-                <div class="form-group">
-                  <label for="link_video">Link Video</label>
-                  <input type="text" class="form-control" id="link_video" name="link_video" placeholder="https://www.youtube.com/watch?v=kt3xOU40-6c">
                 </div>
               </div>
               <!-- /.box-body -->
@@ -109,12 +105,10 @@
                   <th>Judul</th>
                   <th>Keterangan</th>
                   <th>Gambar</th>
-                  <th>Video</th>
-                  <th>Status</th>
                   <th style="text-align: right;">Actions</th>
                 </tr>
               </thead>
-              <tbody id="video_list">
+              <tbody id="layanan_list">
 
               </tbody>
             </table>  
@@ -188,11 +182,11 @@
       $('#mydata').DataTable();
 
     } );
-    show_video();
-    function show_video(){
+    show_layanan();
+    function show_layanan(){
       $.ajax({
         type  : 'ajax',
-        url   : "<?php echo base_url('admin/video_list')?>",
+        url   : "<?php echo base_url('admin/layanan_list')?>",
         async : false,
         dataType : 'json',
         success : function(data){
@@ -200,34 +194,27 @@
           var i;
           for(i=0; i<data.length; i++){
             no = i+1;
-            if (data[i].status == '1') {
-              var status_video = "aktif";
-            }else{
-              var status_video = "tidak aktif";
-            }
             html += '<tr>'+
             '<td>'+ no++ +'</td>'+
-            '<td>'+data[i].judul.substr(0, 50)+'</td>'+
+            '<td>'+data[i].nama.substr(0, 50)+'</td>'+
             '<td>'+data[i].keterangan.substr(0, 50)+'</td>'+
-            '<td> <img src="<?php echo base_url('assets/web_video/thumb/')?>'+data[i].gambar+'"></td>'+
-            '<td> <iframe height="85" src="'+data[i].link_video.replace("watch?v=","embed/")+'" frameborder="0" allowfullscreen></iframe></td>'+
-            '<td>'+ status_video +'</td>'+
+            '<td> <img src="<?php echo base_url('assets/layanan/thumb/')?>'+data[i].gambar+'"></td>'+
             '<td style="text-align:right;">'+
-            '<a href="javascript:void(0);" class="btn btn-danger btn-sm video_delete" video_hapus_id="'+data[i].id+'" video_judul="'+data[i].judul+'"    >Delete</a>'+
-            '<a href="javascript:void(0);" class="btn btn-success btn-sm video_aktivasi" video_aktif_id="'+data[i].id+'" video_judul="'+data[i].judul+'"    >Aktifkan</a>'+
+            '<a href="javascript:void(0);" class="btn btn-danger btn-sm video_delete" video_hapus_id="'+data[i].id+'" video_judul="'+data[i].nama+'"    >Delete</a>'+
+            '<a href="javascript:void(0);" class="btn btn-success btn-sm video_aktivasi" video_aktif_id="'+data[i].id+'" video_judul="'+data[i].nama+'"    >Aktifkan</a>'+
             '</td>'+
             '</tr>';
           }
-          $('#video_list').html(html);
+          $('#layanan_list').html(html);
         }
 
       });
     }
-    $('#submitvideo').submit(function(e){
+    $('#submitlayanan').submit(function(e){
       e.preventDefault(); 
 
       $.ajax({
-       url:"<?php echo site_url('admin/tambah_video')?>",
+       url:"<?php echo site_url('admin/tambah_layanan')?>",
        type:"post",
        data:new FormData(this),
        processData:false,
@@ -241,25 +228,25 @@
       $('#wait').show();
     },
     success: function(data){
-      show_video();
-      swal ( "Sukses" ,  "Foto Slider Berhasil Ditambahkan!" ,  "success", {
+      show_layanan();
+      swal ( "Sukses" ,  "Layanan Berhasil Ditambahkan!" ,  "success", {
         buttons: false,
         timer: 1000,
       } );
 
-      show_video();
-      $('#wait').hide();
+      show_layanan();
+     $("form").trigger("reset");
     },
     error:function(data) {
-     swal ( "Gagal" ,  "Foto Slider Gagal Ditambahkan!" ,  "error", {
+     swal ( "Gagal" ,  "Layanan Gagal Ditambahkan!" ,  "error", {
       buttons: false,
       timer: 1000,
     } );
-     $('#wait').hide();
+    $("form").trigger("reset");
    }
  });
     });
-    $('#video_list').on('click','.video_delete',function(){
+    $('#layanan_list').on('click','.video_delete',function(){
       var id=$(this).attr('video_hapus_id');
       var nama=$(this).attr('video_judul');
 
@@ -278,7 +265,7 @@
         success: function(data){
               // $('[name="kode"]').val("");
               $('#ModalHapusVideo').modal('hide');
-              show_video();
+              show_layanan();
               swal ( "Sukses" ,  "Video Berhasil Dihapus!" ,  "success", {
                 buttons: false,
                 timer: 1000,
@@ -287,7 +274,7 @@
           });
       return false;
     });
-    $('#video_list').on('click','.video_aktivasi',function(){
+    $('#layanan_list').on('click','.video_aktivasi',function(){
       var id=$(this).attr('video_aktif_id');
       var nama=$(this).attr('video_judul');
 
@@ -305,7 +292,7 @@
         success: function(data){
               // $('[name="kode"]').val("");
               $('#ModalAktivasiVideo').modal('hide');
-              show_video();
+              show_layanan();
               swal ( "Sukses" ,  "Video Berhasil Diaktifkan!" ,  "success", {
                 buttons: false,
                 timer: 1000,
