@@ -59,6 +59,80 @@ class Admin extends CI_Controller {
 		$data['title'] = "Slider";
 		$this->load->view('admin/slider', $data);
 	}
+	public function keunggulan(){
+		$this->_make_sure_is_admin();
+		$data['title'] = "Keunggulan";
+		$this->load->view('admin/keunggulan', $data);
+	}
+	function keunggulan_list(){
+		$this->load->model('Mdl_keunggulan');
+		$query = $this->Mdl_keunggulan->list_keunggulan()->result();
+		echo json_encode($query);
+	}
+	function tambah_keunggulan(){
+		$this->_make_sure_is_admin();
+		$adm = $this->_admin_data();
+		$id_admin = $adm['id_admin'];
+		$nama_keunggulan = $this->input->post('judul_keunggulan');
+		$this->load->library('upload');
+		$config['upload_path']          = './assets/keunggulan/asli/';
+		$config['allowed_types']        = 'gif|jpg|png|jpeg|pdf';
+		$config['max_size']             = 100000;
+		$config['max_width']            = 20000;
+		$config['max_height']           = 20000;
+		$config['file_name']            = $this->input->post('judul_keunggulan');
+		$this->load->library('upload', $config);
+		$this->upload->initialize($config);
+		if (!$this->upload->do_upload('gambar_keunggulan')) { 
+			$error = array('error' => $this->upload->display_errors()); 
+		} else { 
+			$file = $this->upload->data();
+
+			$path =  "./assets/keunggulan/asli/".$file['file_name']."";
+			$new_path =  "./assets/keunggulan/thumb/";
+			$new_path_view =  "./assets/keunggulan/fix/";
+			$width = 150;
+			$height = 100;
+			$width_fix = 1366;
+              // $height_fix = 1200;
+			$this->load->library('image_lib');
+
+			$this->image_lib->initialize(array(
+				'image_library' => 'gd2',
+				'source_image' => $path,
+				'new_image' => $new_path,
+				'maintain_ratio' => true,
+				'master_dim' => 'width',
+				'width' => $width,
+				'height' => $height
+			));
+
+			$this->image_lib->resize();
+
+			$this->image_lib->initialize(array(
+				'image_library' => 'gd2',
+				'quality' =>'50%',
+				'source_image' => $path,
+				'new_image' => $new_path_view,
+				'maintain_ratio' => true,
+				'master_dim' => 'width',
+				'width' => $width_fix,
+				'height' => $width_fix*0.6
+			));
+
+			$this->image_lib->resize();
+		}
+		$object_foto = array(
+			'gambar' => $file['file_name'],
+			'nama' => $nama_keunggulan,
+			'url' => str_replace(' ', '_', $nama_keunggulan),
+			'keterangan' => $this->input->post('keterangan_keunggulan'),
+			'tanggal' => date("Y-m-d"),
+			'id_admin' => $id_admin
+		);  
+		$query = $this->db->insert("web_keunggulan", $object_foto);
+		echo json_encode($query);
+	}
 	function layanan_list(){
 		$this->load->model('Mdl_layanan');
 		$query = $this->Mdl_layanan->list_layanan()->result();
