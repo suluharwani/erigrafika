@@ -134,61 +134,24 @@ if ($video->result()) {
         </div>
 
         <div class="row">
-
-            <!-- Single Service Area -->
-            <div class="col-12 col-lg-4">
-                <div class="single-service-area mb-80">
-                    <!-- Service Icon -->
-                    <div class="service-icon">
-                        <img src="<?=base_url('assets/logo/asli/')?>logo2.png" width="90px">
+             <?php
+            if ($keunggulan->result()) {
+                foreach ($keunggulan->result() as $keunggulan_kami) {?>
+                    <!-- Single Service Area -->
+                    <div class="col-12 col-lg-4">
+                        <div class="single-service-area mb-80">
+                            <!-- Service Icon -->
+                            <div class="service-icon">
+                                <img src="<?=base_url('assets/keunggulan/thumb/').$keunggulan_kami->gambar?>" width="70px">
+                            </div>
+                            <h5><?=$keunggulan_kami->nama?></h5>
+                            <p><?=$keunggulan_kami->keterangan?></p>
+                        </div>
                     </div>
-                    <h5>Business Strategy</h5>
-                    <p>At vero eos et accusam et justo duo dolores et ea rebum. Stet gubergren no sea takimata.</p>
-                </div>
-            </div>
-            <div class="col-12 col-lg-4">
-                <div class="single-service-area mb-80">
-                    <!-- Service Icon -->
-                    <div class="service-icon">
-                        <i class="icon_cone_alt"></i>
-                    </div>
-                    <h5>Business Strategy</h5>
-                    <p>At vero eos et accusam et justo duo dolores et ea rebum. Stet gubergren no sea takimata.</p>
-                </div>
-            </div>
-            <div class="col-12 col-lg-4">
-                <div class="single-service-area mb-80">
-                    <!-- Service Icon -->
-                    <div class="service-icon">
-                        <i class="icon_cone_alt"></i>
-                    </div>
-                    <h5>Business Strategy</h5>
-                    <p>At vero eos et accusam et justo duo dolores et ea rebum. Stet gubergren no sea takimata.</p>
-                </div>
-            </div>
-            <!-- Single Service Area -->
-            <div class="col-12 col-lg-4">
-                <div class="single-service-area mb-80">
-                    <!-- Service Icon -->
-                    <div class="service-icon">
-                        <i class="social_youtube_square"></i>
-                    </div>
-                    <h5>Market Analytics</h5>
-                    <p>At vero eos et accusam et justo duo dolores et ea rebum. Stet gubergren no sea takimata.</p>
-                </div>
-            </div>
-
-            <!-- Single Service Area -->
-            <div class="col-12 col-lg-4">
-                <div class="single-service-area mb-80">
-                    <!-- Service Icon -->
-                    <div class="service-icon">
-                        <i class="icon_easel"></i>
-                    </div>
-                    <h5>Marketing Social</h5>
-                    <p>At vero eos et accusam et justo duo dolores et ea rebum. Stet gubergren no sea takimata.</p>
-                </div>
-            </div>
+                    <?php
+                }
+            }
+            ?>
 
         </div>
     </div>
