@@ -64,6 +64,11 @@ class Admin extends CI_Controller {
 		$data['title'] = "Keunggulan";
 		$this->load->view('admin/keunggulan', $data);
 	}
+	public function portofolio(){
+		$this->_make_sure_is_admin();
+		$data['title'] = "Portofolio";
+		$this->load->view('admin/portofolio', $data);
+	}
 	function keunggulan_list(){
 		$this->load->model('Mdl_keunggulan');
 		$query = $this->Mdl_keunggulan->list_keunggulan()->result();
