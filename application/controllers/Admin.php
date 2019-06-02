@@ -69,6 +69,17 @@ class Admin extends CI_Controller {
 		$data['title'] = "Portofolio";
 		$this->load->view('admin/portofolio', $data);
 	}
+	function kategori_portofolio_list(){
+		$this->load->model('Mdl_portofolio');
+		$kategori_portofolio = $this->Mdl_portofolio->kategori_portofolio_list()->result();
+		echo json_encode($kategori_portofolio);
+	}
+	function tambah_kategori_portofolio(){
+		$kategori = $this->input->post('nama_kategori_portofolio');
+		$this->load->model('Mdl_portofolio');
+		$insert = $this->Mdl_portofolio->insert_kategori($kategori);
+		echo json_encode($insert);
+	}
 	function keunggulan_list(){
 		$this->load->model('Mdl_keunggulan');
 		$query = $this->Mdl_keunggulan->list_keunggulan()->result();
