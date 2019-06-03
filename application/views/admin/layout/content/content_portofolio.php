@@ -139,8 +139,11 @@
                     <input type="text" class="form-control" id="layanan_portofolio" name="layanan_portofolio" placeholder="Jenis Layanan" required>
                   </div>
                   <div class="form-group">
-                    <label for="layanan_portofolio">Kategori</label>
-                    <input type="text" class="form-control" id="layanan_portofolio" name="layanan_portofolio" placeholder="Jenis Layanan" required>
+                    <label for="select_kategori_portofolio">Kategori</label>
+                    <select name="select_kategori_portofolio" id="select_kategori_portofolio" class="form-control"  required="true" >
+                      <option selected disabled>Pilih Kategori</option>}
+                      option
+                    </select>
                   </div>
                   <div class="form-group">
                     <label for="keterangan_portofolio">Keterangan</label>
@@ -265,9 +268,10 @@
       $(document).ready(function() {
         $('#mydata').DataTable();
         $('#data_kategori').DataTable();
-      } );
+      });
       show_portofolio();
       show_kategori_portofolio();
+      list_kategori_portofolio();
       function show_kategori_portofolio(){
         $.ajax({
           type  : 'ajax',
@@ -291,6 +295,19 @@
           }
 
         });
+      }
+      function list_kategori_portofolio(){
+        $.ajax({
+          type : "ajax",
+          url  : "<?php echo site_url('admin/kategori_portofolio_list')?>",
+          dataType : "JSON",
+          success: function(kategori){
+            $.each(kategori, function(key, value) {
+              $('select[name="select_kategori_portofolio"]').append('<option value="'+ value.id +'">'+ value.nama +'</option>');
+            });
+          }
+        });
+        return  $('select[name="select_kategori_portofolio"]').empty();
       }
       function show_portofolio(){
         $.ajax({
@@ -338,6 +355,7 @@
     },
     success: function(data){
       show_portofolio();
+      list_kategori_portofolio();
       swal ( "Sukses" ,  "portofolio Berhasil Ditambahkan!" ,  "success", {
         buttons: false,
         timer: 1000,
@@ -399,13 +417,22 @@
           dataType : "JSON",
           data : {nama_kategori_portofolio:nama_kategori_portofolio},
           success: function(data){
-              show_kategori_portofolio();
-              swal ( "Sukses" ,  "Kategori berhasil ditambahkan!" ,  "success", {
-                buttons: false,
-                timer: 1000,
-              } );
-            }
-          });
+            show_kategori_portofolio();
+            list_kategori_portofolio();
+            swal ( "Sukses" ,  "Kategori berhasil ditambahkan!" ,  "success", {
+              buttons: false,
+              timer: 1000,
+            } );
+          },
+          error:function(data) {
+            swal ( "Gagal" ,  "Kategori mungkin sudah ada!" ,  "error", {
+            buttons: false,
+            timer: 5000,
+          } );
+           $("form").trigger("reset");
+         }
+
+       });
         $("form").trigger("reset");
         return false;
       });
@@ -428,4 +455,5 @@
           });
         return false;
       });
+      
     </script>

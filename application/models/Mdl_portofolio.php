@@ -6,10 +6,15 @@ class Mdl_portofolio extends CI_Model {
 		$query = $this->db->get_where('portofolio_kategori');
 		return $query;
 	}
+	function portofolio_list(){
+		$query = $this->db->get_where('web_portofolio');
+		return $query;
+	}
 	function insert_kategori($nama){
 		$query = $this->db->insert('portofolio_kategori', array('nama'=>$nama));
 		return $query;
 	}
+
 	
 
 }

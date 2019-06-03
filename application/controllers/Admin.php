@@ -91,16 +91,100 @@ class Admin extends CI_Controller {
 		$data['title'] = "Portofolio";
 		$this->load->view('admin/portofolio', $data);
 	}
+	function tambah_portofolio(){
+		$this->_make_sure_is_admin();
+		$this->form_validation->set_rules('nama_perusahaan_portofolio', 'Nama', 'required');
+		$this->form_validation->set_rules('layanan_portofolio', 'Layanan', 'required');
+		$this->form_validation->set_rules('select_kategori_portofolio', 'Kategori', 'required');
+		$this->form_validation->set_rules('keterangan_portofolio', 'Keterangan', 'required|max_length[500]');
+		if ($this->form_validation->run() == TRUE)
+		{
+			$adm = $this->_admin_data();
+			$id_admin = $adm['id_admin'];
+			$nama_portofolio = $this->input->post('nama_perusahaan_portofolio')."_".$this->input->post('layanan_portofolio');
+			$this->load->library('upload');
+			$config['upload_path']          = './assets/portofolio/asli/';
+			$config['allowed_types']        = 'gif|jpg|png|jpeg|pdf';
+			$config['max_size']             = 100000;
+			$config['max_width']            = 20000;
+			$config['max_height']           = 20000;
+			$config['file_name']            = $nama_portofolio;
+			$this->load->library('upload', $config);
+			$this->upload->initialize($config);
+			if (!$this->upload->do_upload('gambar_portofolio')) { 
+				$error = array('error' => $this->upload->display_errors()); 
+			} else { 
+				$file = $this->upload->data();
+
+				$path =  "./assets/portofolio/asli/".$file['file_name']."";
+				$new_path =  "./assets/portofolio/thumb/";
+				$new_path_view =  "./assets/portofolio/fix/";
+				$width = 150;
+				$height = 100;
+				$width_fix = 1366;
+              // $height_fix = 1200;
+				$this->load->library('image_lib');
+
+				$this->image_lib->initialize(array(
+					'image_library' => 'gd2',
+					'source_image' => $path,
+					'new_image' => $new_path,
+					'maintain_ratio' => true,
+					'master_dim' => 'width',
+					'width' => $width,
+					'height' => $height
+				));
+
+				$this->image_lib->resize();
+
+				$this->image_lib->initialize(array(
+					'image_library' => 'gd2',
+					'quality' =>'50%',
+					'source_image' => $path,
+					'new_image' => $new_path_view,
+					'maintain_ratio' => true,
+					'master_dim' => 'width',
+					'width' => $width_fix,
+					'height' => $width_fix*0.6
+				));
+
+				$this->image_lib->resize();
+			}
+			$object_portofolio = array(
+				
+				'nama' => $nama_portofolio,
+				'gambar' => $file['file_name'],
+				'id_portofolio' => $this->input->post('select_kategori_portofolio'),
+				'url' => str_replace(' ', '_', $nama_perusahaan_portofolio),
+				'keterangan' => $this->input->post('keterangan_portofolio'),
+				'tanggal' => date("Y-m-d"),
+				'id_admin' => $id_admin
+			);  
+			$query = $this->db->insert("web_portofolio", $object_portofolio);
+			echo json_encode($query);
+		}
+
+	}
+	function portofolio_list(){
+		$this->load->model('Mdl_portofolio');
+		$portofolio = $this->Mdl_portofolio->portofolio_list()->result();
+		echo json_encode($portofolio);
+	}
 	function kategori_portofolio_list(){
 		$this->load->model('Mdl_portofolio');
 		$kategori_portofolio = $this->Mdl_portofolio->kategori_portofolio_list()->result();
 		echo json_encode($kategori_portofolio);
 	}
 	function tambah_kategori_portofolio(){
-		$kategori = $this->input->post('nama_kategori_portofolio');
-		$this->load->model('Mdl_portofolio');
-		$insert = $this->Mdl_portofolio->insert_kategori($kategori);
-		echo json_encode($insert);
+		$this->form_validation->set_rules('nama_kategori_portofolio', 'Kategori', 'is_unique[portofolio_kategori.nama]');
+		if ($this->form_validation->run() == TRUE)
+		{
+			$kategori = $this->input->post('nama_kategori_portofolio');
+			$this->load->model('Mdl_portofolio');
+			$insert = $this->Mdl_portofolio->insert_kategori($kategori);
+			echo json_encode($insert);
+		}
+		
 	}
 	function keunggulan_list(){
 		$this->load->model('Mdl_keunggulan');
