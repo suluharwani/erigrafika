@@ -420,28 +420,3 @@ if ($video->result()) {
 </section>
 <!-- ***** Newsletter Area End ***** -->
 
-<!--MODAL HAPUS-->
-<div class="modal fade" id="Modal_Rating" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">X</span></button> -->
-          <h4 class="modal-title" id="myModalLabel">Hapus Video</h4>
-      </div>
-      <form class="form-horizontal">
-          <div class="modal-body">
-
-            <input type="hidden" name="kode" id="id_video_hapus" value="">
-            <div class="alert alert-warning"><p>Apakah Anda yakin mau menghapus <u> <span id="nama_video_hapus"></span></u>?</p>
-            </div>
-
-        </div>
-        <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-dismiss="modal">Tutup</button>
-            <button class="btn_hapus btn btn-danger" id="btn_hapus_video">Hapus</button>
-        </div>
-    </form>
-</div>
-</div>
-</div>
-<!--END MODAL HAPUS-->
