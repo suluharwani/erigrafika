@@ -10,9 +10,7 @@ class Admin extends CI_Controller {
 	public function index()
 	{
 		$this->_make_sure_is_admin();
-
 		$web_info = $this->web_info();
-
 		$data['title'] = $web_info['nama_web'];
 		$this->load->model('Mdl_web_profile', 'web_profile');
 		$data['memory_usage'] = $this->memory_usage();
@@ -44,27 +42,19 @@ class Admin extends CI_Controller {
 		}
 		$data['array_statistik_bulan'] = json_encode($bulan);
 		$data['array_statistik_jumlah_ip'] = json_encode($jumlah_pengunjung);
-
 		$this->load->view('admin/dashboard', $data);
 	}
 	public function backup_database(){
 		$this->load->dbutil();
-
 		$prefs = array(     
 			'format'      => 'zip',             
 			'filename'    => 'erigrafika.sql',
 		);
-
-
 		$backup =& $this->dbutil->backup($prefs); 
-
 		$db_name = 'backup-on-'. date("Y-m-d-H-i-s") .'.zip';
 		$save = 'backup/'.$db_name;
-
 		$this->load->helper('file');
 		write_file($save, $backup); 
-
-
 		$this->load->helper('download');
 		force_download($db_name, $backup);
 		return 0;
@@ -121,7 +111,7 @@ class Admin extends CI_Controller {
 				$new_path_view =  "./assets/portofolio/fix/";
 				$width = 150;
 				$height = 100;
-				$width_fix = 1366;
+				$width_fix = 700;
               // $height_fix = 1200;
 				$this->load->library('image_lib');
 
@@ -134,9 +124,7 @@ class Admin extends CI_Controller {
 					'width' => $width,
 					'height' => $height
 				));
-
 				$this->image_lib->resize();
-
 				$this->image_lib->initialize(array(
 					'image_library' => 'gd2',
 					'quality' =>'50%',
@@ -147,15 +135,13 @@ class Admin extends CI_Controller {
 					'width' => $width_fix,
 					'height' => $width_fix*0.6
 				));
-
 				$this->image_lib->resize();
 			}
 			$object_portofolio = array(
-				
 				'nama' => $nama_portofolio,
 				'gambar' => $file['file_name'],
 				'id_portofolio' => $this->input->post('select_kategori_portofolio'),
-				'url' => str_replace(' ', '_', $nama_perusahaan_portofolio),
+				'url' => str_replace(' ', '_', $nama_portofolio),
 				'keterangan' => $this->input->post('keterangan_portofolio'),
 				'tanggal' => date("Y-m-d"),
 				'id_admin' => $id_admin
@@ -163,7 +149,6 @@ class Admin extends CI_Controller {
 			$query = $this->db->insert("web_portofolio", $object_portofolio);
 			echo json_encode($query);
 		}
-
 	}
 	function portofolio_list(){
 		$this->load->model('Mdl_portofolio');
@@ -184,7 +169,6 @@ class Admin extends CI_Controller {
 			$insert = $this->Mdl_portofolio->insert_kategori($kategori);
 			echo json_encode($insert);
 		}
-		
 	}
 	function keunggulan_list(){
 		$this->load->model('Mdl_keunggulan');
@@ -209,7 +193,6 @@ class Admin extends CI_Controller {
 			$error = array('error' => $this->upload->display_errors()); 
 		} else { 
 			$file = $this->upload->data();
-
 			$path =  "./assets/keunggulan/asli/".$file['file_name']."";
 			$new_path =  "./assets/keunggulan/thumb/";
 			$new_path_view =  "./assets/keunggulan/fix/";
@@ -218,7 +201,6 @@ class Admin extends CI_Controller {
 			$width_fix = 1366;
               // $height_fix = 1200;
 			$this->load->library('image_lib');
-
 			$this->image_lib->initialize(array(
 				'image_library' => 'gd2',
 				'source_image' => $path,
@@ -228,9 +210,7 @@ class Admin extends CI_Controller {
 				'width' => $width,
 				'height' => $height
 			));
-
 			$this->image_lib->resize();
-
 			$this->image_lib->initialize(array(
 				'image_library' => 'gd2',
 				'quality' =>'50%',
@@ -241,7 +221,6 @@ class Admin extends CI_Controller {
 				'width' => $width_fix,
 				'height' => $width_fix*0.6
 			));
-
 			$this->image_lib->resize();
 		}
 		$object_foto = array(
@@ -278,7 +257,6 @@ class Admin extends CI_Controller {
 			$error = array('error' => $this->upload->display_errors()); 
 		} else { 
 			$file = $this->upload->data();
-
 			$path =  "./assets/layanan/asli/".$file['file_name']."";
 			$new_path =  "./assets/layanan/thumb/";
 			$new_path_view =  "./assets/layanan/fix/";

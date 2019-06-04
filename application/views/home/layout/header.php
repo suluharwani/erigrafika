@@ -115,17 +115,7 @@
 
                             <!-- Get A Quote -->
                             <div class="get-a-quote ml-4 mr-3">
-                                <a href="#" class="btn uza-btn">Get A Quote</a>
-                            </div>
-
-                            <!-- Login / Register -->
-                            <div class="login-register-btn mx-3">
-                                <a href="#">Login <span>/ Register</span></a>
-                            </div>
-
-                            <!-- Search Icon -->
-                            <div class="search-icon" data-toggle="modal" data-target="#searchModal">
-                                <i class="icon_search"></i>
+                                <a href="#" id="rating" class="btn uza-btn">Beri Penilaian</a>
                             </div>
                         </div>
                         <!-- Nav End -->

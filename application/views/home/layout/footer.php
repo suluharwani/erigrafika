@@ -108,3 +108,8 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
 </body>
 
 </html>
+<script type="text/javascript">
+    $('#rating').on('click',function(){
+        $('#Modal_Rating').modal('show');
+    })
+</script>

@@ -134,27 +134,27 @@ if ($video->result()) {
         </div>
 
         <div class="row">
-             <?php
-            if ($keunggulan->result()) {
-                foreach ($keunggulan->result() as $keunggulan_kami) {?>
-                    <!-- Single Service Area -->
-                    <div class="col-12 col-lg-4">
-                        <div class="single-service-area mb-80">
-                            <!-- Service Icon -->
-                            <div class="service-icon">
-                                <img src="<?=base_url('assets/keunggulan/thumb/').$keunggulan_kami->gambar?>" width="70px">
-                            </div>
-                            <h5><?=$keunggulan_kami->nama?></h5>
-                            <p><?=$keunggulan_kami->keterangan?></p>
+         <?php
+         if ($keunggulan->result()) {
+            foreach ($keunggulan->result() as $keunggulan_kami) {?>
+                <!-- Single Service Area -->
+                <div class="col-12 col-lg-4">
+                    <div class="single-service-area mb-80">
+                        <!-- Service Icon -->
+                        <div class="service-icon">
+                            <img src="<?=base_url('assets/keunggulan/thumb/').$keunggulan_kami->gambar?>" width="70px">
                         </div>
+                        <h5><?=$keunggulan_kami->nama?></h5>
+                        <p><?=$keunggulan_kami->keterangan?></p>
                     </div>
-                    <?php
-                }
+                </div>
+                <?php
             }
-            ?>
+        }
+        ?>
 
-        </div>
     </div>
+</div>
 </section>
 <!-- ***** keuanggulan Area End ***** -->
 
@@ -177,197 +177,132 @@ if ($video->result()) {
         <div class="row">
             <!-- Portfolio Slides -->
             <div class="portfolio-sildes owl-carousel">
-
-                <!-- Single Portfolio Slide -->
-                <div class="single-portfolio-slide">
-                    <img src="<?=base_url('assets/home-master/')?>img/bg-img/3.jpg" alt="">
-                    <!-- Overlay Effect -->
-                    <div class="overlay-effect">
-                        <h4>Digital Marketing</h4>
-                        <p>At vero eos et accusam et justo duo dolores et ea rebum. Stet gubergren no sea takimata sanctus est</p>
+                <?php
+                if ($portofolio->result()) {
+                    foreach ($portofolio->result() as $web_portofolio) {?>
+                     <!-- Single Portfolio Slide -->
+                     <div class="single-portfolio-slide">
+                        <img src="<?=base_url('assets/portofolio/fix/').$web_portofolio->gambar?>" alt="">
+                        <!-- Overlay Effect -->
+                        <div class="overlay-effect">
+                            <h4><?=$web_portofolio->nama?> </h4>
+                            <p><?=$web_portofolio->keterangan?></p>
+                        </div>
+                        <!-- View More -->
+                        <div class="view-more-btn">
+                            <a href="<?=base_url('home/portofolio/').$web_portofolio->url?>"><i class="arrow_right"></i></a>
+                        </div>
                     </div>
-                    <!-- View More -->
-                    <div class="view-more-btn">
-                        <a href="#"><i class="arrow_right"></i></a>
-                    </div>
-                </div>
-
-                <!-- Single Portfolio Slide -->
-                <div class="single-portfolio-slide">
-                    <img src="<?=base_url('assets/home-master/')?>img/bg-img/4.jpg" alt="">
-                    <!-- Overlay Effect -->
-                    <div class="overlay-effect">
-                        <h4>Digital Marketing</h4>
-                        <p>At vero eos et accusam et justo duo dolores et ea rebum. Stet gubergren no sea takimata sanctus est</p>
-                    </div>
-                    <!-- View More -->
-                    <div class="view-more-btn">
-                        <a href="#"><i class="arrow_right"></i></a>
-                    </div>
-                </div>
-
-                <!-- Single Portfolio Slide -->
-                <div class="single-portfolio-slide">
-                    <img src="<?=base_url('assets/home-master/')?>img/bg-img/5.jpg" alt="">
-                    <!-- Overlay Effect -->
-                    <div class="overlay-effect">
-                        <h4>Digital Marketing</h4>
-                        <p>At vero eos et accusam et justo duo dolores et ea rebum. Stet gubergren no sea takimata sanctus est</p>
-                    </div>
-                    <!-- View More -->
-                    <div class="view-more-btn">
-                        <a href="#"><i class="arrow_right"></i></a>
-                    </div>
-                </div>
-
-                <!-- Single Portfolio Slide -->
-                <div class="single-portfolio-slide">
-                    <img src="<?=base_url('assets/home-master/')?>img/bg-img/6.jpg" alt="">
-                    <!-- Overlay Effect -->
-                    <div class="overlay-effect">
-                        <h4>Digital Marketing</h4>
-                        <p>At vero eos et accusam et justo duo dolores et ea rebum. Stet gubergren no sea takimata sanctus est</p>
-                    </div>
-                    <!-- View More -->
-                    <div class="view-more-btn">
-                        <a href="#"><i class="arrow_right"></i></a>
-                    </div>
-                </div>
-
-                <!-- Single Portfolio Slide -->
-                <div class="single-portfolio-slide">
-                    <img src="<?=base_url('assets/home-master/')?>img/bg-img/5.jpg" alt="">
-                    <!-- Overlay Effect -->
-                    <div class="overlay-effect">
-                        <h4>Digital Marketing</h4>
-                        <p>At vero eos et accusam et justo duo dolores et ea rebum. Stet gubergren no sea takimata sanctus est</p>
-                    </div>
-                    <!-- View More -->
-                    <div class="view-more-btn">
-                        <a href="#"><i class="arrow_right"></i></a>
-                    </div>
-                </div>
-
-                <!-- Single Portfolio Slide -->
-                <div class="single-portfolio-slide">
-                    <img src="<?=base_url('assets/home-master/')?>img/bg-img/6.jpg" alt="">
-                    <!-- Overlay Effect -->
-                    <div class="overlay-effect">
-                        <h4>Digital Marketing</h4>
-                        <p>At vero eos et accusam et justo duo dolores et ea rebum. Stet gubergren no sea takimata sanctus est</p>
-                    </div>
-                    <!-- View More -->
-                    <div class="view-more-btn">
-                        <a href="#"><i class="arrow_right"></i></a>
-                    </div>
-                </div>
-
-            </div>
+                    <?php
+                }
+            }
+            ?>
         </div>
     </div>
+</div>
 
-    <!-- Client Feedback Area Start -->
-    <div class="clients-feedback-area mt-80 section-padding-80 clearfix">
-        <div class="container">
-            <div class="row">
-                <div class="col-12">
-                    <!-- Testimonial Slides -->
-                    <div class="testimonial-slides owl-carousel">
-
-                        <!-- Single Testimonial Slide -->
-                        <div class="single-testimonial-slide d-flex align-items-center">
-                            <!-- Testimonial Thumbnail -->
-                            <div class="testimonial-thumbnail">
-                                <img src="<?=base_url('assets/home-master/')?>img/bg-img/7.jpg" alt="">
-                            </div>
-                            <!-- Testimonial Content -->
-                            <div class="testimonial-content">
-                                <h4>“Colorlib Ltd’s ranking has gone up so much from the great work that your team has done and our brand get organic sales consistently from your efforts. We are happy that the results of your efforts were lasting and profitable.”</h4>
-                                <!-- Ratings -->
-                                <div class="ratings">
-                                    <i class="icon_star"></i>
-                                    <i class="icon_star"></i>
-                                    <i class="icon_star"></i>
-                                    <!--    <i class="icon_star"></i> -->
-                                    <!--  <i class="icon_star"></i> -->
-                                </div>
-                                <!-- Author Info -->
-                                <div class="author-info">
-                                    <h5>Darrell Goodman <span>- CEO colorlib</span></h5>
-                                </div>
-                                <!-- Quote Icon -->
-                                <div class="quote-icon"><img src="img/core-img/quote.png" alt=""></div>
-                            </div>
-                        </div>
-
-                        <!-- Single Testimonial Slide -->
-                        <div class="single-testimonial-slide d-flex align-items-center">
-                            <!-- Testimonial Thumbnail -->
-                            <div class="testimonial-thumbnail">
-                                <img src="<?=base_url('assets/home-master/')?>img/bg-img/23.jpg" alt="">
-                            </div>
-                            <!-- Testimonial Content -->
-                            <div class="testimonial-content">
-                                <h4>“Colorlib Ltd’s ranking has gone up so much from the great work that your team has done and our brand get organic sales consistently from your efforts. We are happy that the results of your efforts were lasting and profitable.”</h4>
-                                <!-- Ratings -->
-                                <div class="ratings">
-                                    <i class="icon_star"></i>
-                                    <i class="icon_star"></i>
-                                    <i class="icon_star"></i>
-                                    <i class="icon_star"></i>
-                                    <i class="icon_star"></i>
-                                </div>
-                                <!-- Author Info -->
-                                <div class="author-info">
-                                    <h5>Darrell Goodman <span>- CEO colorlib</span></h5>
-                                </div>
-                                <!-- Quote Icon -->
-                                <div class="quote-icon"><img src="img/core-img/quote.png" alt=""></div>
-                            </div>
-                        </div>
-
-                        <!-- Single Testimonial Slide -->
-                        <div class="single-testimonial-slide d-flex align-items-center">
-                            <!-- Testimonial Thumbnail -->
-                            <div class="testimonial-thumbnail">
-                                <img src="<?=base_url('assets/home-master/')?>img/bg-img/24.jpg" alt="">
-                            </div>
-                            <!-- Testimonial Content -->
-                            <div class="testimonial-content">
-                                <h4>“Colorlib Ltd’s ranking has gone up so much from the great work that your team has done and our brand get organic sales consistently from your efforts. We are happy that the results of your efforts were lasting and profitable.”</h4>
-                                <!-- Ratings -->
-                                <div class="ratings">
-                                    <i class="icon_star"></i>
-                                    <i class="icon_star"></i>
-                                    <i class="icon_star"></i>
-                                    <i class="icon_star"></i>
-                                    <i class="icon_star"></i>
-                                </div>
-                                <!-- Author Info -->
-                                <div class="author-info">
-                                    <h5>Darrell Goodman <span>- CEO colorlib</span></h5>
-                                </div>
-                                <!-- Quote Icon -->
-                                <div class="quote-icon"><img src="img/core-img/quote.png" alt=""></div>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Client Feedback Area End -->
-
-    <!-- Border -->
+<!-- Client Feedback Area Start -->
+<div class="clients-feedback-area mt-80 section-padding-80 clearfix">
     <div class="container">
-        <div class="border-line"></div>
-    </div>
+        <div class="row">
+            <div class="col-12">
+                <!-- Testimonial Slides -->
+                <div class="testimonial-slides owl-carousel">
 
-    <!-- Background Curve -->
-    <div class="portfolio-bg-curve">
-        <img src="<?=base_url('assets/home-master/')?>img/core-img/curve-3.png" alt="">
+                    <!-- Single Testimonial Slide -->
+                    <div class="single-testimonial-slide d-flex align-items-center">
+                        <!-- Testimonial Thumbnail -->
+                        <div class="testimonial-thumbnail">
+                            <img src="<?=base_url('assets/home-master/')?>img/bg-img/7.jpg" alt="">
+                        </div>
+                        <!-- Testimonial Content -->
+                        <div class="testimonial-content">
+                            <h4>“Colorlib Ltd’s ranking has gone up so much from the great work that your team has done and our brand get organic sales consistently from your efforts. We are happy that the results of your efforts were lasting and profitable.”</h4>
+                            <!-- Ratings -->
+                            <div class="ratings">
+                                <i class="icon_star"></i>
+                                <i class="icon_star"></i>
+                                <i class="icon_star"></i>
+                                <!--    <i class="icon_star"></i> -->
+                                <!--  <i class="icon_star"></i> -->
+                            </div>
+                            <!-- Author Info -->
+                            <div class="author-info">
+                                <h5>Darrell Goodman <span>- CEO colorlib</span></h5>
+                            </div>
+                            <!-- Quote Icon -->
+                            <div class="quote-icon"><img src="img/core-img/quote.png" alt=""></div>
+                        </div>
+                    </div>
+
+                    <!-- Single Testimonial Slide -->
+                    <div class="single-testimonial-slide d-flex align-items-center">
+                        <!-- Testimonial Thumbnail -->
+                        <div class="testimonial-thumbnail">
+                            <img src="<?=base_url('assets/home-master/')?>img/bg-img/23.jpg" alt="">
+                        </div>
+                        <!-- Testimonial Content -->
+                        <div class="testimonial-content">
+                            <h4>“Colorlib Ltd’s ranking has gone up so much from the great work that your team has done and our brand get organic sales consistently from your efforts. We are happy that the results of your efforts were lasting and profitable.”</h4>
+                            <!-- Ratings -->
+                            <div class="ratings">
+                                <i class="icon_star"></i>
+                                <i class="icon_star"></i>
+                                <i class="icon_star"></i>
+                                <i class="icon_star"></i>
+                                <i class="icon_star"></i>
+                            </div>
+                            <!-- Author Info -->
+                            <div class="author-info">
+                                <h5>Darrell Goodman <span>- CEO colorlib</span></h5>
+                            </div>
+                            <!-- Quote Icon -->
+                            <div class="quote-icon"><img src="img/core-img/quote.png" alt=""></div>
+                        </div>
+                    </div>
+
+                    <!-- Single Testimonial Slide -->
+                    <div class="single-testimonial-slide d-flex align-items-center">
+                        <!-- Testimonial Thumbnail -->
+                        <div class="testimonial-thumbnail">
+                            <img src="<?=base_url('assets/home-master/')?>img/bg-img/24.jpg" alt="">
+                        </div>
+                        <!-- Testimonial Content -->
+                        <div class="testimonial-content">
+                            <h4>“Colorlib Ltd’s ranking has gone up so much from the great work that your team has done and our brand get organic sales consistently from your efforts. We are happy that the results of your efforts were lasting and profitable.”</h4>
+                            <!-- Ratings -->
+                            <div class="ratings">
+                                <i class="icon_star"></i>
+                                <i class="icon_star"></i>
+                                <i class="icon_star"></i>
+                                <i class="icon_star"></i>
+                                <i class="icon_star"></i>
+                            </div>
+                            <!-- Author Info -->
+                            <div class="author-info">
+                                <h5>Darrell Goodman <span>- CEO colorlib</span></h5>
+                            </div>
+                            <!-- Quote Icon -->
+                            <div class="quote-icon"><img src="img/core-img/quote.png" alt=""></div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
     </div>
+</div>
+<!-- Client Feedback Area End -->
+
+<!-- Border -->
+<div class="container">
+    <div class="border-line"></div>
+</div>
+
+<!-- Background Curve -->
+<div class="portfolio-bg-curve">
+    <img src="<?=base_url('assets/home-master/')?>img/core-img/curve-3.png" alt="">
+</div>
 </section>
 <!-- ***** Portfolio Area End ***** -->
 
@@ -484,3 +419,29 @@ if ($video->result()) {
     </div>
 </section>
 <!-- ***** Newsletter Area End ***** -->
+
+<!--MODAL HAPUS-->
+<div class="modal fade" id="Modal_Rating" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">X</span></button> -->
+          <h4 class="modal-title" id="myModalLabel">Hapus Video</h4>
+      </div>
+      <form class="form-horizontal">
+          <div class="modal-body">
+
+            <input type="hidden" name="kode" id="id_video_hapus" value="">
+            <div class="alert alert-warning"><p>Apakah Anda yakin mau menghapus <u> <span id="nama_video_hapus"></span></u>?</p>
+            </div>
+
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Tutup</button>
+            <button class="btn_hapus btn btn-danger" id="btn_hapus_video">Hapus</button>
+        </div>
+    </form>
+</div>
+</div>
+</div>
+<!--END MODAL HAPUS-->
