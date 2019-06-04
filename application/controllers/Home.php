@@ -51,12 +51,6 @@ class Home extends CI_Controller {
 		$data['content'] = $this->load->view("$this->view_home/about", $data, TRUE);
 		$this->load->view('home/template', $data);	
 	}
-	function test(){
-		$ip_penilai = $this->input->ip_address();
-		$tanggal = date("Y-m-d");
-		$batas_penilai = $this->db->get_where('penilaian', array('tanggal'=>$tanggal, 'ip_address'=>$ip_penilai));
-		echo $batas_penilai->num_rows();	
-	}
 	function tambah_penilaian(){
 		$this->form_validation->set_rules('nama_penilai', 'Nama', 'required|max_length[100]');
 		$this->form_validation->set_rules('perusahaan_penilai', 'Nama', 'required|max_length[100]');
@@ -125,7 +119,15 @@ class Home extends CI_Controller {
 			);  
 			$query = $this->db->insert("penilaian", $object_penilaian);
 			echo json_encode($query);
+		}else{
+			header('HTTP/1.1 500 Internal Server Booboo');
+			header('Content-Type: application/json; charset=UTF-8');
+			die(json_encode(array('message' => 'ERROR', 'code' => 1337)));
 		}
+	}
+	function review_list(){
+		$query = $this->db->get('penilaian', 10);
+		echo json_encode($query->result());
 	}
 	function _logo(){
 		$this->load->model('Mdl_web_profile', 'web_profile');

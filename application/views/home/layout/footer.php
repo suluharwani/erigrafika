@@ -173,37 +173,116 @@
 
 </html>
 <script type="text/javascript">
+$(document).ready(function() {
+
+})
 
    $('#rating').on('click',function(){
     $('#Modal_Rating').modal('show');
 })
-   $('#submitpenilaian').submit(function(e){
-    e.preventDefault(); 
+   list_review();
+   function list_review(){
     $.ajax({
-        url:"<?php echo site_url('home/tambah_penilaian')?>",
-        type:"post",
-        data:new FormData(this),
-        processData:false,
-        contentType:false,
-        cache:false,
-        async:false,
-  success: function(data){
-      // penilaian();
-      swal ( "Sukses" ,  "penilaian Berhasil Ditambahkan!" ,  "success", {
+        type  : 'ajax',
+        url   : "<?php echo base_url('home/review_list')?>",
+        async : false,
+        dataType : 'json',
+        success : function(data){
+          var html = '';
+          var i;
+          for(i=0; i<data.length; i++){
+            no = i+1;
+            html +=  '<div class="single-testimonial-slide d-flex align-items-center">'+
+                        '<div class="testimonial-thumbnail">'+
+                           '<img src="<?=base_url(`assets/penilai/fix/`)?>'+data[i].gambar+'" alt="">'+
+                        '</div>'+
+                        '<div class="testimonial-content">'+
+                            '<h4>“'+data[i].keterangan+'”</h4>'+
+                            '<div class="ratings">'+
+                               '<i class="icon_star"></i>'+
+                                '<i class="icon_star"></i>'+
+                                '<i class="icon_star"></i>'+
+                                 '<i class="icon_star"></i>'+ 
+                                 '<i class="icon_star"></i>'+ 
+                            '</div>'+
+                            '<div class="author-info">'+
+                                '<h5>Darrell Goodman <span>- CEO colorlib</span></h5>'+
+                            '</div>'+
+                            '<div class="quote-icon"><img src="img/core-img/quote.png" alt=""></div>'+
+                        '</div>'+
+                        '</div>'+
+                    '</div>';
+          }
+          $('#review_list').html(html);
+        }
+
+      });
+   
+   }
+//    $('#submitpenilaian').submit(function(e){
+//     e.preventDefault(); 
+//     $.ajax({
+//         url:"<?php echo site_url('home/tambah_penilaian')?>",
+//         type:"post",
+//         data:new FormData(this),
+//         processData:false,
+//         contentType:false,
+//         cache:false,
+//         async:false,
+//   success: function(data){
+//       swal ( "Sukses" ,  "penilaian Berhasil Ditambahkan!" ,  "success", {
+//         buttons: false,
+//         timer: 1000,
+//     } );
+
+//       $("form").trigger("reset");
+//        $('#Modal_Rating').modal('hide');
+//   },
+//   error: function(data) {
+//      swal ( "Gagal" ,  "penilaian Gagal Ditambahkan!" ,  "error", {
+//       buttons: false,
+//       timer: 1000,
+//   } ); 
+//      $("form").trigger("reset");
+//       $('#Modal_Rating').modal('hide');
+//  }
+// });
+// });
+
+   $('#submitpenilaian').submit(function(e){
+      e.preventDefault(); 
+
+      $.ajax({
+       url:"<?php echo site_url('home/tambah_penilaian')?>",
+       type:"post",
+       data:new FormData(this),
+       processData:false,
+       contentType:false,
+       cache:false,
+       async:false,
+     // xhr: function(data){
+     //  $('#wait').show();
+     // },
+     beforeSend: function(data) {
+      $('#wait').show();
+    },
+    success: function(data){
+      list_review();
+      swal ( "Sukses" ,  "Penilaian Berhasil Ditambahkan!" ,  "success", {
         buttons: false,
         timer: 1000,
-    } );
-
-      // penilaian();
-      $("form").trigger("reset");
-  },
-  error:function(data) {
-     swal ( "Gagal" ,  "penilaian Gagal Ditambahkan!" ,  "error", {
+      } );
+      $('#wait').hide();
+       $('#Modal_Rating').modal('hide');
+    },
+    error:function(data) {
+     swal ( "Gagal" ,  "Penilaian Gagal Ditambahkan, maximal 3 review dari perangkat anda!" ,  "error", {
       buttons: false,
-      timer: 1000,
-  } );
-     $("form").trigger("reset");
- }
-});
-});
+      timer: 7000,
+    } );
+     $('#wait').hide();
+      $('#Modal_Rating').modal('hide');
+   }
+ });
+    });
 </script>
