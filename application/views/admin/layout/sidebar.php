@@ -53,8 +53,9 @@
             <li><a href="<?=base_url('admin/layanan')?>"><i class="fa fa-circle-o"></i> Services/layanan</a></li>
             <li><a href="<?=base_url('admin/keunggulan')?>"><i class="fa fa-circle-o"></i> Keunggulan</a></li>
             <li><a href="<?=base_url('admin/portofolio')?>"><i class="fa fa-circle-o"></i> Portofolio</a></li>
-            <li><a href="pages/layout/collapsed-sidebar.html"><i class="fa fa-circle-o"></i> Rating</a></li>
-            <li><a href="pages/layout/collapsed-sidebar.html"><i class="fa fa-circle-o"></i> Blog</a></li>
+            <li><a href="<?=base_url('admin/rating')?>"><i class="fa fa-circle-o"></i> Rating</a></li>
+            <li><a href="<?=base_url('admin/blog')?>"><i class="fa fa-circle-o"></i> Blog</a></li>
+            <li><a href="<?=base_url('admin/team')?>"><i class="fa fa-circle-o"></i> Team</a></li>
           </ul>
         </li>
         <li>

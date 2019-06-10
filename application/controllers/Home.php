@@ -8,12 +8,16 @@ class Home extends CI_Controller {
 		$this->load->helper('download');
 	}
 	public $view_home = "home/layout";
-
+function test(){
+	$this->load->model('Mdl_post');
+	print_r($this->Mdl_post->post_home()->result());
+}
 	public function index()
 	{
 		//kunjungan web
 		$ip = $this->input->ip_address();
 		$this->load->model('Mdl_pengunjung');
+		$this->load->model('Mdl_post');
 		$jumlah_pengunjung = $this->Mdl_pengunjung->pengunjung_sama()->num_rows();
 		if ($jumlah_pengunjung<1) {
 			$object = array(
@@ -29,6 +33,7 @@ class Home extends CI_Controller {
 		$data['layanan'] = $this->db->get('web_layanan');
 		$data['keunggulan'] = $this->db->get('web_keunggulan');
 		$data['review'] = $this->db->get('penilaian');
+		$data['blog'] = $this->Mdl_post->post_home();
 		$data['video'] = $this->db->get_where('web_video', array('status'=>1));
 		$data['portofolio'] = $this->db->get('web_portofolio', 10);
 		$this->db->select_min('id');
@@ -41,7 +46,7 @@ class Home extends CI_Controller {
 		$data['title_logo'] = $logo['title_logo'];
 
 		$data['content'] = $this->load->view("$this->view_home/home", $data, TRUE);
-		$this->load->view('home/template', $data);	
+		$this->load->view('home/template', $data);
 
 	}
 	public function about(){
@@ -50,7 +55,7 @@ class Home extends CI_Controller {
 		$data['title_logo'] = $logo['title_logo'];
 		$data['title'] = "About";
 		$data['content'] = $this->load->view("$this->view_home/about", $data, TRUE);
-		$this->load->view('home/template', $data);	
+		$this->load->view('home/template', $data);
 	}
 	function tambah_penilaian(){
 		$this->form_validation->set_rules('nama_penilai', 'Nama', 'required|max_length[100]');
@@ -61,7 +66,7 @@ class Home extends CI_Controller {
 		$tanggal = date("Y-m-d");
 		$batas_penilai = $this->db->get_where('penilaian', array('tanggal'=>$tanggal, 'ip_address'=>$ip_penilai));
 		if (($this->form_validation->run() == TRUE) && ($batas_penilai->num_rows() <= 2))
-		{		
+		{
 			$nama_penilai = $this->input->post('nama_penilai');
 			$this->load->library('upload');
 			$config['upload_path']          = './assets/penilai/asli/';
@@ -72,9 +77,9 @@ class Home extends CI_Controller {
 			$config['file_name']            = $nama_penilai;
 			$this->load->library('upload', $config);
 			$this->upload->initialize($config);
-			if (!$this->upload->do_upload('gambar_penilaian')) { 
-				$error = array('error' => $this->upload->display_errors()); 
-			} else { 
+			if (!$this->upload->do_upload('gambar_penilaian')) {
+				$error = array('error' => $this->upload->display_errors());
+			} else {
 				$file = $this->upload->data();
 
 				$path =  "./assets/penilai/asli/".$file['file_name']."";
@@ -116,8 +121,8 @@ class Home extends CI_Controller {
 				'stars' => $this->input->post('stars'),
 				'ip_address' => $ip_penilai,
 				'tanggal' => $tanggal,
-				
-			);  
+
+			);
 			$query = $this->db->insert("penilaian", $object_penilaian);
 			echo json_encode($query);
 		}else{
