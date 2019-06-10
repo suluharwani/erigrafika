@@ -51,7 +51,7 @@ class Admin extends CI_Controller {
 	}
 	public function blog(){
 		$this->_make_sure_is_admin();
-		$data['title'] = "Blog";
+		$data['title'] = "Blog ";
 		$this->load->view('admin/blog', $data);
 	}
 	public function backup_database(){
