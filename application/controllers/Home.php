@@ -28,6 +28,7 @@ class Home extends CI_Controller {
 		$data['slider'] = $this->db->get('web_slider');
 		$data['layanan'] = $this->db->get('web_layanan');
 		$data['keunggulan'] = $this->db->get('web_keunggulan');
+		$data['review'] = $this->db->get('penilaian');
 		$data['video'] = $this->db->get_where('web_video', array('status'=>1));
 		$data['portofolio'] = $this->db->get('web_portofolio', 10);
 		$this->db->select_min('id');

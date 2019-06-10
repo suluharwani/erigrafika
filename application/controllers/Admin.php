@@ -44,17 +44,27 @@ class Admin extends CI_Controller {
 		$data['array_statistik_jumlah_ip'] = json_encode($jumlah_pengunjung);
 		$this->load->view('admin/dashboard', $data);
 	}
+	public function rating(){
+		$this->_make_sure_is_admin();
+		$data['title'] = "Rating";
+		$this->load->view('admin/rating', $data);
+	}
+	public function blog(){
+		$this->_make_sure_is_admin();
+		$data['title'] = "Blog";
+		$this->load->view('admin/blog', $data);
+	}
 	public function backup_database(){
 		$this->load->dbutil();
-		$prefs = array(     
-			'format'      => 'zip',             
+		$prefs = array(
+			'format'      => 'zip',
 			'filename'    => 'erigrafika.sql',
 		);
-		$backup =& $this->dbutil->backup($prefs); 
+		$backup =& $this->dbutil->backup($prefs);
 		$db_name = 'backup-on-'. date("Y-m-d-H-i-s") .'.zip';
 		$save = 'backup/'.$db_name;
 		$this->load->helper('file');
-		write_file($save, $backup); 
+		write_file($save, $backup);
 		$this->load->helper('download');
 		force_download($db_name, $backup);
 		return 0;
@@ -101,9 +111,9 @@ class Admin extends CI_Controller {
 			$config['file_name']            = $nama_portofolio;
 			$this->load->library('upload', $config);
 			$this->upload->initialize($config);
-			if (!$this->upload->do_upload('gambar_portofolio')) { 
-				$error = array('error' => $this->upload->display_errors()); 
-			} else { 
+			if (!$this->upload->do_upload('gambar_portofolio')) {
+				$error = array('error' => $this->upload->display_errors());
+			} else {
 				$file = $this->upload->data();
 
 				$path =  "./assets/portofolio/asli/".$file['file_name']."";
@@ -112,7 +122,7 @@ class Admin extends CI_Controller {
 				$width = 150;
 				$height = 100;
 				$width_fix = 700;
-              // $height_fix = 1200;
+				// $height_fix = 1200;
 				$this->load->library('image_lib');
 
 				$this->image_lib->initialize(array(
@@ -145,7 +155,7 @@ class Admin extends CI_Controller {
 				'keterangan' => $this->input->post('keterangan_portofolio'),
 				'tanggal' => date("Y-m-d"),
 				'id_admin' => $id_admin
-			);  
+			);
 			$query = $this->db->insert("web_portofolio", $object_portofolio);
 			echo json_encode($query);
 		}
@@ -189,9 +199,9 @@ class Admin extends CI_Controller {
 		$config['file_name']            = $this->input->post('judul_keunggulan');
 		$this->load->library('upload', $config);
 		$this->upload->initialize($config);
-		if (!$this->upload->do_upload('gambar_keunggulan')) { 
-			$error = array('error' => $this->upload->display_errors()); 
-		} else { 
+		if (!$this->upload->do_upload('gambar_keunggulan')) {
+			$error = array('error' => $this->upload->display_errors());
+		} else {
 			$file = $this->upload->data();
 			$path =  "./assets/keunggulan/asli/".$file['file_name']."";
 			$new_path =  "./assets/keunggulan/thumb/";
@@ -199,7 +209,7 @@ class Admin extends CI_Controller {
 			$width = 150;
 			$height = 100;
 			$width_fix = 1366;
-              // $height_fix = 1200;
+			// $height_fix = 1200;
 			$this->load->library('image_lib');
 			$this->image_lib->initialize(array(
 				'image_library' => 'gd2',
@@ -230,7 +240,7 @@ class Admin extends CI_Controller {
 			'keterangan' => $this->input->post('keterangan_keunggulan'),
 			'tanggal' => date("Y-m-d"),
 			'id_admin' => $id_admin
-		);  
+		);
 		$query = $this->db->insert("web_keunggulan", $object_foto);
 		echo json_encode($query);
 	}
@@ -253,9 +263,9 @@ class Admin extends CI_Controller {
 		$config['file_name']            = $this->input->post('judul_layanan');
 		$this->load->library('upload', $config);
 		$this->upload->initialize($config);
-		if (!$this->upload->do_upload('gambar_layanan')) { 
-			$error = array('error' => $this->upload->display_errors()); 
-		} else { 
+		if (!$this->upload->do_upload('gambar_layanan')) {
+			$error = array('error' => $this->upload->display_errors());
+		} else {
 			$file = $this->upload->data();
 			$path =  "./assets/layanan/asli/".$file['file_name']."";
 			$new_path =  "./assets/layanan/thumb/";
@@ -263,7 +273,7 @@ class Admin extends CI_Controller {
 			$width = 150;
 			$height = 100;
 			$width_fix = 1366;
-              // $height_fix = 1200;
+			// $height_fix = 1200;
 			$this->load->library('image_lib');
 
 			$this->image_lib->initialize(array(
@@ -298,7 +308,7 @@ class Admin extends CI_Controller {
 			'keterangan' => $this->input->post('keterangan_layanan'),
 			'tanggal' => date("Y-m-d"),
 			'id_admin' => $id_admin
-		);  
+		);
 		$query = $this->db->insert("web_layanan", $object_foto);
 		echo json_encode($query);
 	}
@@ -316,9 +326,9 @@ class Admin extends CI_Controller {
 		$config['file_name']            = $this->input->post('nama_slider');
 		$this->load->library('upload', $config);
 		$this->upload->initialize($config);
-		if (!$this->upload->do_upload('gambar_slider')) { 
-			$error = array('error' => $this->upload->display_errors()); 
-		} else { 
+		if (!$this->upload->do_upload('gambar_slider')) {
+			$error = array('error' => $this->upload->display_errors());
+		} else {
 			$file = $this->upload->data();
 
 			$path =  "./assets/slider/asli/".$file['file_name']."";
@@ -327,7 +337,7 @@ class Admin extends CI_Controller {
 			$width = 150;
 			$height = 100;
 			$width_fix = 1366;
-              // $height_fix = 1200;
+			// $height_fix = 1200;
 			$this->load->library('image_lib');
 
 			$this->image_lib->initialize(array(
@@ -363,7 +373,7 @@ class Admin extends CI_Controller {
 			'keterangan' => $this->input->post('keterangan_slider'),
 			'tanggal' => date("Y-m-d"),
 			'id_admin' => $id_admin
-		);  
+		);
 		$query = $this->db->insert("web_slider", $object_foto);
 		echo json_encode($query);
 	}
@@ -393,7 +403,7 @@ class Admin extends CI_Controller {
 			unlink($path3);
 		}
 	}
-	
+
 	function slider_list(){
 		$this->load->model('Mdl_slider');
 		$query = $this->Mdl_slider->slider_list()->result();
@@ -422,9 +432,9 @@ class Admin extends CI_Controller {
 		$config['file_name']            = $judul;
 		$this->load->library('upload', $config);
 		$this->upload->initialize($config);
-		if (!$this->upload->do_upload('gambar_video')) { 
-			$error = array('error' => $this->upload->display_errors()); 
-		} else { 
+		if (!$this->upload->do_upload('gambar_video')) {
+			$error = array('error' => $this->upload->display_errors());
+		} else {
 			$file = $this->upload->data();
 
 			$path =  "./assets/web_video/gambar/".$file['file_name']."";
@@ -433,7 +443,7 @@ class Admin extends CI_Controller {
 			$width = 150;
 			$height = 100;
 			$width_fix = 1366;
-              // $height_fix = 1200;
+			// $height_fix = 1200;
 			$this->load->library('image_lib');
 
 			$this->image_lib->initialize(array(
@@ -467,7 +477,7 @@ class Admin extends CI_Controller {
 			'keterangan' => $this->input->post('keterangan_video'),
 			'gambar' => $file['file_name'],
 			'link_video' => $this->input->post('link_video')
-		);  
+		);
 		$query = $this->db->insert("web_video", $object_video);
 		echo json_encode($query);
 	}
@@ -479,10 +489,10 @@ class Admin extends CI_Controller {
 		echo json_encode($query);
 	}
 	function hapus_gambar_video($id){
-		
+
 		$query = $this->db->get_where('web_video', array('id'=>$id));
 		foreach ($query->result() as $value) {
-			$gambar = $value->gambar;			
+			$gambar = $value->gambar;
 		}
 		$path1 =  "./assets/web_video/asli/".$gambar."";
 		$path2 =  "./assets/web_video/gambar/".$gambar."";
@@ -596,16 +606,16 @@ class Admin extends CI_Controller {
 		$unit=array('b','kb','mb','gb','tb','pb');
 		return @round($size/pow(1024,($i=floor(log($size,1024)))),2).' '.$unit[$i];
 	}
-// 	function memory_usage(){
-// 	return $this->convert(memory_get_usage(true)); // 123 kb
-// }
+	// 	function memory_usage(){
+	// 	return $this->convert(memory_get_usage(true)); // 123 kb
+	// }
 	function memory_usage() {
 
 		$mem = memory_get_usage(true);
 
 		if ($mem < 1024) {
 
-			$$memory = $mem .' B'; 
+			$$memory = $mem .' B';
 
 		} elseif ($mem < 1048576) {
 

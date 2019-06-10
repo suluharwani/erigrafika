@@ -189,31 +189,37 @@ $(document).ready(function() {
         dataType : 'json',
         success : function(data){
           var html = '';
+          var html1 = '';
+          var html2 = '';
           var i;
+          html =  ' <div class="single-testimonial-slide d-flex align-items-center">';
+          html3 = '</div>';
           for(i=0; i<data.length; i++){
             no = i+1;
-            html +=  '<div class="single-testimonial-slide d-flex align-items-center">'+
-                        '<div class="testimonial-thumbnail">'+
-                           '<img src="<?=base_url(`assets/penilai/fix/`)?>'+data[i].gambar+'" alt="">'+
-                        '</div>'+
-                        '<div class="testimonial-content">'+
-                            '<h4>“'+data[i].keterangan+'”</h4>'+
-                            '<div class="ratings">'+
-                               '<i class="icon_star"></i>'+
-                                '<i class="icon_star"></i>'+
-                                '<i class="icon_star"></i>'+
-                                 '<i class="icon_star"></i>'+ 
-                                 '<i class="icon_star"></i>'+ 
-                            '</div>'+
-                            '<div class="author-info">'+
-                                '<h5>Darrell Goodman <span>- CEO colorlib</span></h5>'+
-                            '</div>'+
-                            '<div class="quote-icon"><img src="img/core-img/quote.png" alt=""></div>'+
-                        '</div>'+
-                        '</div>'+
-                    '</div>';
+            
+            html1 +=   '<div class="single-testimonial-slide d-flex align-items-center">'+
+                                '<div class="testimonial-thumbnail">'+
+                                    '<img src="./img/bg-img/7.jpg" alt="">'+
+                                '</div>'+
+                                '<div class="testimonial-content">'+
+                                    '<h4>“Colorlib Ltd’s ranking has gone up so much from the great work that your team has done and our brand get organic sales consistently from your efforts. We are happy that the results of your efforts were lasting and profitable.”</h4>'+
+                                    '<div class="ratings">'+
+                                        '<i class="icon_star"></i>'+
+                                        '<i class="icon_star"></i>'+
+                                        '<i class="icon_star"></i>'+
+                                        '<i class="icon_star"></i>'+
+                                        '<i class="icon_star"></i>'+
+                                   '</div>'+
+                                    '<div class="author-info">'+
+                                        '<h5>Darrell Goodman <span>- CEO colorlib</span></h5>'+
+                                    '</div>'+
+                                    '<div class="quote-icon"><img src="img/core-img/quote.png" alt=""></div>'+
+                                '</div>'+
+                            '</div>';
           }
-          $('#review_list').html(html);
+          html4 = html1+html2+html3;
+          $('.review_list').html(html4);
+
         }
 
       });
