@@ -23,8 +23,8 @@
       <?=$title?>
     </h1>
     <ol class="breadcrumb">
-      <li><a href="<?=base_url('admin')?>"><i class="fa fa-dashboard"></i> Admin</a></li>
-      <li><a href="<?=base_url('admin/slider')?>"></a>Layanan</li>
+      <li><a href="<?=base_url('admin')?>"><i class="fa fa-dashboard"></i><?=$this->uri->segment(1)?></a></li>
+      <li><a href="<?=base_url('admin/blog')?>"></a><?=$this->uri->segment(2)?></li>
 
     </ol>
   </section>

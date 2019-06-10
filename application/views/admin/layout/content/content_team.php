@@ -23,19 +23,19 @@
       <?=$title?>
     </h1>
     <ol class="breadcrumb">
-      <li><a href="<?=base_url('admin')?>"><i class="fa fa-dashboard"></i> Admin</a></li>
-      <li><a href="<?=base_url('admin/slider')?>"></a>Layanan</li>
+      <li><a href="<?=base_url('admin')?>"><i class="fa fa-dashboard"></i><?=$this->uri->segment(1)?></a></li>
+      <li><a href="<?=base_url('admin/team')?>"></a><?=$this->uri->segment(2)?></li>
 
     </ol>
   </section>
 
   <!-- Main content -->
-  <section class="content">  
+  <section class="content">
 
     <!-- Default box -->
     <div class="box">
       <div class="box-header with-border">
-        <h3 class="box-title">Add Layanan</h3>
+        <h3 class="box-title">Add <?=$title?></h3>
 
         <div class="box-tools pull-right">
           <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip"
@@ -111,7 +111,7 @@
               <tbody id="layanan_list">
 
               </tbody>
-            </table>  
+            </table>
           </div>
         </div>
         <!-- /.box-body -->
@@ -211,7 +211,7 @@
       });
     }
     $('#submitlayanan').submit(function(e){
-      e.preventDefault(); 
+      e.preventDefault();
 
       $.ajax({
        url:"<?php echo site_url('admin/tambah_layanan')?>",

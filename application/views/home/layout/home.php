@@ -324,7 +324,6 @@ if ($video->result()) {
         }
       }
       ?>
-
     </div>
   </div>
 </section>
