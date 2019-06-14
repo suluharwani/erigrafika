@@ -7,8 +7,7 @@ class Admin extends CI_Controller {
 		$this->load->model('mdl_login');
 		date_default_timezone_set('Asia/Jakarta');
 	}
-	public function index()
-	{
+	public function index(){
 		$this->_make_sure_is_admin();
 		$web_info = $this->web_info();
 		$data['title'] = $web_info['nama_web'];
