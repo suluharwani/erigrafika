@@ -36,6 +36,17 @@ class Mdl_pengunjung extends CI_Model {
 		$query = $this->db->get('pengunjung');
 		return $query;
 	}
+	public function jumlah_pengunjung_unique(){
+		$this->db->distinct();
+		$this->db->select('ip_address');
+		$query = $this->db->get('pengunjung');
+		return $query->num_rows();
+	}
+	public function pengunjung_terbanyak(){
+		$this->db->query('SELECT COUNT(ip_address) AS jumlah_pengunjung FROM pengunjung
+		group by ip_address
+		ORDER BY  COUNT(ip_address) desc');
+	}
 
 }
 

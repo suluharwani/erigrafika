@@ -64,8 +64,8 @@
             <span class="info-box-icon bg-yellow"><i class="ion ion-ios-people-outline"></i></span>
 
             <div class="info-box-content">
-              <span class="info-box-text">New Members</span>
-              <span class="info-box-number">2,000</span>
+              <span class="info-box-text">Pengunjung unik</span>
+              <span class="info-box-number"><?=$unique_pengunjung?></span>
             </div>
             <!-- /.info-box-content -->
           </div>

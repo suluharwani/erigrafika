@@ -10,10 +10,11 @@ class Admin extends CI_Controller {
 	public function index(){
 		$this->_make_sure_is_admin();
 		$web_info = $this->web_info();
-		$data['title'] = $web_info['nama_web'];
-		$this->load->model('Mdl_web_profile', 'web_profile');
-		$data['memory_usage'] = $this->memory_usage();
 		$this->load->model('Mdl_pengunjung');
+		$this->load->model('Mdl_web_profile', 'web_profile');
+		$data['title'] = $web_info['nama_web'];
+		$data['memory_usage'] = $this->memory_usage();
+		$data['unique_pengunjung'] = $this->Mdl_pengunjung->jumlah_pengunjung_unique();
 		$data['pengunjung_hari_ini'] = $this->Mdl_pengunjung->pengunjung_hari_ini()->num_rows();
 		$data['pengunjung_sepanjang_waktu'] = $this->Mdl_pengunjung->pengunjung_sepanjang_waktu()->num_rows();
 		$query_web_profile = $this->web_profile->logo_perusahaan();
@@ -634,6 +635,7 @@ class Admin extends CI_Controller {
 		return $memory;
 
 	}
+
 
 
 }
