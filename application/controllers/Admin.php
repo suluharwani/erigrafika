@@ -15,8 +15,10 @@ class Admin extends CI_Controller {
 		$data['title'] = $web_info['nama_web'];
 		$data['memory_usage'] = $this->memory_usage();
 		$data['unique_pengunjung'] = $this->Mdl_pengunjung->jumlah_pengunjung_unique();
+		$data['pengunjung_terbanyak'] = $this->Mdl_pengunjung->pengunjung_terbanyak();
 		$data['pengunjung_hari_ini'] = $this->Mdl_pengunjung->pengunjung_hari_ini()->num_rows();
 		$data['pengunjung_sepanjang_waktu'] = $this->Mdl_pengunjung->pengunjung_sepanjang_waktu()->num_rows();
+
 		$query_web_profile = $this->web_profile->logo_perusahaan();
 		foreach ($query_web_profile->result() as $logo) {
 			$logo_perusahaan = $logo->logo;
