@@ -52,6 +52,25 @@ class Admin extends CI_Controller {
 		$data['sosmed'] = $this->db->get('sosmed');
 		$this->load->view('admin/about_us', $data);
 	}
+	function show_tentang(){
+		$query = $this->db->get('about_us', 1)->result_array();
+		echo json_encode($query);
+	}
+	function tambah_about_us(){
+		$this->form_validation->set_rules('tentang', 'About Us', 'required');
+		if ($this->form_validation->run() == TRUE)
+		{
+			$tentang = $this->input->post('tentang');
+			$object = array('isi' =>$tentang
+		 );
+		 $query = $this->db->insert('about_us',$object);
+		 echo json_encode($query);
+		}else{
+			header('HTTP/1.1 500 Internal Server Error');
+			header('Content-Type: application/json; charset=UTF-8');
+			die(json_encode(array('message' => 'ERROR', 'code' => 1337)));
+		}
+	}
 	function sosmed_list(){
 		$this->load->model('Mdl_footer');
 		$query = $this->Mdl_footer->web_sosmed()->result();
@@ -373,7 +392,6 @@ class Admin extends CI_Controller {
 				'width' => $width_fix,
 				'height' => $width_fix*0.6
 			));
-
 			$this->image_lib->resize();
 		}
 		$object_foto = array(

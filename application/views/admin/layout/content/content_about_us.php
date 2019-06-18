@@ -1,20 +1,3 @@
-<style type="text/css">
-  #image-preview{
-    display:none;
-    width : 250px;
-  }
-</style>
-<script type="text/javascript" charset="utf-8" async defer>
-  function previewImage() {
-    document.getElementById("image-preview").style.display = "block";
-    var oFReader = new FileReader();
-    oFReader.readAsDataURL(document.getElementById("gambar_blog").files[0]);
-
-    oFReader.onload = function(oFREvent) {
-      document.getElementById("image-preview").src = oFREvent.target.result;
-    };
-  };
-</script>
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
   <!-- Content Header (Page header) -->
@@ -31,6 +14,46 @@
 
   <!-- Main content -->
   <section class="content">
+    <!-- Default box -->
+    <div class="box">
+      <div class="box-header with-border">
+        <h3 class="box-title">Add <?=$title?></h3>
+
+        <div class="box-tools pull-right">
+          <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip"
+          title="Collapse">
+          <i class="fa fa-minus"></i></button>
+          <button type="button" class="btn btn-box-tool" data-widget="remove" data-toggle="tooltip" title="Remove">
+            <i class="fa fa-times"></i></button>
+          </div>
+        </div>
+        <div class="box-body">
+          <div class="box box-primary">
+            <div class="box-header with-border">
+              <h3 class="box-title">Tambah Tentang</h3>
+            </div>
+            <!-- /.box-header -->
+            <!-- form start -->
+            <form enctype="multipart/form-data" id="submittentang">
+              <div class="box-body">
+                <div class="form-group">
+                  <label for="tentang">Tentang Web</label>
+                  <textarea name="tentang" id="tentang" class="form-control tentang_view"  rows="8" cols="80"></textarea>
+                </div>
+              </div>
+              <!-- /.box-body -->
+              <div class="box-footer">
+                <button type="submit" id="btn_simpan" class="btn btn-primary">Submit</button>
+              </div>
+            </form>
+          </div>
+        </div>
+        <!-- /.box-body -->
+        <div class="box-footer">
+          Footer
+        </div>
+        <!-- /.box-footer-->
+      </div>
 
     <!-- Default box -->
     <div class="box">
@@ -164,7 +187,6 @@
         <!-- /.box-footer-->
       </div>
       <!-- /.box -->
-
     </section>
     <!-- /.content -->
   </div>
@@ -179,11 +201,9 @@
         </div>
         <form class="form-horizontal">
           <div class="modal-body">
-
             <input type="hidden" name="kode" id="id_video_hapus" value="">
             <div class="alert alert-warning"><p>Apakah Anda yakin mau menghapus <u> <span id="nama_video_hapus"></span></u>?</p>
             </div>
-
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">Tutup</button>
@@ -225,6 +245,19 @@
     } );
     show_contact();
     show_sosmed();
+    show_tentang();
+    function show_tentang(){
+      $.ajax({
+        type  : 'ajax',
+        url   : "<?php echo base_url('admin/show_tentang')?>",
+        async : false,
+        dataType : 'json',
+        success : function(data){
+              $('.tentang_view').val(data[0].isi);
+        }
+
+      });
+    }
     function show_sosmed(){
       $.ajax({
         type  : 'ajax',
@@ -286,6 +319,42 @@
 
       });
     }
+    $('#submittentang').submit(function(e){
+      e.preventDefault();
+
+      $.ajax({
+       url:"<?php echo site_url('admin/tambah_about_us')?>",
+       type:"post",
+       data:new FormData(this),
+       processData:false,
+       contentType:false,
+       cache:false,
+       async:false,
+     // xhr: function(data){
+     //  $('#wait').show();
+     // },
+     beforeSend: function(data) {
+      $('#wait').show();
+    },
+    success: function(data){
+        show_tentang();
+      swal ( "Sukses" ,  "About Us Berhasil Ditambahkan!" ,  "success", {
+        buttons: false,
+        timer: 1000,
+      } );
+
+        show_tentang();
+     $("form").trigger("reset");
+    },
+    error:function(data) {
+     swal ( "Gagal" ,  "About Us Gagal Ditambahkan!" ,  "error", {
+      buttons: false,
+      timer: 1000,
+    } );
+    $("form").trigger("reset");
+   }
+ });
+    });
     $('#submitsosmed').submit(function(e){
       e.preventDefault();
 
@@ -305,7 +374,7 @@
     },
     success: function(data){
         show_sosmed();
-      swal ( "Sukses" ,  "Contact Berhasil Ditambahkan!" ,  "success", {
+      swal ( "Sukses" ,  "Social Media Berhasil Ditambahkan!" ,  "success", {
         buttons: false,
         timer: 1000,
       } );
@@ -314,7 +383,7 @@
      $("form").trigger("reset");
     },
     error:function(data) {
-     swal ( "Gagal" ,  "Contact Gagal Ditambahkan!" ,  "error", {
+     swal ( "Gagal" ,  "Social Media Gagal Ditambahkan!" ,  "error", {
       buttons: false,
       timer: 1000,
     } );
