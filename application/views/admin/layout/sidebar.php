@@ -44,7 +44,7 @@
             <i class="fa fa-files-o"></i>
             <span>Post</span>
             <span class="pull-right-container">
-              <span class="label label-primary pull-right">6</span>
+              <span class="label label-primary pull-right">8</span>
             </span>
           </a>
           <ul class="treeview-menu">
@@ -58,24 +58,16 @@
             <li><a href="<?=base_url('admin/team')?>"><i class="fa fa-circle-o"></i> Team</a></li>
           </ul>
         </li>
-        <li>
-          <a href="pages/widgets.html">
-            <i class="fa fa-th"></i> <span>Widgets</span>
-            <span class="pull-right-container">
-              <small class="label pull-right bg-green">new</small>
-            </span>
-          </a>
-        </li>
         <li class="treeview">
           <a href="#">
-            <i class="fa fa-pie-chart"></i>
-            <span>Charts</span>
+            <i class="fa fa-phone"></i>
+            <span>Footer</span>
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="pages/charts/chartjs.html"><i class="fa fa-circle-o"></i> ChartJS</a></li>
+            <li><a href="<?=base_url('admin/contact')?>"><i class="fa fa-circle-o"></i> Contact</a></li>
             <li><a href="pages/charts/morris.html"><i class="fa fa-circle-o"></i> Morris</a></li>
             <li><a href="pages/charts/flot.html"><i class="fa fa-circle-o"></i> Flot</a></li>
             <li><a href="pages/charts/inline.html"><i class="fa fa-circle-o"></i> Inline charts</a></li>
