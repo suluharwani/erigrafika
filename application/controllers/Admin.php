@@ -49,7 +49,31 @@ class Admin extends CI_Controller {
 	public function about_us(){
 		$this->_make_sure_is_admin();
 		$data['title'] = "About Us";
+		$data['sosmed'] = $this->db->get('sosmed');
 		$this->load->view('admin/about_us', $data);
+	}
+	function sosmed_list(){
+		$this->load->model('Mdl_footer');
+		$query = $this->Mdl_footer->web_sosmed()->result();
+		echo  json_encode($query);
+	}
+	function tambah_sosmed(){
+		$this->form_validation->set_rules('link_sosmed', 'Link', 'required|max_length[200]');
+		$this->form_validation->set_rules('sosial_media', 'Social Media', 'required');
+		if ($this->form_validation->run() == TRUE)
+		{
+			$link_sosmed = $this->input->post('link_sosmed');
+			$sosial_media = $this->input->post('sosial_media');
+			$object = array('id_sosmed' =>$sosial_media ,
+											'link'=>$link_sosmed
+		 );
+		 $query = $this->db->insert('web_sosmed',$object);
+		 echo json_encode($query);
+		}else{
+			header('HTTP/1.1 500 Internal Server Error');
+			header('Content-Type: application/json; charset=UTF-8');
+			die(json_encode(array('message' => 'ERROR', 'code' => 1337)));
+		}
 	}
 	public function contact(){
 		$this->_make_sure_is_admin();

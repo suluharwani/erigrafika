@@ -48,31 +48,27 @@
         <div class="box-body">
           <div class="box box-primary">
             <div class="box-header with-border">
-              <h3 class="box-title">Contact</h3>
+              <h3 class="box-title">Tambah Daftar Sosial Media</h3>
             </div>
             <!-- /.box-header -->
             <!-- form start -->
-            <form enctype="multipart/form-data" id="submitcontact">
+            <form enctype="multipart/form-data" id="submitsosmed">
               <div class="box-body">
                 <div class="form-group">
-                  <label for="telepon">Telepon</label>
-                  <input type="text" class="form-control" id="telepon" name="telepon" placeholder="(+62)xxx xxx" required>
+                  <label for="link_sosmed">Link Sosial Media</label>
+                  <input type="text" class="form-control" id="link_sosmed" name="link_sosmed" placeholder="https://www.facebook.com/suluh" required>
                 </div>
                 <div class="form-group">
-                  <label for="email">Email</label>
-                  <input type="text" class="form-control" id="email" name="email" placeholder="lorem@mail.com" required>
-                </div>
-                <div class="form-group">
-                  <label for="alamat">Alamat</label>
-                  <input type="text" class="form-control" id="alamat" name="alamat" placeholder="jalan x nomor y" required>
-                </div>
-                <div class="form-group">
-                  <label for="buka">Buka</label>
-                  <input type="text" class="form-control" id="buka" name="buka" placeholder="Senin - Jumat 09:00-17:00" required>
-                </div>
-                <div class="form-group">
-                  <label for="tutup">Tutup</label>
-                  <input type="text" class="form-control" id="tutup" name="tutup" placeholder="Sabtu-Minggu" required>
+                  <label for="sosial_media">Sosial</label>
+                  <select class="form-control" id="sosial_media" name="sosial_media">
+                    <?php
+                    foreach ($sosmed->result() as $sosial) {
+                    ?>
+                    <option value="<?=$sosial->id?>"><?=$sosial->nama?></option>
+                    <?php
+                    }
+                    ?>
+                  </select>
                 </div>
               </div>
               <!-- /.box-body -->
@@ -81,6 +77,43 @@
                 <button type="submit" id="btn_simpan" class="btn btn-primary">Submit</button>
               </div>
             </form>
+          </div>
+        </div>
+        <!-- /.box-body -->
+        <div class="box-footer">
+          Footer
+        </div>
+        <!-- /.box-footer-->
+      </div>
+      <!-- /.box -->
+      <!-- Default box -->
+      <div class="box">
+        <div class="box-header with-border">
+          <h3 class="box-title">Manage Social Media</h3>
+
+          <div class="box-tools pull-right">
+            <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip"
+            title="Collapse">
+            <i class="fa fa-minus"></i></button>
+            <button type="button" class="btn btn-box-tool" data-widget="remove" data-toggle="tooltip" title="Remove">
+              <i class="fa fa-times"></i></button>
+            </div>
+          </div>
+          <div class="box-body">
+            <div class="table-responsive" >
+             <table class="table table-bordered table-striped" id="mydata">
+              <thead>
+                <tr>
+                  <th>No</th>
+                  <th>Social Media</th>
+                  <th>Link</th>
+                  <th style="text-align: right;">Actions</th>
+                </tr>
+              </thead>
+              <tbody id="sosmed_list">
+
+              </tbody>
+            </table>
           </div>
         </div>
         <!-- /.box-body -->
@@ -171,11 +204,9 @@
         </div>
         <form class="form-horizontal">
           <div class="modal-body">
-
             <input type="hidden" name="kode" id="id_video_aktivasi" value="">
             <div class="alert alert-warning"><p>Apakah Anda akan mengaktifkan <u> <span id="nama_video_aktivasi"></span></u>?</p>
             </div>
-
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">Tutup</button>
@@ -193,6 +224,33 @@
 
     } );
     show_contact();
+    show_sosmed();
+    function show_sosmed(){
+      $.ajax({
+        type  : 'ajax',
+        url   : "<?php echo base_url('admin/sosmed_list')?>",
+        async : false,
+        dataType : 'json',
+        success : function(data){
+          var html = '';
+          var i;
+          for(i=0; i<data.length; i++){
+            no = i+1;
+            html += '<tr>'+
+            '<td>'+ no++ +'</td>'+
+            '<td>'+data[i].sosmed+'</td>'+
+            '<td> <a href="'+data[i].link+'" target="_blank">Link</a></td>'+
+            '<td style="text-align:right;">'+
+            '<a href="javascript:void(0);" class="btn btn-danger btn-sm video_delete" video_hapus_id="'+data[i].id+'" video_judul="'+data[i].judul+'"    >Delete</a>'+
+            '<a href="javascript:void(0);" class="btn btn-success btn-sm video_aktivasi" video_aktif_id="'+data[i].id+'" video_judul="'+data[i].judul+'"    >Aktifkan</a>'+
+            '</td>'+
+            '</tr>';
+          }
+          $('#sosmed_list').html(html);
+        }
+
+      });
+    }
     function show_contact(){
       $.ajax({
         type  : 'ajax',
@@ -228,11 +286,11 @@
 
       });
     }
-    $('#submitcontact').submit(function(e){
+    $('#submitsosmed').submit(function(e){
       e.preventDefault();
 
       $.ajax({
-       url:"<?php echo site_url('admin/tambah_contact')?>",
+       url:"<?php echo site_url('admin/tambah_sosmed')?>",
        type:"post",
        data:new FormData(this),
        processData:false,
@@ -246,13 +304,13 @@
       $('#wait').show();
     },
     success: function(data){
-      show_contact();
+        show_sosmed();
       swal ( "Sukses" ,  "Contact Berhasil Ditambahkan!" ,  "success", {
         buttons: false,
         timer: 1000,
       } );
 
-      show_contact();
+        show_sosmed();
      $("form").trigger("reset");
     },
     error:function(data) {
