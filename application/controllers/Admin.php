@@ -51,6 +51,40 @@ class Admin extends CI_Controller {
 		$data['title'] = "Contact";
 		$this->load->view('admin/contact', $data);
 	}
+	function contact_list(){
+		$this->_make_sure_is_admin();
+		$this->load->model('Mdl_footer');
+		$data = $this->Mdl_footer->list_contact()->result();
+		echo json_encode($data);
+	}
+	function tambah_contact(){
+		$this->_make_sure_is_admin();
+		$this->form_validation->set_rules('telepon', 'Telepon', 'required|max_length[20]');
+		$this->form_validation->set_rules('email', 'Email', 'required');
+		$this->form_validation->set_rules('alamat', 'Alamat', 'required|max_length[200]');
+		$this->form_validation->set_rules('buka', 'Buka', 'required|max_length[50]');
+		$this->form_validation->set_rules('tutup', 'Tutup', 'required|max_length[50]');
+		if ($this->form_validation->run() == TRUE)
+		{
+			$telepon = $this->input->post('telepon');
+			$email = $this->input->post('email');
+			$alamat = $this->input->post('alamat');
+			$buka = $this->input->post('buka');
+			$tutup = $this->input->post('tutup');
+			$object = array('telepon' =>$telepon ,
+											'email'=>$email,
+											'alamat'=>$alamat,
+											'buka'=>$buka,
+											'tutup'=>$tutup
+		 );
+		 $query = $this->db->insert('contact',$object);
+		 echo json_encode($query);
+		}else{
+			header('HTTP/1.1 500 Internal Server Error');
+			header('Content-Type: application/json; charset=UTF-8');
+			die(json_encode(array('message' => 'ERROR', 'code' => 1337)));
+		}
+	}
 	public function rating(){
 		$this->_make_sure_is_admin();
 		$data['title'] = "Rating";

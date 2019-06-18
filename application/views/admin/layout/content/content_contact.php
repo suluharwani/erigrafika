@@ -109,9 +109,12 @@
               <thead>
                 <tr>
                   <th>No</th>
-                  <th>Judul</th>
-                  <th>Keterangan</th>
-                  <th>Gambar</th>
+                  <th>Telepon</th>
+                  <th>Email</th>
+                  <th>Alamat</th>
+                  <th>Buka</th>
+                  <th>Tutup</th>
+                  <th>Status</th>
                   <th style="text-align: right;">Actions</th>
                 </tr>
               </thead>
@@ -202,17 +205,18 @@
           for(i=0; i<data.length; i++){
             no = i+1;
             if (data[i].status == '1') {
-              var status_video = "aktif";
+              var status_contact = "aktif";
             }else{
-              var status_video = "tidak aktif";
+              var status_contact = "tidak aktif";
             }
             html += '<tr>'+
             '<td>'+ no++ +'</td>'+
-            '<td>'+data[i].judul.substr(0, 50)+'</td>'+
-            '<td>'+data[i].keterangan.substr(0, 50)+'</td>'+
-            '<td> <img src="<?php echo base_url('assets/web_video/thumb/')?>'+data[i].gambar+'"></td>'+
-            '<td> <iframe height="85" src="'+data[i].link_video.replace("watch?v=","embed/")+'" frameborder="0" allowfullscreen></iframe></td>'+
-            '<td>'+ status_video +'</td>'+
+            '<td>'+data[i].telepon+'</td>'+
+            '<td>'+data[i].email+'</td>'+
+            '<td>'+data[i].alamat.substr(0, 50)+'</td>'+
+            '<td>'+data[i].buka+'</td>'+
+            '<td>'+data[i].tutup+'</td>'+
+            '<td>'+ status_contact +'</td>'+
             '<td style="text-align:right;">'+
             '<a href="javascript:void(0);" class="btn btn-danger btn-sm video_delete" video_hapus_id="'+data[i].id+'" video_judul="'+data[i].judul+'"    >Delete</a>'+
             '<a href="javascript:void(0);" class="btn btn-success btn-sm video_aktivasi" video_aktif_id="'+data[i].id+'" video_judul="'+data[i].judul+'"    >Aktifkan</a>'+
@@ -242,13 +246,13 @@
       $('#wait').show();
     },
     success: function(data){
-      show_blog();
+      show_contact();
       swal ( "Sukses" ,  "Contact Berhasil Ditambahkan!" ,  "success", {
         buttons: false,
         timer: 1000,
       } );
 
-      show_blog();
+      show_contact();
      $("form").trigger("reset");
     },
     error:function(data) {
@@ -279,7 +283,7 @@
         success: function(data){
               // $('[name="kode"]').val("");
               $('#ModalHapusVideo').modal('hide');
-              show_blog();
+              show_contact();
               swal ( "Sukses" ,  "Video Berhasil Dihapus!" ,  "success", {
                 buttons: false,
                 timer: 1000,
@@ -306,7 +310,7 @@
         success: function(data){
               // $('[name="kode"]').val("");
               $('#ModalAktivasiVideo').modal('hide');
-              show_blog();
+              show_contact();
               swal ( "Sukses" ,  "Video Berhasil Diaktifkan!" ,  "success", {
                 buttons: false,
                 timer: 1000,
