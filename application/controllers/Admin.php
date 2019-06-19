@@ -62,667 +62,677 @@ class Admin extends CI_Controller {
 		{
 			$tentang = $this->input->post('tentang');
 			$object = array('isi' =>$tentang
-		 );
-		 $query = $this->db->insert('about_us',$object);
-		 echo json_encode($query);
-		}else{
-			header('HTTP/1.1 500 Internal Server Error');
-			header('Content-Type: application/json; charset=UTF-8');
-			die(json_encode(array('message' => 'ERROR', 'code' => 1337)));
-		}
-	}
-	function sosmed_list(){
-		$this->load->model('Mdl_footer');
-		$query = $this->Mdl_footer->web_sosmed()->result();
-		echo  json_encode($query);
-	}
-	function tambah_sosmed(){
-		$this->form_validation->set_rules('link_sosmed', 'Link', 'required|max_length[200]');
-		$this->form_validation->set_rules('sosial_media', 'Social Media', 'required');
-		if ($this->form_validation->run() == TRUE)
-		{
-			$link_sosmed = $this->input->post('link_sosmed');
-			$sosial_media = $this->input->post('sosial_media');
-			$object = array('id_sosmed' =>$sosial_media ,
-											'link'=>$link_sosmed
-		 );
-		 $query = $this->db->insert('web_sosmed',$object);
-		 echo json_encode($query);
-		}else{
-			header('HTTP/1.1 500 Internal Server Error');
-			header('Content-Type: application/json; charset=UTF-8');
-			die(json_encode(array('message' => 'ERROR', 'code' => 1337)));
-		}
-	}
-	public function contact(){
-		$this->_make_sure_is_admin();
-		$data['title'] = "Contact";
-		$this->load->view('admin/contact', $data);
-	}
-	function contact_list(){
-		$this->_make_sure_is_admin();
-		$this->load->model('Mdl_footer');
-		$data = $this->Mdl_footer->list_contact()->result();
-		echo json_encode($data);
-	}
-	function tambah_contact(){
-		$this->_make_sure_is_admin();
-		$this->form_validation->set_rules('telepon', 'Telepon', 'required|max_length[20]');
-		$this->form_validation->set_rules('email', 'Email', 'required');
-		$this->form_validation->set_rules('alamat', 'Alamat', 'required|max_length[200]');
-		$this->form_validation->set_rules('buka', 'Buka', 'required|max_length[50]');
-		$this->form_validation->set_rules('tutup', 'Tutup', 'required|max_length[50]');
-		if ($this->form_validation->run() == TRUE)
-		{
-			$telepon = $this->input->post('telepon');
-			$email = $this->input->post('email');
-			$alamat = $this->input->post('alamat');
-			$buka = $this->input->post('buka');
-			$tutup = $this->input->post('tutup');
-			$object = array('telepon' =>$telepon ,
-											'email'=>$email,
-											'alamat'=>$alamat,
-											'buka'=>$buka,
-											'tutup'=>$tutup
-		 );
-		 $query = $this->db->insert('contact',$object);
-		 echo json_encode($query);
-		}else{
-			header('HTTP/1.1 500 Internal Server Error');
-			header('Content-Type: application/json; charset=UTF-8');
-			die(json_encode(array('message' => 'ERROR', 'code' => 1337)));
-		}
-	}
-	public function rating(){
-		$this->_make_sure_is_admin();
-		$data['title'] = "Rating";
-		$this->load->view('admin/rating', $data);
-	}
-	public function blog(){
-		$this->_make_sure_is_admin();
-		$data['title'] = "Blog";
-		$this->load->view('admin/blog', $data);
-	}
-	public function team(){
-		$this->_make_sure_is_admin();
-		$data['title'] = "Blog";
-		$this->load->view('admin/blog', $data);
-	}
-	public function backup_database(){
-		$this->load->dbutil();
-		$prefs = array(
-			'format'      => 'zip',
-			'filename'    => 'erigrafika.sql',
 		);
-		$backup =& $this->dbutil->backup($prefs);
-		$db_name = 'backup-on-'. date("Y-m-d-H-i-s") .'.zip';
-		$save = 'backup/'.$db_name;
-		$this->load->helper('file');
-		write_file($save, $backup);
-		$this->load->helper('download');
-		force_download($db_name, $backup);
-		return 0;
-	}
-	public function layanan(){
-		$this->_make_sure_is_admin();
-
-		$data['title'] = "Layanan";
-		$this->load->view('admin/layanan', $data);
-	}
-	public function slider(){
-		$this->_make_sure_is_admin();
-
-		$data['title'] = "Slider";
-		$this->load->view('admin/slider', $data);
-	}
-	public function keunggulan(){
-		$this->_make_sure_is_admin();
-		$data['title'] = "Keunggulan";
-		$this->load->view('admin/keunggulan', $data);
-	}
-	public function portofolio(){
-		$this->_make_sure_is_admin();
-		$data['title'] = "Portofolio";
-		$this->load->view('admin/portofolio', $data);
-	}
-	function tambah_portofolio(){
-		$this->_make_sure_is_admin();
-		$this->form_validation->set_rules('nama_perusahaan_portofolio', 'Nama', 'required');
-		$this->form_validation->set_rules('layanan_portofolio', 'Layanan', 'required');
-		$this->form_validation->set_rules('select_kategori_portofolio', 'Kategori', 'required');
-		$this->form_validation->set_rules('keterangan_portofolio', 'Keterangan', 'required|max_length[500]');
-		if ($this->form_validation->run() == TRUE)
-		{
-			$adm = $this->_admin_data();
-			$id_admin = $adm['id_admin'];
-			$nama_portofolio = $this->input->post('nama_perusahaan_portofolio')."_".$this->input->post('layanan_portofolio');
-			$this->load->library('upload');
-			$config['upload_path']          = './assets/portofolio/asli/';
-			$config['allowed_types']        = 'gif|jpg|png|jpeg|pdf';
-			$config['max_size']             = 100000;
-			$config['max_width']            = 20000;
-			$config['max_height']           = 20000;
-			$config['file_name']            = $nama_portofolio;
-			$this->load->library('upload', $config);
-			$this->upload->initialize($config);
-			if (!$this->upload->do_upload('gambar_portofolio')) {
-				$error = array('error' => $this->upload->display_errors());
-			} else {
-				$file = $this->upload->data();
-
-				$path =  "./assets/portofolio/asli/".$file['file_name']."";
-				$new_path =  "./assets/portofolio/thumb/";
-				$new_path_view =  "./assets/portofolio/fix/";
-				$width = 150;
-				$height = 100;
-				$width_fix = 700;
-				// $height_fix = 1200;
-				$this->load->library('image_lib');
-
-				$this->image_lib->initialize(array(
-					'image_library' => 'gd2',
-					'source_image' => $path,
-					'new_image' => $new_path,
-					'maintain_ratio' => true,
-					'master_dim' => 'width',
-					'width' => $width,
-					'height' => $height
-				));
-				$this->image_lib->resize();
-				$this->image_lib->initialize(array(
-					'image_library' => 'gd2',
-					'quality' =>'50%',
-					'source_image' => $path,
-					'new_image' => $new_path_view,
-					'maintain_ratio' => true,
-					'master_dim' => 'width',
-					'width' => $width_fix,
-					'height' => $width_fix*0.6
-				));
-				$this->image_lib->resize();
-			}
-			$object_portofolio = array(
-				'nama' => $nama_portofolio,
-				'gambar' => $file['file_name'],
-				'id_portofolio' => $this->input->post('select_kategori_portofolio'),
-				'url' => str_replace(' ', '_', $nama_portofolio),
-				'keterangan' => $this->input->post('keterangan_portofolio'),
-				'tanggal' => date("Y-m-d"),
-				'id_admin' => $id_admin
-			);
-			$query = $this->db->insert("web_portofolio", $object_portofolio);
-			echo json_encode($query);
+		$check = $this->db->get('about_us');
+		if ($check->num_rows() >=1) {
+			$this->db->select_max('id');
+			$result= $this->db->get('about_us')->row_array();
+			$id = $result['id'];
+			$this->db->where('id', $id);
+			$query = $this->db->update('about_us', $object);
+		}else{
+			$query = $this->db->insert('about_us',$object);
 		}
+
+		echo json_encode($query);
+	}else{
+		header('HTTP/1.1 500 Internal Server Error');
+		header('Content-Type: application/json; charset=UTF-8');
+		die(json_encode(array('message' => 'ERROR', 'code' => 1337)));
 	}
-	function portofolio_list(){
+}
+function sosmed_list(){
+	$this->load->model('Mdl_footer');
+	$query = $this->Mdl_footer->web_sosmed()->result();
+	echo  json_encode($query);
+}
+function tambah_sosmed(){
+	$this->form_validation->set_rules('link_sosmed', 'Link', 'required|max_length[200]');
+	$this->form_validation->set_rules('sosial_media', 'Social Media', 'required');
+	if ($this->form_validation->run() == TRUE)
+	{
+		$link_sosmed = $this->input->post('link_sosmed');
+		$sosial_media = $this->input->post('sosial_media');
+		$object = array('id_sosmed' =>$sosial_media ,
+		'link'=>$link_sosmed
+	);
+	$query = $this->db->insert('web_sosmed',$object);
+	echo json_encode($query);
+}else{
+	header('HTTP/1.1 500 Internal Server Error');
+	header('Content-Type: application/json; charset=UTF-8');
+	die(json_encode(array('message' => 'ERROR', 'code' => 1337)));
+}
+}
+public function contact(){
+	$this->_make_sure_is_admin();
+	$data['title'] = "Contact";
+	$this->load->view('admin/contact', $data);
+}
+function contact_list(){
+	$this->_make_sure_is_admin();
+	$this->load->model('Mdl_footer');
+	$data = $this->Mdl_footer->list_contact()->result();
+	echo json_encode($data);
+}
+function tambah_contact(){
+	$this->_make_sure_is_admin();
+	$this->form_validation->set_rules('telepon', 'Telepon', 'required|max_length[20]');
+	$this->form_validation->set_rules('email', 'Email', 'required');
+	$this->form_validation->set_rules('alamat', 'Alamat', 'required|max_length[200]');
+	$this->form_validation->set_rules('buka', 'Buka', 'required|max_length[50]');
+	$this->form_validation->set_rules('tutup', 'Tutup', 'required|max_length[50]');
+	if ($this->form_validation->run() == TRUE)
+	{
+		$telepon = $this->input->post('telepon');
+		$email = $this->input->post('email');
+		$alamat = $this->input->post('alamat');
+		$buka = $this->input->post('buka');
+		$tutup = $this->input->post('tutup');
+		$object = array('telepon' =>$telepon ,
+		'email'=>$email,
+		'alamat'=>$alamat,
+		'buka'=>$buka,
+		'tutup'=>$tutup
+	);
+	$query = $this->db->insert('contact',$object);
+	echo json_encode($query);
+}else{
+	header('HTTP/1.1 500 Internal Server Error');
+	header('Content-Type: application/json; charset=UTF-8');
+	die(json_encode(array('message' => 'ERROR', 'code' => 1337)));
+}
+}
+public function rating(){
+	$this->_make_sure_is_admin();
+	$data['title'] = "Rating";
+	$this->load->view('admin/rating', $data);
+}
+public function blog(){
+	$this->_make_sure_is_admin();
+	$data['title'] = "Blog";
+	$this->load->view('admin/blog', $data);
+}
+public function team(){
+	$this->_make_sure_is_admin();
+	$data['title'] = "Blog";
+	$this->load->view('admin/blog', $data);
+}
+public function backup_database(){
+	$this->load->dbutil();
+	$prefs = array(
+		'format'      => 'zip',
+		'filename'    => 'erigrafika.sql',
+	);
+	$backup =& $this->dbutil->backup($prefs);
+	$db_name = 'backup-on-'. date("Y-m-d-H-i-s") .'.zip';
+	$save = 'backup/'.$db_name;
+	$this->load->helper('file');
+	write_file($save, $backup);
+	$this->load->helper('download');
+	force_download($db_name, $backup);
+	return 0;
+}
+public function layanan(){
+	$this->_make_sure_is_admin();
+
+	$data['title'] = "Layanan";
+	$this->load->view('admin/layanan', $data);
+}
+public function slider(){
+	$this->_make_sure_is_admin();
+
+	$data['title'] = "Slider";
+	$this->load->view('admin/slider', $data);
+}
+public function keunggulan(){
+	$this->_make_sure_is_admin();
+	$data['title'] = "Keunggulan";
+	$this->load->view('admin/keunggulan', $data);
+}
+public function portofolio(){
+	$this->_make_sure_is_admin();
+	$data['title'] = "Portofolio";
+	$this->load->view('admin/portofolio', $data);
+}
+function tambah_portofolio(){
+	$this->_make_sure_is_admin();
+	$this->form_validation->set_rules('nama_perusahaan_portofolio', 'Nama', 'required');
+	$this->form_validation->set_rules('layanan_portofolio', 'Layanan', 'required');
+	$this->form_validation->set_rules('select_kategori_portofolio', 'Kategori', 'required');
+	$this->form_validation->set_rules('keterangan_portofolio', 'Keterangan', 'required|max_length[500]');
+	if ($this->form_validation->run() == TRUE)
+	{
+		$adm = $this->_admin_data();
+		$id_admin = $adm['id_admin'];
+		$nama_portofolio = $this->input->post('nama_perusahaan_portofolio')."_".$this->input->post('layanan_portofolio');
+		$this->load->library('upload');
+		$config['upload_path']          = './assets/portofolio/asli/';
+		$config['allowed_types']        = 'gif|jpg|png|jpeg|pdf';
+		$config['max_size']             = 100000;
+		$config['max_width']            = 20000;
+		$config['max_height']           = 20000;
+		$config['file_name']            = $nama_portofolio;
+		$this->load->library('upload', $config);
+		$this->upload->initialize($config);
+		if (!$this->upload->do_upload('gambar_portofolio')) {
+			$error = array('error' => $this->upload->display_errors());
+		} else {
+			$file = $this->upload->data();
+
+			$path =  "./assets/portofolio/asli/".$file['file_name']."";
+			$new_path =  "./assets/portofolio/thumb/";
+			$new_path_view =  "./assets/portofolio/fix/";
+			$width = 150;
+			$height = 100;
+			$width_fix = 700;
+			// $height_fix = 1200;
+			$this->load->library('image_lib');
+
+			$this->image_lib->initialize(array(
+				'image_library' => 'gd2',
+				'source_image' => $path,
+				'new_image' => $new_path,
+				'maintain_ratio' => true,
+				'master_dim' => 'width',
+				'width' => $width,
+				'height' => $height
+			));
+			$this->image_lib->resize();
+			$this->image_lib->initialize(array(
+				'image_library' => 'gd2',
+				'quality' =>'50%',
+				'source_image' => $path,
+				'new_image' => $new_path_view,
+				'maintain_ratio' => true,
+				'master_dim' => 'width',
+				'width' => $width_fix,
+				'height' => $width_fix*0.6
+			));
+			$this->image_lib->resize();
+		}
+		$object_portofolio = array(
+			'nama' => $nama_portofolio,
+			'gambar' => $file['file_name'],
+			'id_portofolio' => $this->input->post('select_kategori_portofolio'),
+			'url' => str_replace(' ', '_', $nama_portofolio),
+			'keterangan' => $this->input->post('keterangan_portofolio'),
+			'tanggal' => date("Y-m-d"),
+			'id_admin' => $id_admin
+		);
+		$query = $this->db->insert("web_portofolio", $object_portofolio);
+		echo json_encode($query);
+	}
+}
+function portofolio_list(){
+	$this->load->model('Mdl_portofolio');
+	$portofolio = $this->Mdl_portofolio->portofolio_list()->result();
+	echo json_encode($portofolio);
+}
+function kategori_portofolio_list(){
+	$this->load->model('Mdl_portofolio');
+	$kategori_portofolio = $this->Mdl_portofolio->kategori_portofolio_list()->result();
+	echo json_encode($kategori_portofolio);
+}
+function tambah_kategori_portofolio(){
+	$this->form_validation->set_rules('nama_kategori_portofolio', 'Kategori', 'is_unique[portofolio_kategori.nama]');
+	if ($this->form_validation->run() == TRUE)
+	{
+		$kategori = $this->input->post('nama_kategori_portofolio');
 		$this->load->model('Mdl_portofolio');
-		$portofolio = $this->Mdl_portofolio->portofolio_list()->result();
-		echo json_encode($portofolio);
+		$insert = $this->Mdl_portofolio->insert_kategori($kategori);
+		echo json_encode($insert);
 	}
-	function kategori_portofolio_list(){
-		$this->load->model('Mdl_portofolio');
-		$kategori_portofolio = $this->Mdl_portofolio->kategori_portofolio_list()->result();
-		echo json_encode($kategori_portofolio);
+}
+function keunggulan_list(){
+	$this->load->model('Mdl_keunggulan');
+	$query = $this->Mdl_keunggulan->list_keunggulan()->result();
+	echo json_encode($query);
+}
+function tambah_keunggulan(){
+	$this->_make_sure_is_admin();
+	$adm = $this->_admin_data();
+	$id_admin = $adm['id_admin'];
+	$nama_keunggulan = $this->input->post('judul_keunggulan');
+	$this->load->library('upload');
+	$config['upload_path']          = './assets/keunggulan/asli/';
+	$config['allowed_types']        = 'gif|jpg|png|jpeg|pdf';
+	$config['max_size']             = 100000;
+	$config['max_width']            = 20000;
+	$config['max_height']           = 20000;
+	$config['file_name']            = $this->input->post('judul_keunggulan');
+	$this->load->library('upload', $config);
+	$this->upload->initialize($config);
+	if (!$this->upload->do_upload('gambar_keunggulan')) {
+		$error = array('error' => $this->upload->display_errors());
+	} else {
+		$file = $this->upload->data();
+		$path =  "./assets/keunggulan/asli/".$file['file_name']."";
+		$new_path =  "./assets/keunggulan/thumb/";
+		$new_path_view =  "./assets/keunggulan/fix/";
+		$width = 150;
+		$height = 100;
+		$width_fix = 1366;
+		// $height_fix = 1200;
+		$this->load->library('image_lib');
+		$this->image_lib->initialize(array(
+			'image_library' => 'gd2',
+			'source_image' => $path,
+			'new_image' => $new_path,
+			'maintain_ratio' => true,
+			'master_dim' => 'width',
+			'width' => $width,
+			'height' => $height
+		));
+		$this->image_lib->resize();
+		$this->image_lib->initialize(array(
+			'image_library' => 'gd2',
+			'quality' =>'50%',
+			'source_image' => $path,
+			'new_image' => $new_path_view,
+			'maintain_ratio' => true,
+			'master_dim' => 'width',
+			'width' => $width_fix,
+			'height' => $width_fix*0.6
+		));
+		$this->image_lib->resize();
 	}
-	function tambah_kategori_portofolio(){
-		$this->form_validation->set_rules('nama_kategori_portofolio', 'Kategori', 'is_unique[portofolio_kategori.nama]');
-		if ($this->form_validation->run() == TRUE)
-		{
-			$kategori = $this->input->post('nama_kategori_portofolio');
-			$this->load->model('Mdl_portofolio');
-			$insert = $this->Mdl_portofolio->insert_kategori($kategori);
-			echo json_encode($insert);
-		}
+	$object_foto = array(
+		'gambar' => $file['file_name'],
+		'nama' => $nama_keunggulan,
+		'url' => str_replace(' ', '_', $nama_keunggulan),
+		'keterangan' => $this->input->post('keterangan_keunggulan'),
+		'tanggal' => date("Y-m-d"),
+		'id_admin' => $id_admin
+	);
+	$query = $this->db->insert("web_keunggulan", $object_foto);
+	echo json_encode($query);
+}
+function layanan_list(){
+	$this->load->model('Mdl_layanan');
+	$query = $this->Mdl_layanan->list_layanan()->result();
+	echo json_encode($query);
+}
+function tambah_layanan(){
+	$this->_make_sure_is_admin();
+	$adm = $this->_admin_data();
+	$id_admin = $adm['id_admin'];
+	$nama_layanan = $this->input->post('judul_layanan');
+	$this->load->library('upload');
+	$config['upload_path']          = './assets/layanan/asli/';
+	$config['allowed_types']        = 'gif|jpg|png|jpeg|pdf';
+	$config['max_size']             = 100000;
+	$config['max_width']            = 20000;
+	$config['max_height']           = 20000;
+	$config['file_name']            = $this->input->post('judul_layanan');
+	$this->load->library('upload', $config);
+	$this->upload->initialize($config);
+	if (!$this->upload->do_upload('gambar_layanan')) {
+		$error = array('error' => $this->upload->display_errors());
+	} else {
+		$file = $this->upload->data();
+		$path =  "./assets/layanan/asli/".$file['file_name']."";
+		$new_path =  "./assets/layanan/thumb/";
+		$new_path_view =  "./assets/layanan/fix/";
+		$width = 150;
+		$height = 100;
+		$width_fix = 1366;
+		// $height_fix = 1200;
+		$this->load->library('image_lib');
+
+		$this->image_lib->initialize(array(
+			'image_library' => 'gd2',
+			'source_image' => $path,
+			'new_image' => $new_path,
+			'maintain_ratio' => true,
+			'master_dim' => 'width',
+			'width' => $width,
+			'height' => $height
+		));
+
+		$this->image_lib->resize();
+
+		$this->image_lib->initialize(array(
+			'image_library' => 'gd2',
+			'quality' =>'50%',
+			'source_image' => $path,
+			'new_image' => $new_path_view,
+			'maintain_ratio' => true,
+			'master_dim' => 'width',
+			'width' => $width_fix,
+			'height' => $width_fix*0.6
+		));
+		$this->image_lib->resize();
 	}
-	function keunggulan_list(){
-		$this->load->model('Mdl_keunggulan');
-		$query = $this->Mdl_keunggulan->list_keunggulan()->result();
-		echo json_encode($query);
+	$object_foto = array(
+		'gambar' => $file['file_name'],
+		'nama' => $nama_layanan,
+		'url' => str_replace(' ', '_', $nama_layanan),
+		'keterangan' => $this->input->post('keterangan_layanan'),
+		'tanggal' => date("Y-m-d"),
+		'id_admin' => $id_admin
+	);
+	$query = $this->db->insert("web_layanan", $object_foto);
+	echo json_encode($query);
+}
+function tambah_slider(){
+	$this->_make_sure_is_admin();
+	$adm = $this->_admin_data();
+	$id_admin = $adm['id_admin'];
+	$nama_slider = $this->input->post('nama_slider');
+	$this->load->library('upload');
+	$config['upload_path']          = './assets/slider/asli/';
+	$config['allowed_types']        = 'gif|jpg|png|jpeg|pdf';
+	$config['max_size']             = 100000;
+	$config['max_width']            = 20000;
+	$config['max_height']           = 20000;
+	$config['file_name']            = $this->input->post('nama_slider');
+	$this->load->library('upload', $config);
+	$this->upload->initialize($config);
+	if (!$this->upload->do_upload('gambar_slider')) {
+		$error = array('error' => $this->upload->display_errors());
+	} else {
+		$file = $this->upload->data();
+
+		$path =  "./assets/slider/asli/".$file['file_name']."";
+		$new_path =  "./assets/slider/thumb/";
+		$new_path_view =  "./assets/slider/fix/";
+		$width = 150;
+		$height = 100;
+		$width_fix = 1366;
+		// $height_fix = 1200;
+		$this->load->library('image_lib');
+
+		$this->image_lib->initialize(array(
+			'image_library' => 'gd2',
+			'source_image' => $path,
+			'new_image' => $new_path,
+			'maintain_ratio' => true,
+			'master_dim' => 'width',
+			'width' => $width,
+			'height' => $height
+		));
+
+		$this->image_lib->resize();
+
+		$this->image_lib->initialize(array(
+			'image_library' => 'gd2',
+			'quality' =>'50%',
+			'source_image' => $path,
+			'new_image' => $new_path_view,
+			'maintain_ratio' => true,
+			'master_dim' => 'width',
+			'width' => $width_fix,
+			'height' => $width_fix*0.6
+		));
+
+		$this->image_lib->resize();
 	}
-	function tambah_keunggulan(){
-		$this->_make_sure_is_admin();
-		$adm = $this->_admin_data();
-		$id_admin = $adm['id_admin'];
-		$nama_keunggulan = $this->input->post('judul_keunggulan');
-		$this->load->library('upload');
-		$config['upload_path']          = './assets/keunggulan/asli/';
-		$config['allowed_types']        = 'gif|jpg|png|jpeg|pdf';
-		$config['max_size']             = 100000;
-		$config['max_width']            = 20000;
-		$config['max_height']           = 20000;
-		$config['file_name']            = $this->input->post('judul_keunggulan');
-		$this->load->library('upload', $config);
-		$this->upload->initialize($config);
-		if (!$this->upload->do_upload('gambar_keunggulan')) {
-			$error = array('error' => $this->upload->display_errors());
-		} else {
-			$file = $this->upload->data();
-			$path =  "./assets/keunggulan/asli/".$file['file_name']."";
-			$new_path =  "./assets/keunggulan/thumb/";
-			$new_path_view =  "./assets/keunggulan/fix/";
-			$width = 150;
-			$height = 100;
-			$width_fix = 1366;
-			// $height_fix = 1200;
-			$this->load->library('image_lib');
-			$this->image_lib->initialize(array(
-				'image_library' => 'gd2',
-				'source_image' => $path,
-				'new_image' => $new_path,
-				'maintain_ratio' => true,
-				'master_dim' => 'width',
-				'width' => $width,
-				'height' => $height
-			));
-			$this->image_lib->resize();
-			$this->image_lib->initialize(array(
-				'image_library' => 'gd2',
-				'quality' =>'50%',
-				'source_image' => $path,
-				'new_image' => $new_path_view,
-				'maintain_ratio' => true,
-				'master_dim' => 'width',
-				'width' => $width_fix,
-				'height' => $width_fix*0.6
-			));
-			$this->image_lib->resize();
-		}
-		$object_foto = array(
-			'gambar' => $file['file_name'],
-			'nama' => $nama_keunggulan,
-			'url' => str_replace(' ', '_', $nama_keunggulan),
-			'keterangan' => $this->input->post('keterangan_keunggulan'),
-			'tanggal' => date("Y-m-d"),
-			'id_admin' => $id_admin
-		);
-		$query = $this->db->insert("web_keunggulan", $object_foto);
-		echo json_encode($query);
+	$object_foto = array(
+		'gambar' => $file['file_name'],
+		'thumb' =>  $file['file_name'],
+		'nama' => $nama_slider,
+		'url' => str_replace(' ', '_', $nama_slider),
+		'keterangan' => $this->input->post('keterangan_slider'),
+		'tanggal' => date("Y-m-d"),
+		'id_admin' => $id_admin
+	);
+	$query = $this->db->insert("web_slider", $object_foto);
+	echo json_encode($query);
+}
+function hapus_slider(){
+	$id = $this->input->post('id_slider');
+	$this->_hapus_gambar_slider($id);
+	$this->db->where('id', $id);
+	$query = $this->db->delete('web_slider');
+	echo json_encode($query);
+}
+function _hapus_gambar_slider($id){
+	$query = $this->db->get_where('web_slider',array('id'=>$id));
+	foreach ($query->result() as $row) {
+		$gambar = $row->gambar;
+		$thumb = $row->thumb;
 	}
-	function layanan_list(){
-		$this->load->model('Mdl_layanan');
-		$query = $this->Mdl_layanan->list_layanan()->result();
-		echo json_encode($query);
+	$path1 =  "./assets/slider/asli/".$gambar."";
+	$path2 =  "./assets/slider/thumb/".$thumb."";
+	$path3 =  "./assets/slider/fix/".$gambar."";
+	if (file_exists($path1)) {
+		unlink($path1);
 	}
-	function tambah_layanan(){
-		$this->_make_sure_is_admin();
-		$adm = $this->_admin_data();
-		$id_admin = $adm['id_admin'];
-		$nama_layanan = $this->input->post('judul_layanan');
-		$this->load->library('upload');
-		$config['upload_path']          = './assets/layanan/asli/';
-		$config['allowed_types']        = 'gif|jpg|png|jpeg|pdf';
-		$config['max_size']             = 100000;
-		$config['max_width']            = 20000;
-		$config['max_height']           = 20000;
-		$config['file_name']            = $this->input->post('judul_layanan');
-		$this->load->library('upload', $config);
-		$this->upload->initialize($config);
-		if (!$this->upload->do_upload('gambar_layanan')) {
-			$error = array('error' => $this->upload->display_errors());
-		} else {
-			$file = $this->upload->data();
-			$path =  "./assets/layanan/asli/".$file['file_name']."";
-			$new_path =  "./assets/layanan/thumb/";
-			$new_path_view =  "./assets/layanan/fix/";
-			$width = 150;
-			$height = 100;
-			$width_fix = 1366;
-			// $height_fix = 1200;
-			$this->load->library('image_lib');
-
-			$this->image_lib->initialize(array(
-				'image_library' => 'gd2',
-				'source_image' => $path,
-				'new_image' => $new_path,
-				'maintain_ratio' => true,
-				'master_dim' => 'width',
-				'width' => $width,
-				'height' => $height
-			));
-
-			$this->image_lib->resize();
-
-			$this->image_lib->initialize(array(
-				'image_library' => 'gd2',
-				'quality' =>'50%',
-				'source_image' => $path,
-				'new_image' => $new_path_view,
-				'maintain_ratio' => true,
-				'master_dim' => 'width',
-				'width' => $width_fix,
-				'height' => $width_fix*0.6
-			));
-			$this->image_lib->resize();
-		}
-		$object_foto = array(
-			'gambar' => $file['file_name'],
-			'nama' => $nama_layanan,
-			'url' => str_replace(' ', '_', $nama_layanan),
-			'keterangan' => $this->input->post('keterangan_layanan'),
-			'tanggal' => date("Y-m-d"),
-			'id_admin' => $id_admin
-		);
-		$query = $this->db->insert("web_layanan", $object_foto);
-		echo json_encode($query);
+	if (file_exists($path2)) {
+		unlink($path2);
 	}
-	function tambah_slider(){
-		$this->_make_sure_is_admin();
-		$adm = $this->_admin_data();
-		$id_admin = $adm['id_admin'];
-		$nama_slider = $this->input->post('nama_slider');
-		$this->load->library('upload');
-		$config['upload_path']          = './assets/slider/asli/';
-		$config['allowed_types']        = 'gif|jpg|png|jpeg|pdf';
-		$config['max_size']             = 100000;
-		$config['max_width']            = 20000;
-		$config['max_height']           = 20000;
-		$config['file_name']            = $this->input->post('nama_slider');
-		$this->load->library('upload', $config);
-		$this->upload->initialize($config);
-		if (!$this->upload->do_upload('gambar_slider')) {
-			$error = array('error' => $this->upload->display_errors());
-		} else {
-			$file = $this->upload->data();
-
-			$path =  "./assets/slider/asli/".$file['file_name']."";
-			$new_path =  "./assets/slider/thumb/";
-			$new_path_view =  "./assets/slider/fix/";
-			$width = 150;
-			$height = 100;
-			$width_fix = 1366;
-			// $height_fix = 1200;
-			$this->load->library('image_lib');
-
-			$this->image_lib->initialize(array(
-				'image_library' => 'gd2',
-				'source_image' => $path,
-				'new_image' => $new_path,
-				'maintain_ratio' => true,
-				'master_dim' => 'width',
-				'width' => $width,
-				'height' => $height
-			));
-
-			$this->image_lib->resize();
-
-			$this->image_lib->initialize(array(
-				'image_library' => 'gd2',
-				'quality' =>'50%',
-				'source_image' => $path,
-				'new_image' => $new_path_view,
-				'maintain_ratio' => true,
-				'master_dim' => 'width',
-				'width' => $width_fix,
-				'height' => $width_fix*0.6
-			));
-
-			$this->image_lib->resize();
-		}
-		$object_foto = array(
-			'gambar' => $file['file_name'],
-			'thumb' =>  $file['file_name'],
-			'nama' => $nama_slider,
-			'url' => str_replace(' ', '_', $nama_slider),
-			'keterangan' => $this->input->post('keterangan_slider'),
-			'tanggal' => date("Y-m-d"),
-			'id_admin' => $id_admin
-		);
-		$query = $this->db->insert("web_slider", $object_foto);
-		echo json_encode($query);
+	if (file_exists($path3)) {
+		unlink($path3);
 	}
-	function hapus_slider(){
-		$id = $this->input->post('id_slider');
-		$this->_hapus_gambar_slider($id);
-		$this->db->where('id', $id);
-		$query = $this->db->delete('web_slider');
-		echo json_encode($query);
+}
+
+function slider_list(){
+	$this->load->model('Mdl_slider');
+	$query = $this->Mdl_slider->slider_list()->result();
+	echo json_encode($query);
+
+}
+public function video(){
+	$this->_make_sure_is_admin();
+	$admin_data = $this->admin_info();
+	$data['title'] = "Video";
+	$this->load->view('admin/video', $data);
+}
+function video_list(){
+	$this->load->model('Mdl_video');
+	$query = $this->Mdl_video->list_video()->result();
+	echo json_encode($query);
+}
+function tambah_video(){
+	$judul =  $this->input->post('judul_video');
+	$this->load->library('upload');
+	$config['upload_path']          = './assets/web_video/gambar/';
+	$config['allowed_types']        = 'gif|jpg|png|jpeg|pdf';
+	$config['max_size']             = 100000;
+	$config['max_width']            = 20000;
+	$config['max_height']           = 20000;
+	$config['file_name']            = $judul;
+	$this->load->library('upload', $config);
+	$this->upload->initialize($config);
+	if (!$this->upload->do_upload('gambar_video')) {
+		$error = array('error' => $this->upload->display_errors());
+	} else {
+		$file = $this->upload->data();
+
+		$path =  "./assets/web_video/gambar/".$file['file_name']."";
+		$new_path =  "./assets/web_video/thumb/";
+		$new_path_view =  "./assets/web_video/fix/";
+		$width = 150;
+		$height = 100;
+		$width_fix = 1366;
+		// $height_fix = 1200;
+		$this->load->library('image_lib');
+
+		$this->image_lib->initialize(array(
+			'image_library' => 'gd2',
+			'source_image' => $path,
+			'new_image' => $new_path,
+			'maintain_ratio' => true,
+			'master_dim' => 'width',
+			'width' => $width,
+			'height' => $height
+		));
+
+		$this->image_lib->resize();
+
+		$this->image_lib->initialize(array(
+			'image_library' => 'gd2',
+			'quality' =>'50%',
+			'source_image' => $path,
+			'new_image' => $new_path_view,
+			'maintain_ratio' => true,
+			'master_dim' => 'width',
+			'width' => $width_fix,
+			'height' => $width_fix*0.6
+		));
+
+		$this->image_lib->resize();
 	}
-	function _hapus_gambar_slider($id){
-		$query = $this->db->get_where('web_slider',array('id'=>$id));
-		foreach ($query->result() as $row) {
-			$gambar = $row->gambar;
-			$thumb = $row->thumb;
-		}
-		$path1 =  "./assets/slider/asli/".$gambar."";
-		$path2 =  "./assets/slider/thumb/".$thumb."";
-		$path3 =  "./assets/slider/fix/".$gambar."";
-		if (file_exists($path1)) {
-			unlink($path1);
-		}
-		if (file_exists($path2)) {
-			unlink($path2);
-		}
-		if (file_exists($path3)) {
-			unlink($path3);
-		}
+	$object_video = array(
+		'judul' =>$judul,
+		'status' =>0,
+		'keterangan' => $this->input->post('keterangan_video'),
+		'gambar' => $file['file_name'],
+		'link_video' => $this->input->post('link_video')
+	);
+	$query = $this->db->insert("web_video", $object_video);
+	echo json_encode($query);
+}
+function hapus_video(){
+	$id = $this->input->post('id_video');
+	$this->hapus_gambar_video($id);
+	$this->db->where('id', $id);
+	$query = $this->db->delete('web_video');
+	echo json_encode($query);
+}
+function hapus_gambar_video($id){
+
+	$query = $this->db->get_where('web_video', array('id'=>$id));
+	foreach ($query->result() as $value) {
+		$gambar = $value->gambar;
 	}
-
-	function slider_list(){
-		$this->load->model('Mdl_slider');
-		$query = $this->Mdl_slider->slider_list()->result();
-		echo json_encode($query);
-
+	$path1 =  "./assets/web_video/asli/".$gambar."";
+	$path2 =  "./assets/web_video/gambar/".$gambar."";
+	$path3 =  "./assets/web_video/thumb/".$gambar."";
+	if (file_exists($path1)) {
+		unlink($path1);
 	}
-	public function video(){
-		$this->_make_sure_is_admin();
-		$admin_data = $this->admin_info();
-		$data['title'] = "Video";
-		$this->load->view('admin/video', $data);
+	if (file_exists($path2)) {
+		unlink($path2);
 	}
-	function video_list(){
-		$this->load->model('Mdl_video');
-		$query = $this->Mdl_video->list_video()->result();
-		echo json_encode($query);
-	}
-	function tambah_video(){
-		$judul =  $this->input->post('judul_video');
-		$this->load->library('upload');
-		$config['upload_path']          = './assets/web_video/gambar/';
-		$config['allowed_types']        = 'gif|jpg|png|jpeg|pdf';
-		$config['max_size']             = 100000;
-		$config['max_width']            = 20000;
-		$config['max_height']           = 20000;
-		$config['file_name']            = $judul;
-		$this->load->library('upload', $config);
-		$this->upload->initialize($config);
-		if (!$this->upload->do_upload('gambar_video')) {
-			$error = array('error' => $this->upload->display_errors());
-		} else {
-			$file = $this->upload->data();
-
-			$path =  "./assets/web_video/gambar/".$file['file_name']."";
-			$new_path =  "./assets/web_video/thumb/";
-			$new_path_view =  "./assets/web_video/fix/";
-			$width = 150;
-			$height = 100;
-			$width_fix = 1366;
-			// $height_fix = 1200;
-			$this->load->library('image_lib');
-
-			$this->image_lib->initialize(array(
-				'image_library' => 'gd2',
-				'source_image' => $path,
-				'new_image' => $new_path,
-				'maintain_ratio' => true,
-				'master_dim' => 'width',
-				'width' => $width,
-				'height' => $height
-			));
-
-			$this->image_lib->resize();
-
-			$this->image_lib->initialize(array(
-				'image_library' => 'gd2',
-				'quality' =>'50%',
-				'source_image' => $path,
-				'new_image' => $new_path_view,
-				'maintain_ratio' => true,
-				'master_dim' => 'width',
-				'width' => $width_fix,
-				'height' => $width_fix*0.6
-			));
-
-			$this->image_lib->resize();
-		}
-		$object_video = array(
-			'judul' =>$judul,
-			'status' =>0,
-			'keterangan' => $this->input->post('keterangan_video'),
-			'gambar' => $file['file_name'],
-			'link_video' => $this->input->post('link_video')
-		);
-		$query = $this->db->insert("web_video", $object_video);
-		echo json_encode($query);
-	}
-	function hapus_video(){
-		$id = $this->input->post('id_video');
-		$this->hapus_gambar_video($id);
-		$this->db->where('id', $id);
-		$query = $this->db->delete('web_video');
-		echo json_encode($query);
-	}
-	function hapus_gambar_video($id){
-
-		$query = $this->db->get_where('web_video', array('id'=>$id));
-		foreach ($query->result() as $value) {
-			$gambar = $value->gambar;
-		}
-		$path1 =  "./assets/web_video/asli/".$gambar."";
-		$path2 =  "./assets/web_video/gambar/".$gambar."";
-		$path3 =  "./assets/web_video/thumb/".$gambar."";
-		if (file_exists($path1)) {
-			unlink($path1);
-		}
-		if (file_exists($path2)) {
-			unlink($path2);
-		}
-		if (file_exists($path3)) {
-			unlink($path3);
-		}
-
-	}
-	function aktivasi_video(){
-		$id = $this->input->post('id_video');
-		$video_aktif = $this->db->get_where('web_video', array('status'=>1))->result();
-		if ($video_aktif) {
-			foreach ($video_aktif as $value) {
-				$id_aktif = $value->id;
-				$this->db->where('id', $id_aktif);
-				$this->db->update('web_video', array('status'=>0));
-			}
-		}
-		$this->db->where('id', $id);
-		$query = $this->db->update('web_video', array('status'=>1));
-		echo json_encode($query);
-
+	if (file_exists($path3)) {
+		unlink($path3);
 	}
 
-	public function profile(){
-		$this->_make_sure_is_admin();
+}
+function aktivasi_video(){
+	$id = $this->input->post('id_video');
+	$video_aktif = $this->db->get_where('web_video', array('status'=>1))->result();
+	if ($video_aktif) {
+		foreach ($video_aktif as $value) {
+			$id_aktif = $value->id;
+			$this->db->where('id', $id_aktif);
+			$this->db->update('web_video', array('status'=>0));
+		}
 	}
-	function _admin_data(){
-		$this->_make_sure_is_admin();
-		$admin_data = $this->admin_info();
-		foreach ($admin_data->result() as $value) {
-			$adm['id_admin'] = $value->id_admin;
-			$adm['nama_admin'] = $value->nama;
-			$adm['level_admin'] = $value->level;
-			$adm['foto_admin'] = $value->foto;
-			$adm['alamat_admin'] = $value->alamat;
-			$adm['nomor_telepon_admin'] = $value->nomor_telepon;
-			$adm['email_admin'] = $value->email;
-		}
-		if ($adm['level_admin'] == 1) {
-			$adm['jabatan_admin'] = "Super Admin";
-		}else{
-			$adm['jabatan_admin'] = "Admin";
-		}
-		return $adm;
+	$this->db->where('id', $id);
+	$query = $this->db->update('web_video', array('status'=>1));
+	echo json_encode($query);
+
+}
+
+public function profile(){
+	$this->_make_sure_is_admin();
+}
+function _admin_data(){
+	$this->_make_sure_is_admin();
+	$admin_data = $this->admin_info();
+	foreach ($admin_data->result() as $value) {
+		$adm['id_admin'] = $value->id_admin;
+		$adm['nama_admin'] = $value->nama;
+		$adm['level_admin'] = $value->level;
+		$adm['foto_admin'] = $value->foto;
+		$adm['alamat_admin'] = $value->alamat;
+		$adm['nomor_telepon_admin'] = $value->nomor_telepon;
+		$adm['email_admin'] = $value->email;
 	}
-	function web_info(){
-		$this->_make_sure_is_admin();
-		$this->load->model('Mdl_web_profile');
-		$info_web = $this->Mdl_web_profile->info_profile();
-		foreach ($info_web->result() as $inf) {
-			if (isset($inf->nama_web)) {
-				$info['nama_web'] = $inf->nama_web;
-			}else {
-				$info['nama_web'] = "";
-			}
-			if (isset($inf->alamat)) {
-				$info['alamat'] = $inf->alamat;
-			}else {
-				$info['alamat']="";
-			}
-		}
-		return $info;
+	if ($adm['level_admin'] == 1) {
+		$adm['jabatan_admin'] = "Super Admin";
+	}else{
+		$adm['jabatan_admin'] = "Admin";
 	}
-	function admin_info(){
-		$this->_make_sure_is_admin();
-		$id_admin = $this->session->userdata('id_admin_login');
-		if ($id_admin == null) {
-			redirect('login','refresh');
-		}else{
-			$this->db->select('* ,admin.id as id_admin');
-			$this->db->from('admin');
-			$this->db->join('contact_admin', 'admin.id = contact_admin.id_admin', 'left');
-			$this->db->join('data_admin', 'admin.id = data_admin.id_admin', 'left');
-			$this->db->where('admin.id', $id_admin);
-			$admin = $this->db->get();
+	return $adm;
+}
+function web_info(){
+	$this->_make_sure_is_admin();
+	$this->load->model('Mdl_web_profile');
+	$info_web = $this->Mdl_web_profile->info_profile();
+	foreach ($info_web->result() as $inf) {
+		if (isset($inf->nama_web)) {
+			$info['nama_web'] = $inf->nama_web;
+		}else {
+			$info['nama_web'] = "";
 		}
-		return $admin;
+		if (isset($inf->alamat)) {
+			$info['alamat'] = $inf->alamat;
+		}else {
+			$info['alamat']="";
+		}
 	}
-	function _make_sure_is_super_admin(){
-		$id_admin = $this->session->userdata('id_admin_login');
-		$admin = $this->db->get_where('admin', array('id'=>$id_admin));
-		foreach ($admin->result() as $value) {
-			$level = $value->level;
-		}
-		if (isset($level)) {
-			if ($level != "1") {
-				$this->session->sess_destroy();
-				redirect('login','refresh');
-			}
-		}else{
+	return $info;
+}
+function admin_info(){
+	$this->_make_sure_is_admin();
+	$id_admin = $this->session->userdata('id_admin_login');
+	if ($id_admin == null) {
+		redirect('login','refresh');
+	}else{
+		$this->db->select('* ,admin.id as id_admin');
+		$this->db->from('admin');
+		$this->db->join('contact_admin', 'admin.id = contact_admin.id_admin', 'left');
+		$this->db->join('data_admin', 'admin.id = data_admin.id_admin', 'left');
+		$this->db->where('admin.id', $id_admin);
+		$admin = $this->db->get();
+	}
+	return $admin;
+}
+function _make_sure_is_super_admin(){
+	$id_admin = $this->session->userdata('id_admin_login');
+	$admin = $this->db->get_where('admin', array('id'=>$id_admin));
+	foreach ($admin->result() as $value) {
+		$level = $value->level;
+	}
+	if (isset($level)) {
+		if ($level != "1") {
 			$this->session->sess_destroy();
 			redirect('login','refresh');
 		}
+	}else{
+		$this->session->sess_destroy();
+		redirect('login','refresh');
 	}
-	function _make_sure_is_admin(){
-		$is_user = $this->session->userdata('status_login_admin');
-		if ($is_user != "admin_login") {
-			$this->session->sess_destroy();
-			redirect('login','refresh');
-		}
+}
+function _make_sure_is_admin(){
+	$is_user = $this->session->userdata('status_login_admin');
+	if ($is_user != "admin_login") {
+		$this->session->sess_destroy();
+		redirect('login','refresh');
 	}
-	function convert($size){
-		$unit=array('b','kb','mb','gb','tb','pb');
-		return @round($size/pow(1024,($i=floor(log($size,1024)))),2).' '.$unit[$i];
-	}
-	// 	function memory_usage(){
-	// 	return $this->convert(memory_get_usage(true)); // 123 kb
-	// }
-	function memory_usage() {
+}
+function convert($size){
+	$unit=array('b','kb','mb','gb','tb','pb');
+	return @round($size/pow(1024,($i=floor(log($size,1024)))),2).' '.$unit[$i];
+}
+// 	function memory_usage(){
+// 	return $this->convert(memory_get_usage(true)); // 123 kb
+// }
+function memory_usage() {
 
-		$mem = memory_get_usage(true);
+	$mem = memory_get_usage(true);
 
-		if ($mem < 1024) {
+	if ($mem < 1024) {
 
-			$$memory = $mem .' B';
+		$$memory = $mem .' B';
 
-		} elseif ($mem < 1048576) {
+	} elseif ($mem < 1048576) {
 
-			$memory = round($mem / 1024, 2) .' KB';
+		$memory = round($mem / 1024, 2) .' KB';
 
-		} else {
+	} else {
 
-			$memory = round($mem / 1048576, 2) .' MB';
-
-		}
-
-		return $memory;
+		$memory = round($mem / 1048576, 2) .' MB';
 
 	}
+
+	return $memory;
+
+}
 
 
 

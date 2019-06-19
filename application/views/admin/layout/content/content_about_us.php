@@ -146,46 +146,6 @@
         <!-- /.box-footer-->
       </div>
       <!-- /.box -->
-      <!-- Default box -->
-      <div class="box">
-        <div class="box-header with-border">
-          <h3 class="box-title">Manage Video</h3>
-
-          <div class="box-tools pull-right">
-            <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip"
-            title="Collapse">
-            <i class="fa fa-minus"></i></button>
-            <button type="button" class="btn btn-box-tool" data-widget="remove" data-toggle="tooltip" title="Remove">
-              <i class="fa fa-times"></i></button>
-            </div>
-          </div>
-          <div class="box-body">
-            <div class="table-responsive" >
-             <table class="table table-bordered table-striped" id="mydata">
-              <thead>
-                <tr>
-                  <th>No</th>
-                  <th>Telepon</th>
-                  <th>Email</th>
-                  <th>Alamat</th>
-                  <th>Buka</th>
-                  <th>Tutup</th>
-                  <th>Status</th>
-                  <th style="text-align: right;">Actions</th>
-                </tr>
-              </thead>
-              <tbody id="contact_list">
-
-              </tbody>
-            </table>
-          </div>
-        </div>
-        <!-- /.box-body -->
-        <div class="box-footer">
-          Footer
-        </div>
-        <!-- /.box-footer-->
-      </div>
       <!-- /.box -->
     </section>
     <!-- /.content -->
@@ -243,7 +203,6 @@
       $('#mydata').DataTable();
 
     } );
-    show_contact();
     show_sosmed();
     show_tentang();
     function show_tentang(){
@@ -284,41 +243,6 @@
 
       });
     }
-    function show_contact(){
-      $.ajax({
-        type  : 'ajax',
-        url   : "<?php echo base_url('admin/contact_list')?>",
-        async : false,
-        dataType : 'json',
-        success : function(data){
-          var html = '';
-          var i;
-          for(i=0; i<data.length; i++){
-            no = i+1;
-            if (data[i].status == '1') {
-              var status_contact = "aktif";
-            }else{
-              var status_contact = "tidak aktif";
-            }
-            html += '<tr>'+
-            '<td>'+ no++ +'</td>'+
-            '<td>'+data[i].telepon+'</td>'+
-            '<td>'+data[i].email+'</td>'+
-            '<td>'+data[i].alamat.substr(0, 50)+'</td>'+
-            '<td>'+data[i].buka+'</td>'+
-            '<td>'+data[i].tutup+'</td>'+
-            '<td>'+ status_contact +'</td>'+
-            '<td style="text-align:right;">'+
-            '<a href="javascript:void(0);" class="btn btn-danger btn-sm video_delete" video_hapus_id="'+data[i].id+'" video_judul="'+data[i].judul+'"    >Delete</a>'+
-            '<a href="javascript:void(0);" class="btn btn-success btn-sm video_aktivasi" video_aktif_id="'+data[i].id+'" video_judul="'+data[i].judul+'"    >Aktifkan</a>'+
-            '</td>'+
-            '</tr>';
-          }
-          $('#contact_list').html(html);
-        }
-
-      });
-    }
     $('#submittentang').submit(function(e){
       e.preventDefault();
 
@@ -337,21 +261,17 @@
       $('#wait').show();
     },
     success: function(data){
-        show_tentang();
       swal ( "Sukses" ,  "About Us Berhasil Ditambahkan!" ,  "success", {
         buttons: false,
         timer: 1000,
       } );
-
-        show_tentang();
-     $("form").trigger("reset");
+    show_tentang();
     },
     error:function(data) {
      swal ( "Gagal" ,  "About Us Gagal Ditambahkan!" ,  "error", {
       buttons: false,
       timer: 1000,
     } );
-    $("form").trigger("reset");
    }
  });
     });
