@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="description" content="uza - Model Agency HTML5 Template">
+    <meta name="description" content="<?=$about_us?>">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
@@ -139,7 +139,7 @@
 
                     <!-- Logo -->
                     <a class="nav-brand" href="index.html"><img src="<?=base_url('assets/logo/thumb/').$logo?>" width="150px" alt="<?=$title_logo?>"></a>
-                    
+
 
                     <!-- Navbar Toggler -->
                     <div class="classy-navbar-toggler">

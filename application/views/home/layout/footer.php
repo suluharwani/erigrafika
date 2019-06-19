@@ -11,11 +11,11 @@
 
                     <!-- Footer Content -->
                     <div class="footer-content mb-15">
-                        <h3>(+65) 1234 5678</h3>
-                        <p>40 Baria Sreet 13/2 NY City, US <br> hello.colorlib@gmail.com</p>
+                        <h3><?=$telepon?></h3>
+                        <p><?=$alamat?> <br><?=$email?></p>
                     </div>
-                    <p class="mb-0">Mon - Fri: 9:00 - 19:00 <br>
-                    Closed on Weekends</p>
+                    <p class="mb-0"><?=$buka?><br>
+                    Tutup <?=$tutup?></p>
                 </div>
             </div>
 
@@ -37,13 +37,11 @@
                     </nav>
                 </div>
             </div>
-
             <!-- Single Footer Widget -->
             <div class="col-12 col-sm-6 col-lg-3">
                 <div class="single-footer-widget mb-80">
                     <!-- Widget Title -->
                     <h4 class="widget-title">Resources</h4>
-
                     <!-- Nav -->
                     <nav>
                         <ul class="our-link">
@@ -62,33 +60,28 @@
                 <div class="single-footer-widget mb-80">
                     <!-- Widget Title -->
                     <h4 class="widget-title">About Us</h4>
-                    <p>Integer vehicula mauris libero, at molestie eros imperdiet sit amet.</p>
-
+                    <p><?=$about_us?></p>
                     <!-- Copywrite Text -->
                     <div class="copywrite-text mb-30">
                         <p>&copy; Copyright 2018 <a href="#">Colorlib</a>.</p>
                     </div>
-
                     <!-- Social Info -->
                     <div class="footer-social-info">
-                        <a href="#" class="facebook" data-toggle="tooltip" data-placement="top" title="Facebook"><i class="fa fa-facebook"></i></a>
-                        <a href="#" class="twitter" data-toggle="tooltip" data-placement="top" title="Twitter"><i class="fa fa-twitter"></i></a>
-                        <a href="#" class="pinterest" data-toggle="tooltip" data-placement="top" title="Pinterest"><i class="fa fa-pinterest"></i></a>
-                        <a href="#" class="instagram" data-toggle="tooltip" data-placement="top" title="Instagram"><i class="fa fa-instagram"></i></a>
-                        <a href="#" class="youtube" data-toggle="tooltip" data-placement="top" title="YouTube"><i class="fa fa-youtube-play"></i></a>
+                      <?php
+                      foreach ($sosmed->result() as $social) {?>
+                        <a href="<?=$social->link?>" class="<?=$social->sosmed?>" data-toggle="tooltip" data-placement="top" title="<?=$social->sosmed?>"><i class="<?=$social->class?>"></i></a>
+                      <?php
+                      }
+                      ?>
                     </div>
                 </div>
             </div>
-
         </div>
-
         <div class="row" style="margin-bottom: 30px;">
-
             <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
             Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
             <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
         </div>
-
     </div>
 </footer>
 <!-- ***** Footer Area End ***** -->
@@ -126,7 +119,7 @@
                 <input type="radio" name="stars" value="3" />
                 <span class="icon">★</span>
                 <span class="icon">★</span>
-                <span class="icon">★</span>   
+                <span class="icon">★</span>
             </label>
             <label>
                 <input type="radio" name="stars" value="4" />
@@ -196,7 +189,7 @@ $(document).ready(function() {
           html3 = '</div>';
           for(i=0; i<data.length; i++){
             no = i+1;
-            
+
             html1 +=   '<div class="single-testimonial-slide d-flex align-items-center">'+
                                 '<div class="testimonial-thumbnail">'+
                                     '<img src="./img/bg-img/7.jpg" alt="">'+
@@ -223,10 +216,10 @@ $(document).ready(function() {
         }
 
       });
-   
+
    }
 //    $('#submitpenilaian').submit(function(e){
-//     e.preventDefault(); 
+//     e.preventDefault();
 //     $.ajax({
 //         url:"<?php echo site_url('home/tambah_penilaian')?>",
 //         type:"post",
@@ -248,7 +241,7 @@ $(document).ready(function() {
 //      swal ( "Gagal" ,  "penilaian Gagal Ditambahkan!" ,  "error", {
 //       buttons: false,
 //       timer: 1000,
-//   } ); 
+//   } );
 //      $("form").trigger("reset");
 //       $('#Modal_Rating').modal('hide');
 //  }
@@ -256,7 +249,7 @@ $(document).ready(function() {
 // });
 
    $('#submitpenilaian').submit(function(e){
-      e.preventDefault(); 
+      e.preventDefault();
 
       $.ajax({
        url:"<?php echo site_url('home/tambah_penilaian')?>",

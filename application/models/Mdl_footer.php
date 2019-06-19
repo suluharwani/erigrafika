@@ -15,4 +15,13 @@ class Mdl_footer extends CI_Model {
 		$query = $this->db->get();
     return $query;
   }
+  public function about_us(){
+    $query = $this->db->get('about_us', 1);
+    return $query;
+  }
+  public function contact(){
+    $this->db->where('status', 1);
+    $query = $this->db->get('contact', 1);
+    return $query;
+  }
 }
