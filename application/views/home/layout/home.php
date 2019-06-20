@@ -277,7 +277,7 @@ if ($video->result()) {
         <div class="col-12 col-lg-4">
           <div class="cta-content mb-80">
             <div class="call-now-btn">
-              <a href="#"><span>Call us now:</span> (+65) 1234 5678</a>
+              <a href="tel:<?=$telepon?>"><span>Call us now:</span> <?=$telepon?></a>
             </div>
           </div>
         </div>
