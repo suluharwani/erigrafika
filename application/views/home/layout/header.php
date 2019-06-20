@@ -4,6 +4,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="description" content="<?=$about_us?>">
+    <meta name="keywords" content="erigrafika, percetakan purwodadi" />
+    <!-- <meta name="robots" content="index, follow"> -->
+    <meta name="revisit-after" content="1 days">
+    <meta name="author" content="Suluh" />
+    <meta name="DC.title" content="Erigrafika - Pusat percetakan purwodadi" />
+    <meta name="geo.placename" content="Indonesia" />
+    <meta name="geo.region" content="ID" />
+    <link rel="canonical" href="https://erigrafika/" />
+    <link rel="shortcut icon" href="/favicon.png" />
+    <link rel="apple-touch-icon" href="/favicon.png" />
+    <meta property="og:locale" content="id_ID" />
+    <meta property="og:image" content="" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Erigrafika - Pusat percetakan purwodadi" />
+    <meta property="og:description" content="<?=$about_us?>" />
+    <meta property="og:url" content="https://erigrafika/" />
+    <meta property="og:site_name" content="<?=$title?>" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
