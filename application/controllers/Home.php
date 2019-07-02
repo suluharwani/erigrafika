@@ -65,10 +65,19 @@ function test(){
 		$logo = $this->_logo();
 		$data['logo'] = $logo['logo'];
 		$data['title_logo'] = $logo['title_logo'];
-
 		$data['content'] = $this->load->view("$this->view_home/home", $data, TRUE);
 		$this->load->view('home/template', $data);
-
+	}
+	function popup(){
+		$this->db->where('status', 1);
+		$query = $this->db->get('popup');
+		if ($query->num_rows()>0) {
+			echo json_encode($query->result());
+		}else{
+			header('HTTP/1.1 500 Internal Server Error');
+			header('Content-Type: application/json; charset=UTF-8');
+			die(json_encode(array('message' => 'ERROR', 'code' => 1337)));
+		}
 	}
 	public function about(){
 		$logo = $this->_logo();

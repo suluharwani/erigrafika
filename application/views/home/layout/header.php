@@ -32,6 +32,7 @@
 
     <!-- Core Stylesheet -->
     <link rel="stylesheet" href="<?=base_url('assets/home-master/')?>style.css">
+    <link rel="stylesheet" href="<?=base_url('assets/ads/css/')?>popup.css">
     <script type="text/javascript" charset="utf-8" async defer>
       function previewImage() {
         document.getElementById("image-preview").style.display = "block";
