@@ -229,12 +229,12 @@ function popup(){
     success : function(data){
       Swal.fire({
         imageUrl: 'https://placeholder.pics/svg/500',
-        title: 'Custom animation with Animate.css',
+        title: data[0].judul,
         animation: false,
         showCloseButton: true,
         showConfirmButton: false,
-        timer: 7000,
-        text: 'Something went wrong!',
+        timer: 20000,
+        text: data[0].keterangan,
         customClass: {
           popup: 'animated tada'
         }
