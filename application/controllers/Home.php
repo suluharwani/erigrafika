@@ -8,10 +8,6 @@ class Home extends CI_Controller {
 		$this->load->helper('download');
 	}
 	public $view_home = "home/layout";
-function test(){
-	$this->load->model('Mdl_post');
-	print_r($this->Mdl_post->post_home()->result());
-}
 	public function index()
 	{
 		//kunjungan web
