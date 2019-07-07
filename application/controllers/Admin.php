@@ -45,6 +45,11 @@ class Admin extends CI_Controller {
 		$data['array_statistik_jumlah_ip'] = json_encode($jumlah_pengunjung);
 		$this->load->view('admin/dashboard', $data);
 	}
+	public function popup(){
+		$this->_make_sure_is_admin();
+		$data['title'] = "Popup";
+		$this->load->view('admin/popup', $data);
+	}
 	public function about_us(){
 		$this->_make_sure_is_admin();
 		$data['title'] = "About Us";
