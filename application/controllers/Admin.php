@@ -49,7 +49,7 @@ class Admin extends CI_Controller {
 		$this->_make_sure_is_admin();
 		$data['title'] = "Popup";
 		$this->load->view('admin/popup', $data);
-	}
+	} 
 	public function about_us(){
 		$this->_make_sure_is_admin();
 		$data['title'] = "About Us";

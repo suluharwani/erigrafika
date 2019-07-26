@@ -56,6 +56,7 @@
             <li><a href="<?=base_url('admin/rating')?>"><i class="fa fa-circle-o"></i> Rating</a></li>
             <li><a href="<?=base_url('admin/blog')?>"><i class="fa fa-circle-o"></i> Blog</a></li>
             <li><a href="<?=base_url('admin/team')?>"><i class="fa fa-circle-o"></i> Team</a></li>
+            <li><a href="<?=base_url('admin/popup')?>"><i class="fa fa-circle-o"></i> Popup</a></li>
           </ul>
         </li>
         <li class="treeview">
