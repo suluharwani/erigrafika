@@ -24,11 +24,9 @@
     </h1>
     <ol class="breadcrumb">
       <li><a href="<?=base_url('admin')?>"><i class="fa fa-dashboard"></i> Admin</a></li>
-      <li><a href="<?=base_url('admin/slider')?>"></a>Slider</li>
-
+      <li><a href="<?=base_url('admin/slider')?>"></a>Popup</li>
     </ol>
   </section>
-
   <!-- Main content -->
   <section class="content">
 
@@ -52,28 +50,23 @@
             </div>
             <!-- /.box-header -->
             <!-- form start -->
-            <form enctype="multipart/form-data" id="submitvideo">
+            <form enctype="multipart/form-data" id="submitpopup">
               <div class="box-body">
                 <div class="form-group">
-                  <label for="judul_video">Judul</label>
-                  <input type="text" class="form-control" id="judul_video" name="judul_video" placeholder="Nama Slider">
+                  <label for="judul_popup">Judul</label>
+                  <input type="text" class="form-control" id="judul_popup" name="judul_popup" placeholder="Nama Popup">
                 </div>
                 <div class="form-group">
-                  <label for="keterangan_video">Keterangan</label>
-                  <textarea class="form-control" id="keterangan_video" name="keterangan_video"></textarea>
+                  <label for="keterangan_popup">Keterangan</label>
+                  <textarea class="form-control" id="keterangan_popup" name="keterangan_popup"></textarea>
                 </div>
                 <div class="form-group">
                   <label for="gambar_popup">Gambar</label>
                   <input type="file" id="gambar_popup" name="gambar_popup" onchange="previewImage();">
                   <img id="image-preview" alt="image preview"/>
                 </div>
-                <div class="form-group">
-                  <label for="link_video">Link Video</label>
-                  <input type="text" class="form-control" id="link_video" name="link_video" placeholder="https://www.youtube.com/watch?v=kt3xOU40-6c">
-                </div>
               </div>
               <!-- /.box-body -->
-
               <div class="box-footer">
                 <button type="submit" id="btn_simpan" class="btn btn-primary">Submit</button>
               </div>
@@ -91,7 +84,6 @@
       <div class="box">
         <div class="box-header with-border">
           <h3 class="box-title">Manage Video</h3>
-
           <div class="box-tools pull-right">
             <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip"
             title="Collapse">
@@ -109,12 +101,11 @@
                   <th>Judul</th>
                   <th>Keterangan</th>
                   <th>Gambar</th>
-                  <th>Video</th>
                   <th>Status</th>
                   <th style="text-align: right;">Actions</th>
                 </tr>
               </thead>
-              <tbody id="video_list">
+              <tbody id="popup_list">
 
               </tbody>
             </table>
@@ -192,7 +183,7 @@
     function show_video(){
       $.ajax({
         type  : 'ajax',
-        url   : "<?php echo base_url('admin/video_list')?>",
+        url   : "<?php echo base_url('admin/popup_list')?>",
         async : false,
         dataType : 'json',
         success : function(data){
@@ -201,34 +192,33 @@
           for(i=0; i<data.length; i++){
             no = i+1;
             if (data[i].status == '1') {
-              var status_video = "aktif";
+              var status_popup = "aktif";
             }else{
-              var status_video = "tidak aktif";
+              var status_popup = "tidak aktif";
             }
             html += '<tr>'+
             '<td>'+ no++ +'</td>'+
             '<td>'+data[i].judul.substr(0, 50)+'</td>'+
             '<td>'+data[i].keterangan.substr(0, 50)+'</td>'+
-            '<td> <img src="<?php echo base_url('assets/web_video/thumb/')?>'+data[i].gambar+'"></td>'+
-            '<td> <iframe height="85" src="'+data[i].link_video.replace("watch?v=","embed/")+'" frameborder="0" allowfullscreen></iframe></td>'+
-            '<td>'+ status_video +'</td>'+
+            '<td> <img src="<?php echo base_url('assets/web_popup/thumb/')?>'+data[i].gambar+'"></td>'+
+            '<td>'+ status_popup +'</td>'+
             '<td style="text-align:right;">'+
             '<a href="javascript:void(0);" class="btn btn-danger btn-sm video_delete" video_hapus_id="'+data[i].id+'" video_judul="'+data[i].judul+'"    >Delete</a>'+
             '<a href="javascript:void(0);" class="btn btn-success btn-sm video_aktivasi" video_aktif_id="'+data[i].id+'" video_judul="'+data[i].judul+'"    >Aktifkan</a>'+
             '</td>'+
             '</tr>';
           }
-          $('#video_list').html(html);
+          $('#popup_list').html(html);
         }
 
       });
     }
 
-    $('#submitvideo').submit(function(e){
+    $('#submitpopup').submit(function(e){
       e.preventDefault();
 
       $.ajax({
-       url:"<?php echo site_url('admin/tambah_video')?>",
+       url:"<?php echo site_url('admin/tambah_popup')?>",
        type:"post",
        data:new FormData(this),
        processData:false,
@@ -252,7 +242,7 @@
       $("form").trigger("reset");
     },
     error:function(data) {
-     swal ( "Gagal" ,  "Foto Slider Gagal Ditambahkan!" ,  "error", {
+     swal ( "Gagal" ,  "Foto Popup Gagal Ditambahkan!" ,  "error", {
       buttons: false,
       timer: 1000,
     } );
@@ -262,7 +252,7 @@
  });
     });
 
-    $('#video_list').on('click','.video_delete',function(){
+    $('#popup_list').on('click','.video_delete',function(){
       var id=$(this).attr('video_hapus_id');
       var nama=$(this).attr('video_judul');
 
@@ -290,7 +280,7 @@
           });
       return false;
     });
-    $('#video_list').on('click','.video_aktivasi',function(){
+    $('#popup_list').on('click','.video_aktivasi',function(){
       var id=$(this).attr('video_aktif_id');
       var nama=$(this).attr('video_judul');
 
