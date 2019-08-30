@@ -2,12 +2,24 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Admin extends CI_Controller {
+	var $data;
 	function __construct() {
 		parent::__construct();
+		$id_admin = $this->session->userdata('id_admin_login');
+		$this->db->where('id', $id_admin);
+		$query = $this->db->get('admin');
+		$row = $query->row_array();
+		$this->data = array(
+			'nama_admin' => $row['nama'],
+			'nama_web' => 'Erigrafika',
+			'robots' => 'noindex,nofollow'
+		);
 		$this->load->model('mdl_login');
 		date_default_timezone_set('Asia/Jakarta');
 	}
 	public function index(){
+
+		$data = $this->data;
 		$this->_make_sure_is_admin();
 		$web_info = $this->web_info();
 		$this->load->model('Mdl_pengunjung');
@@ -46,6 +58,7 @@ class Admin extends CI_Controller {
 		$this->load->view('admin/dashboard', $data);
 	}
 	public function popup(){
+		$data = $this->data;
 		$this->_make_sure_is_admin();
 		$data['title'] = "Popup";
 		$this->load->view('admin/popup', $data);
@@ -115,6 +128,7 @@ class Admin extends CI_Controller {
 		echo json_encode($query);
 	}
 	public function about_us(){
+		$data = $this->data;
 		$this->_make_sure_is_admin();
 		$data['title'] = "About Us";
 		$data['sosmed'] = $this->db->get('sosmed');
@@ -173,17 +187,20 @@ function tambah_sosmed(){
 }
 }
 public function contact(){
+	$data = $this->data;
 	$this->_make_sure_is_admin();
 	$data['title'] = "Contact";
 	$this->load->view('admin/contact', $data);
 }
 function contact_list(){
+	$data = $this->data;
 	$this->_make_sure_is_admin();
 	$this->load->model('Mdl_footer');
 	$data = $this->Mdl_footer->list_contact()->result();
 	echo json_encode($data);
 }
 function tambah_contact(){
+	$data = $this->data;
 	$this->_make_sure_is_admin();
 	$this->form_validation->set_rules('telepon', 'Telepon', 'required|max_length[20]');
 	$this->form_validation->set_rules('email', 'Email', 'required');
@@ -212,16 +229,19 @@ function tambah_contact(){
 }
 }
 public function rating(){
+	$data = $this->data;
 	$this->_make_sure_is_admin();
 	$data['title'] = "Rating";
 	$this->load->view('admin/rating', $data);
 }
 public function blog(){
+	$data = $this->data;
 	$this->_make_sure_is_admin();
 	$data['title'] = "Blog";
 	$this->load->view('admin/blog', $data);
 }
 public function team(){
+	$data = $this->data;
 	$this->_make_sure_is_admin();
 	$data['title'] = "Blog";
 	$this->load->view('admin/blog', $data);
@@ -242,28 +262,33 @@ public function backup_database(){
 	return 0;
 }
 public function layanan(){
+	$data = $this->data;
 	$this->_make_sure_is_admin();
 
 	$data['title'] = "Layanan";
 	$this->load->view('admin/layanan', $data);
 }
 public function slider(){
+	$data = $this->data;
 	$this->_make_sure_is_admin();
 
 	$data['title'] = "Slider";
 	$this->load->view('admin/slider', $data);
 }
 public function keunggulan(){
+	$data = $this->data;
 	$this->_make_sure_is_admin();
 	$data['title'] = "Keunggulan";
 	$this->load->view('admin/keunggulan', $data);
 }
 public function portofolio(){
+	$data = $this->data;
 	$this->_make_sure_is_admin();
 	$data['title'] = "Portofolio";
 	$this->load->view('admin/portofolio', $data);
 }
 function tambah_portofolio(){
+	$data = $this->data;
 	$this->_make_sure_is_admin();
 	$this->form_validation->set_rules('nama_perusahaan_portofolio', 'Nama', 'required');
 	$this->form_validation->set_rules('layanan_portofolio', 'Layanan', 'required');
@@ -358,6 +383,7 @@ function keunggulan_list(){
 	echo json_encode($query);
 }
 function tambah_keunggulan(){
+	$data = $this->data;
 	$this->_make_sure_is_admin();
 	$adm = $this->_admin_data();
 	$id_admin = $adm['id_admin'];
@@ -422,6 +448,7 @@ function layanan_list(){
 	echo json_encode($query);
 }
 function tambah_layanan(){
+	$data = $this->data;
 	$this->_make_sure_is_admin();
 	$adm = $this->_admin_data();
 	$id_admin = $adm['id_admin'];
@@ -484,6 +511,7 @@ function tambah_layanan(){
 	echo json_encode($query);
 }
 function tambah_slider(){
+	$data = $this->data;
 	$this->_make_sure_is_admin();
 	$adm = $this->_admin_data();
 	$id_admin = $adm['id_admin'];
@@ -582,6 +610,7 @@ function slider_list(){
 
 }
 public function video(){
+	$data = $this->data;
 	$this->_make_sure_is_admin();
 	$admin_data = $this->admin_info();
 	$data['title'] = "Video";
@@ -696,9 +725,11 @@ function aktivasi_video(){
 }
 
 public function profile(){
+	$data = $this->data;
 	$this->_make_sure_is_admin();
 }
 function _admin_data(){
+	$data = $this->data;
 	$this->_make_sure_is_admin();
 	$admin_data = $this->admin_info();
 	foreach ($admin_data->result() as $value) {
@@ -718,6 +749,7 @@ function _admin_data(){
 	return $adm;
 }
 function web_info(){
+	$data = $this->data;
 	$this->_make_sure_is_admin();
 	$this->load->model('Mdl_web_profile');
 	$info_web = $this->Mdl_web_profile->info_profile();
@@ -736,6 +768,7 @@ function web_info(){
 	return $info;
 }
 function admin_info(){
+	$data = $this->data;
 	$this->_make_sure_is_admin();
 	$id_admin = $this->session->userdata('id_admin_login');
 	if ($id_admin == null) {
@@ -766,7 +799,7 @@ function _make_sure_is_super_admin(){
 		redirect('login','refresh');
 	}
 }
-function _make_sure_is_admin(){
+public function _make_sure_is_admin(){
 	$is_user = $this->session->userdata('status_login_admin');
 	if ($is_user != "admin_login") {
 		$this->session->sess_destroy();
