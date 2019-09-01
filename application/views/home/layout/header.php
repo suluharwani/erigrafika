@@ -28,7 +28,7 @@
     <title><?=$title?></title>
 
     <!-- Favicon -->
-    <link rel="icon" href="<?=base_url('assets/home-master/')?>img/core-img/favicon.ico">
+    <link rel="icon" href="<?=base_url('assets/icon/')?>icon.png">
 
     <!-- Core Stylesheet -->
     <link rel="stylesheet" href="<?=base_url('assets/home-master/')?>style.css">

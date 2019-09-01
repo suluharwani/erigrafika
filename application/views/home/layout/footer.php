@@ -227,8 +227,9 @@ function popup(){
     async : false,
     dataType : 'json',
     success : function(data){
+      var base_url = "<?=base_url()?>";
       Swal.fire({
-        imageUrl: 'https://placeholder.pics/svg/500',
+        imageUrl: base_url+"assets/web_popup/fix/"+data[0].gambar,
         title: data[0].judul,
         animation: false,
         showCloseButton: true,
