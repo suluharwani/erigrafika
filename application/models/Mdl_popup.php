@@ -23,6 +23,11 @@ class Mdl_popup extends CI_Model {
     $query = $this->db->update('popup', $object);
     return $query;
   }
+  function hapus_popup($id){
+    $this->db->where('id', $id);
+    $query = $this->db->delete('popup');
+    return $query;
+  }
 
 }
 /* End of file ${TM_FILENAME:mdl_popup.php} */

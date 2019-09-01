@@ -124,24 +124,24 @@
   </div>
   <!-- /.content-wrapper -->
   <!--MODAL HAPUS-->
-  <div class="modal fade" id="ModalHapusVideo" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal fade" id="ModalHapusPopup" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
           <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">X</span></button> -->
-          <h4 class="modal-title" id="myModalLabel">Hapus Video</h4>
+          <h4 class="modal-title" id="myModalLabel">Hapus Popup</h4>
         </div>
         <form class="form-horizontal">
           <div class="modal-body">
 
-            <input type="hidden" name="kode" id="id_video_hapus" value="">
-            <div class="alert alert-warning"><p>Apakah Anda yakin mau menghapus <u> <span id="nama_video_hapus"></span></u>?</p>
+            <input type="hidden" name="kode" id="id_popup" value="">
+            <div class="alert alert-warning"><p>Apakah Anda yakin mau menghapus <u> <span id="nama_popup"></span></u>?</p>
             </div>
 
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">Tutup</button>
-            <button class="btn_hapus btn btn-danger" id="btn_hapus_video">Hapus</button>
+            <button class="btn_hapus btn btn-danger" id="btn_hapus_popup">Hapus</button>
           </div>
         </form>
       </div>
@@ -287,27 +287,27 @@
  });
     });
 
-    $('#popup_list').on('click','.video_delete',function(){
-      var id=$(this).attr('video_hapus_id');
-      var nama=$(this).attr('video_judul');
+    $('#popup_list').on('click','.popup_delete',function(){
+      var id=$(this).attr('popup_id');
+      var nama=$(this).attr('nama_popup');
 
-      $('#id_video_hapus').val(id);
-      $('#nama_video_hapus').html(nama);
-      $('#ModalHapusVideo').modal('show');
+      $('#id_popup').val(id);
+      $('#nama_popup').html(nama);
+      $('#ModalHapusPopup').modal('show');
 
     });
-    $('#btn_hapus_video').on('click',function(){
-      var id_video = $('#id_video_hapus').val();
+    $('#btn_hapus_popup').on('click',function(){
+      var id_popup = $('#id_popup').val();
       $.ajax({
         type : "POST",
-        url  : "<?php echo site_url('admin/hapus_video')?>",
+        url  : "<?php echo site_url('admin/hapus_popup')?>",
         dataType : "JSON",
-        data : {id_video:id_video},
+        data : {id_popup:id_popup},
         success: function(data){
               // $('[name="kode"]').val("");
-              $('#ModalHapusVideo').modal('hide');
-              show_video();
-              swal ( "Sukses" ,  "Video Berhasil Dihapus!" ,  "success", {
+              $('#ModalHapusPopup').modal('hide');
+              show_popup();
+              swal ( "Sukses" ,  "Popup Berhasil Dihapus!" ,  "success", {
                 buttons: false,
                 timer: 1000,
               } );

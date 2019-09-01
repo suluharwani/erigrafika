@@ -78,6 +78,13 @@ class Admin extends CI_Controller {
 		$query = $this->Mdl_popup->disable_selected_popup($id_popup);
 		echo json_encode($query);
 	}
+	function hapus_popup(){
+		$this->_make_sure_is_admin();
+		$this->load->model('Mdl_popup');
+		$id_popup = $this->input->post("id_popup");
+		$query = $this->Mdl_popup->hapus_popup($id_popup);
+		echo json_encode($query);
+	}
 	function popup_list(){
 		$this->load->model('Mdl_popup');
 		$this->load->model('Mdl_popup');
