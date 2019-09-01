@@ -63,7 +63,23 @@ class Admin extends CI_Controller {
 		$data['title'] = "Popup";
 		$this->load->view('admin/popup', $data);
 	}
+	function aktivasi_popup(){
+		$this->_make_sure_is_admin();
+		$id_popup = $this->input->post("id_popup");
+		$this->load->model('Mdl_popup');
+		$this->Mdl_popup->disable_popup();
+		$query = $this->Mdl_popup->enable_popup($id_popup);
+		echo json_encode($query);
+	}
+	function nonatifkan_popup(){
+		$this->_make_sure_is_admin();
+		$this->load->model('Mdl_popup');
+		$id_popup = $this->input->post("id_popup");
+		$query = $this->Mdl_popup->disable_selected_popup($id_popup);
+		echo json_encode($query);
+	}
 	function popup_list(){
+		$this->load->model('Mdl_popup');
 		$this->load->model('Mdl_popup');
 		$list = $this->Mdl_popup->popup_list()->result();
 		echo json_encode($list);

@@ -83,7 +83,7 @@
       <!-- Default box -->
       <div class="box">
         <div class="box-header with-border">
-          <h3 class="box-title">Manage Video</h3>
+          <h3 class="box-title">Manage Popup</h3>
           <div class="box-tools pull-right">
             <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip"
             title="Collapse">
@@ -148,30 +148,54 @@
     </div>
   </div>
   <!--END MODAL HAPUS-->
-   <!--MODAL HAPUS-->
-  <div class="modal fade" id="ModalAktivasiVideo" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+   <!--MODAL popup-->
+  <div class="modal fade" id="ModalAktivasiPopup" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
           <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">X</span></button> -->
-          <h4 class="modal-title" id="myModalLabel">Aktifkan Video</h4>
+          <h4 class="modal-title" id="myModalLabel">Aktifkan Popup</h4>
         </div>
         <form class="form-horizontal">
           <div class="modal-body">
 
-            <input type="hidden" name="kode" id="id_video_aktivasi" value="">
-            <div class="alert alert-warning"><p>Apakah Anda akan mengaktifkan <u> <span id="nama_video_aktivasi"></span></u>?</p>
+            <input type="hidden" name="kode" id="id_popup" value="">
+            <div class="alert alert-warning"><p>Apakah Anda akan mengaktifkan <u> <span id="nama_popup"></span></u>?</p>
             </div>
 
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">Tutup</button>
-            <button class="btn_aktivasi btn btn-success" id="btn_aktivasi_video">Aktifkan</button>
+            <button class="btn_aktivasi btn btn-success" id="btn_aktivasi_popup">Aktifkan</button>
           </div>
         </form>
       </div>
     </div>
   </div>
+  <!--MODAL popup-->
+ <div class="modal fade" id="ModalDisablePopup" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+   <div class="modal-dialog" role="document">
+     <div class="modal-content">
+       <div class="modal-header">
+         <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">X</span></button> -->
+         <h4 class="modal-title" id="myModalLabel">Disable Popup</h4>
+       </div>
+       <form class="form-horizontal">
+         <div class="modal-body">
+
+           <input type="hidden" name="kode" id="id_popup" value="">
+           <div class="alert alert-warning"><p>Apakah Anda akan menghentikan <u> <span id="nama_popup"></span></u>?</p>
+           </div>
+
+         </div>
+         <div class="modal-footer">
+           <button type="button" class="btn btn-default" data-dismiss="modal">Tutup</button>
+           <button class="btn_aktivasi btn btn-warning" id="btn_disable_popup">Hentikan Popup</button>
+         </div>
+       </form>
+     </div>
+   </div>
+ </div>
   <!--END MODAL HAPUS-->
 
   <script type="text/javascript">
@@ -179,8 +203,8 @@
       $('#mydata').DataTable();
 
     } );
-    show_video();
-    function show_video(){
+    show_popup();
+    function show_popup(){
       $.ajax({
         type  : 'ajax',
         url   : "<?php echo base_url('admin/popup_list')?>",
@@ -193,20 +217,31 @@
             no = i+1;
             if (data[i].status == '1') {
               var status_popup = "aktif";
+              html += '<tr>'+
+              '<td>'+ no++ +'</td>'+
+              '<td>'+data[i].judul.substr(0, 50)+'</td>'+
+              '<td>'+data[i].keterangan.substr(0, 50)+'</td>'+
+              '<td> <img src="<?php echo base_url('assets/web_popup/thumb/')?>'+data[i].gambar+'"></td>'+
+              '<td>'+ status_popup +'</td>'+
+              '<td style="text-align:right;">'+
+              '<a href="javascript:void(0);" class="btn btn-warning btn-sm popup_aktivasi_disable" popup_id="'+data[i].id+'" nama_popup="'+data[i].judul+'"    >Disable</a>'+
+              '</td>'+
+              '</tr>';
             }else{
               var status_popup = "tidak aktif";
+              html += '<tr>'+
+              '<td>'+ no++ +'</td>'+
+              '<td>'+data[i].judul.substr(0, 50)+'</td>'+
+              '<td>'+data[i].keterangan.substr(0, 50)+'</td>'+
+              '<td> <img src="<?php echo base_url('assets/web_popup/thumb/')?>'+data[i].gambar+'"></td>'+
+              '<td>'+ status_popup +'</td>'+
+              '<td style="text-align:right;">'+
+              '<a href="javascript:void(0);" class="btn btn-danger btn-sm popup_delete" popup_id="'+data[i].id+'" nama_popup="'+data[i].judul+'"    >Delete</a>'+
+              '<a href="javascript:void(0);" class="btn btn-success btn-sm popup_aktivasi" popup_id="'+data[i].id+'" nama_popup="'+data[i].judul+'"    >Aktifkan</a>'+
+              '</td>'+
+              '</tr>';
             }
-            html += '<tr>'+
-            '<td>'+ no++ +'</td>'+
-            '<td>'+data[i].judul.substr(0, 50)+'</td>'+
-            '<td>'+data[i].keterangan.substr(0, 50)+'</td>'+
-            '<td> <img src="<?php echo base_url('assets/web_popup/thumb/')?>'+data[i].gambar+'"></td>'+
-            '<td>'+ status_popup +'</td>'+
-            '<td style="text-align:right;">'+
-            '<a href="javascript:void(0);" class="btn btn-danger btn-sm video_delete" video_hapus_id="'+data[i].id+'" video_judul="'+data[i].judul+'"    >Delete</a>'+
-            '<a href="javascript:void(0);" class="btn btn-success btn-sm video_aktivasi" video_aktif_id="'+data[i].id+'" video_judul="'+data[i].judul+'"    >Aktifkan</a>'+
-            '</td>'+
-            '</tr>';
+
           }
           $('#popup_list').html(html);
         }
@@ -280,26 +315,53 @@
           });
       return false;
     });
-    $('#popup_list').on('click','.video_aktivasi',function(){
-      var id=$(this).attr('video_aktif_id');
-      var nama=$(this).attr('video_judul');
+    $('#popup_list').on('click','.popup_aktivasi',function(){
+      var id=$(this).attr('popup_id');
+      var nama=$(this).attr('nama_popup');
 
-      $('#id_video_aktivasi').val(id);
-      $('#nama_video_aktivasi').html(nama);
-      $('#ModalAktivasiVideo').modal('show');
+      $('#id_popup').val(id);
+      $('#nama_popup').html(nama);
+      $('#ModalAktivasiPopup').modal('show');
     });
-    $('#btn_aktivasi_video').on('click',function(){
-      var id_video = $('#id_video_aktivasi').val();
+    $('#popup_list').on('click','.popup_aktivasi_disable',function(){
+      var id=$(this).attr('popup_id');
+      var nama=$(this).attr('nama_popup');
+
+      $('#id_popup').val(id);
+      $('#nama_popup').html(nama);
+      $('#ModalDisablePopup').modal('show');
+    });
+    $('#btn_aktivasi_popup').on('click',function(){
+      var id_popup = $('#id_popup').val();
       $.ajax({
         type : "POST",
-        url  : "<?php echo site_url('admin/aktivasi_video')?>",
+        url  : "<?php echo site_url('admin/aktivasi_popup')?>",
         dataType : "JSON",
-        data : {id_video:id_video},
+        data : {id_popup:id_popup},
         success: function(data){
               // $('[name="kode"]').val("");
-              $('#ModalAktivasiVideo').modal('hide');
-              show_video();
-              swal ( "Sukses" ,  "Video Berhasil Diaktifkan!" ,  "success", {
+              $('#ModalAktivasiPopup').modal('hide');
+              show_popup();
+              swal ( "Sukses" ,  "Popup Berhasil Diaktifkan!" ,  "success", {
+                buttons: false,
+                timer: 1000,
+              } );
+            }
+          });
+      return false;
+    });
+    $('#btn_disable_popup').on('click',function(){
+      var id_popup = $('#id_popup').val();
+      $.ajax({
+        type : "POST",
+        url  : "<?php echo site_url('admin/nonatifkan_popup')?>",
+        dataType : "JSON",
+        data : {id_popup:id_popup},
+        success: function(data){
+              // $('[name="kode"]').val("");
+              $('#ModalDisablePopup').modal('hide');
+              show_popup();
+              swal ( "Sukses" ,  "Popup disabled!" ,  "success", {
                 buttons: false,
                 timer: 1000,
               } );
