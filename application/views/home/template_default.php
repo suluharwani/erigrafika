@@ -1,5 +1,5 @@
 <?php
 $this->load->view('home/layout/header');
 echo $content;
-$this->load->view('home/layout/footer');
+$this->load->view('home/layout/footer_default');
 ?>

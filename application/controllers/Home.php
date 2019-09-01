@@ -64,6 +64,55 @@ class Home extends CI_Controller {
 		$data['content'] = $this->load->view("$this->view_home/home", $data, TRUE);
 		$this->load->view('home/template', $data);
 	}
+	function portofolio(){
+		$data['title'] = "Eri Grafika";
+		$data['nama'] = "Eri Grafika";
+		$ip = $this->input->ip_address();
+		$this->load->model('Mdl_pengunjung');
+		$this->load->model('Mdl_post');
+		$this->load->model('Mdl_footer');
+		$jumlah_pengunjung = $this->Mdl_pengunjung->pengunjung_sama()->num_rows();
+		if ($jumlah_pengunjung<1) {
+			$object = array(
+				'ip_address' => $ip,
+				'tanggal'=>date("Y/m/d")
+			);
+			$this->db->insert('pengunjung', $object);
+		}
+		//kunjungan web
+		$data['title'] = "Eri Grafika";
+		$data['nama'] = "Eri Grafika";
+		$data['slider'] = $this->db->get('web_slider');
+		$data['layanan'] = $this->db->get('web_layanan');
+		$data['keunggulan'] = $this->db->get('web_keunggulan');
+		$data['review'] = $this->db->get('penilaian');
+		$data['blog'] = $this->Mdl_post->post_home();
+		$data['video'] = $this->db->get_where('web_video', array('status'=>1));
+		$data['portofolio'] = $this->db->get('web_portofolio', 10);
+		$data['sosmed'] = $this->Mdl_footer->web_sosmed();
+		$about_us_data = $this->Mdl_footer->about_us()->row();
+		$data['about_us'] = $about_us_data->isi;
+		//contact
+		$contact_data = $this->Mdl_footer->contact()->row();
+		if ($contact_data) {
+			$data['telepon'] = $contact_data->telepon;
+			$data['email'] = $contact_data->email;
+			$data['alamat'] = $contact_data->alamat;
+			$data['buka'] = $contact_data->buka;
+			$data['tutup'] = $contact_data->tutup;
+		}else{
+			$data['telepon'] = "";
+			$data['email'] = "";
+			$data['alamat'] = "";
+			$data['buka'] = "";
+			$data['tutup'] = "";
+		}
+		$logo = $this->_logo();
+		$data['logo'] = $logo['logo'];
+		$data['title_logo'] = $logo['title_logo'];
+		$data['content'] = $this->load->view("$this->view_home/portofolio", $data, TRUE);
+		$this->load->view('home/template_default', $data);
+	}
 	function popup(){
 		$this->db->where('status', 1);
 		$query = $this->db->get('popup');
