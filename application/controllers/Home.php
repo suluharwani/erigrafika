@@ -82,13 +82,13 @@ class Home extends CI_Controller {
 		//kunjungan web
 		$data['title'] = "Eri Grafika";
 		$data['nama'] = "Eri Grafika";
-		$data['slider'] = $this->db->get('web_slider');
-		$data['layanan'] = $this->db->get('web_layanan');
-		$data['keunggulan'] = $this->db->get('web_keunggulan');
+		// $data['slider'] = $this->db->get('web_slider');
+		// $data['layanan'] = $this->db->get('web_layanan');
+		// $data['keunggulan'] = $this->db->get('web_keunggulan');
 		$data['review'] = $this->db->get('penilaian');
-		$data['blog'] = $this->Mdl_post->post_home();
-		$data['video'] = $this->db->get_where('web_video', array('status'=>1));
-		$data['portofolio'] = $this->db->get('web_portofolio', 10);
+		// $data['blog'] = $this->Mdl_post->post_home();
+		// $data['video'] = $this->db->get_where('web_video', array('status'=>1));
+		// $data['portofolio'] = $this->db->get('web_portofolio', 10);
 		$data['sosmed'] = $this->Mdl_footer->web_sosmed();
 		$about_us_data = $this->Mdl_footer->about_us()->row();
 		$data['about_us'] = $about_us_data->isi;
@@ -107,6 +107,11 @@ class Home extends CI_Controller {
 			$data['buka'] = "";
 			$data['tutup'] = "";
 		}
+		//data Portofolio
+		$this->load->model('Mdl_portofolio');
+		$data['portofolio_full'] = $this->Mdl_portofolio->portofolio_full();
+		$data['kategori_portofolio_list'] = $this->Mdl_portofolio->cat_portofolio_listed();
+		//data portofolio
 		$logo = $this->_logo();
 		$data['logo'] = $logo['logo'];
 		$data['title_logo'] = $logo['title_logo'];
