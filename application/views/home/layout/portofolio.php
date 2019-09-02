@@ -9,7 +9,7 @@
           <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
               <li class="breadcrumb-item"><a href="#"><i class="fa fa-home"></i> Home</a></li>
-              <li class="breadcrumb-item active" aria-current="page">Portfolio</li>
+              <li class="breadcrumb-item active" aria-current="page">Portofolio</li>
             </ol>
           </nav>
         </div>
@@ -29,7 +29,7 @@
 
   <!-- Portfolio Menu -->
   <div class="portfolio-menu text-center mb-80">
-    <button class="btn active" data-filter="*">All Portfolio</button>
+    <button class="btn active" data-filter="*">All Portofolio</button>
     <?php
     foreach ($kategori_portofolio_list->result() as $port_cat) {?>
       <button class="btn" data-filter=".<?=str_replace(' ', '-', $port_cat->nama);?>"><?=$port_cat->nama?></button>
@@ -53,11 +53,11 @@
             <!-- Overlay Effect -->
             <div class="overlay-effect">
               <h4><?=$port_value->kategori?></h4>
-              <p><?=$port_value->keterangan?></p>
+              <p><?=word_limiter($port_value->keterangan, 15)?></p>
             </div>
             <!-- View More -->
             <div class="view-more-btn">
-              <a href="#"><i class="arrow_right"></i></a>
+              <a href="<?=base_url('home/portofolio/').$port_value->url?>"><i class="arrow_right"></i></a>
             </div>
           </div>
         </div>

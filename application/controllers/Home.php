@@ -115,7 +115,12 @@ class Home extends CI_Controller {
 		$logo = $this->_logo();
 		$data['logo'] = $logo['logo'];
 		$data['title_logo'] = $logo['title_logo'];
-		$data['content'] = $this->load->view("$this->view_home/portofolio", $data, TRUE);
+		if (!empty($this->uri->segment(3))) {
+			$data['content'] = $this->load->view("$this->view_home/portofolio_det", $data, TRUE);
+		}else{
+			$data['content'] = $this->load->view("$this->view_home/portofolio", $data, TRUE);
+
+		}
 		$this->load->view('home/template_default', $data);
 	}
 	function popup(){
