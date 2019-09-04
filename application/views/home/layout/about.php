@@ -135,7 +135,7 @@
     <!-- ***** Why Choose Us Area End ***** -->
 
     <!-- ***** Team Member Area Start ***** -->
-    <section class="uza-portfolio-area section-padding-80">
+    <section class="uza-Portfolio-area section-padding-80">
         <div class="container">
             <div class="row">
                 <!-- Section Heading -->

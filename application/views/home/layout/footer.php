@@ -163,7 +163,7 @@
   <script src="<?=base_url('assets/home-master/')?>js/uza.bundle.js"></script>
   <!-- Active js -->
   <script src="<?=base_url('assets/home-master/')?>js/default-assets/active.js"></script>
-  <script src="<?=base_url('assets/admin/js/')?>sweetalert.js"></script>
+  <!-- <script src="<?=base_url('assets/admin/js/')?>sweetalert.js"></script> -->
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
 </body>
 
@@ -264,7 +264,7 @@ $('#submitpenilaian').submit(function(e){
     },
     success: function(data){
       list_review();
-      swal ( "Sukses" ,  "Penilaian Berhasil Ditambahkan!" ,  "success", {
+      Swal.fire( "Sukses" ,  "Penilaian Berhasil Ditambahkan!" ,  "success", {
         buttons: false,
         timer: 1000,
       } );
@@ -272,7 +272,7 @@ $('#submitpenilaian').submit(function(e){
       $('#Modal_Rating').modal('hide');
     },
     error:function(data) {
-      swal ( "Gagal" ,  "Penilaian Gagal Ditambahkan, maximal 3 review dari perangkat anda!" ,  "error", {
+      Swal.fire( "Gagal" ,  "Penilaian Gagal Ditambahkan, maximal 3 review dari perangkat anda!" ,  "error", {
         buttons: false,
         timer: 7000,
       } );

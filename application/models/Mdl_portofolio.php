@@ -30,6 +30,15 @@ class Mdl_portofolio extends CI_Model {
 		$query = $this->db->get();
 		return $query;
 	}
+	function portofolio_uri($uri){
+		$this->db->select('portofolio_kategori.nama as kategori,web_portofolio.nama as nama,web_portofolio.gambar as gambar, web_portofolio.url as url, web_portofolio.keterangan as keterangan, web_portofolio.tanggal as tanggal, admin.nama as nama_admin ');
+		$this->db->from('web_portofolio');
+		$this->db->where('url', $uri);
+		$this->db->join('portofolio_kategori', 'web_portofolio.id_portofolio = portofolio_kategori.id', 'left');
+		$this->db->join('admin', 'web_portofolio.id_admin = admin.id', 'left');
+		$query = $this->db->get();
+		return $query;
+	}
 
 }
 

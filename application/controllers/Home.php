@@ -65,8 +65,6 @@ class Home extends CI_Controller {
 		$this->load->view('home/template', $data);
 	}
 	function portofolio(){
-		$data['title'] = "Eri Grafika";
-		$data['nama'] = "Eri Grafika";
 		$ip = $this->input->ip_address();
 		$this->load->model('Mdl_pengunjung');
 		$this->load->model('Mdl_post');
@@ -115,11 +113,23 @@ class Home extends CI_Controller {
 		$logo = $this->_logo();
 		$data['logo'] = $logo['logo'];
 		$data['title_logo'] = $logo['title_logo'];
-		if (!empty($this->uri->segment(3))) {
+		$uri = $this->uri->segment(3);
+			$data_portofolio = $this->Mdl_portofolio->portofolio_uri($uri);
+		if (!empty($uri)&&!empty($data_portofolio->result())) {
+			if (empty($data_portofolio)) {
+				redirect('home/portofolio','refresh');
+			}
+			foreach ($data_portofolio->result() as $val) {
+				$data['port_nama_admin'] = $val->nama_admin;
+				$data['port_nama_portofolio'] = $val->nama;
+				$data['port_gambar'] = $val->gambar;
+				$data['port_tanggal'] = $val->tanggal;
+				$data['port_kategori'] = $val->kategori;
+				$data['port_keterangan'] = $val->keterangan;
+			}
 			$data['content'] = $this->load->view("$this->view_home/portofolio_det", $data, TRUE);
 		}else{
 			$data['content'] = $this->load->view("$this->view_home/portofolio", $data, TRUE);
-
 		}
 		$this->load->view('home/template_default', $data);
 	}
@@ -135,6 +145,46 @@ class Home extends CI_Controller {
 		}
 	}
 	public function about(){
+		$ip = $this->input->ip_address();
+		$this->load->model('Mdl_pengunjung');
+		$this->load->model('Mdl_post');
+		$this->load->model('Mdl_footer');
+		$jumlah_pengunjung = $this->Mdl_pengunjung->pengunjung_sama()->num_rows();
+		if ($jumlah_pengunjung<1) {
+			$object = array(
+				'ip_address' => $ip,
+				'tanggal'=>date("Y/m/d")
+			);
+			$this->db->insert('pengunjung', $object);
+		}
+		//kunjungan web
+		$data['title'] = "Eri Grafika";
+		$data['nama'] = "Eri Grafika";
+		// $data['slider'] = $this->db->get('web_slider');
+		// $data['layanan'] = $this->db->get('web_layanan');
+		// $data['keunggulan'] = $this->db->get('web_keunggulan');
+		$data['review'] = $this->db->get('penilaian');
+		// $data['blog'] = $this->Mdl_post->post_home();
+		// $data['video'] = $this->db->get_where('web_video', array('status'=>1));
+		// $data['portofolio'] = $this->db->get('web_portofolio', 10);
+		$data['sosmed'] = $this->Mdl_footer->web_sosmed();
+		$about_us_data = $this->Mdl_footer->about_us()->row();
+		$data['about_us'] = $about_us_data->isi;
+		//contact
+		$contact_data = $this->Mdl_footer->contact()->row();
+		if ($contact_data) {
+			$data['telepon'] = $contact_data->telepon;
+			$data['email'] = $contact_data->email;
+			$data['alamat'] = $contact_data->alamat;
+			$data['buka'] = $contact_data->buka;
+			$data['tutup'] = $contact_data->tutup;
+		}else{
+			$data['telepon'] = "";
+			$data['email'] = "";
+			$data['alamat'] = "";
+			$data['buka'] = "";
+			$data['tutup'] = "";
+		}
 		$logo = $this->_logo();
 		$data['logo'] = $logo['logo'];
 		$data['title_logo'] = $logo['title_logo'];
@@ -209,7 +259,7 @@ class Home extends CI_Controller {
 
 			);
 			$query = $this->db->insert("penilaian", $object_penilaian);
-			echo json_encode($query);
+			echo json_encode($query->result());
 		}else{
 			header('HTTP/1.1 500 Internal Server Booboo');
 			header('Content-Type: application/json; charset=UTF-8');

@@ -174,7 +174,8 @@
                         <!-- Nav Start -->
                         <div class="classynav">
                             <ul id="nav">
-                                <li class="current-item"><a href="<?=base_url()?>">Home</a></li>
+                              <!-- <li class="current-item"><a href="<?=base_url()?>">Home</a></li> -->
+                                <li><a href="<?=base_url()?>">Home</a></li>
                                 <li><a href="<?=base_url('home/portofolio')?>">Portofolio</a></li>
                                 <li><a href="<?=base_url('home/about')?>">About</a></li>
                                 <li><a href="<?=base_url('home/blog')?>">Blog</a></li>
