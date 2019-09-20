@@ -17,7 +17,6 @@ class Admin extends CI_Controller {
 		date_default_timezone_set('Asia/Jakarta');
 	}
 	public function index(){
-
 		$data = $this->data;
 		$this->_make_sure_is_admin();
 		$web_info = $this->web_info();
@@ -55,6 +54,29 @@ class Admin extends CI_Controller {
 		$data['array_statistik_bulan'] = json_encode($bulan);
 		$data['array_statistik_jumlah_ip'] = json_encode($jumlah_pengunjung);
 		$this->load->view('admin/dashboard', $data);
+	}
+	public function alasan_memilih(){
+		$data = $this->data;
+		$this->_make_sure_is_admin();
+		$data['title'] = "Alasan Memilih";
+		$this->load->view('admin/alasan', $data);
+	}
+	function alasan_list(){
+		$this->load->model('Mdl_footer');
+		$list = $this->Mdl_footer->alasan_list();
+		echo json_encode($list->result());
+	}
+	function tambah_alasan(){
+		$alasan = $this->input->post('alasan');
+		$this->db->insert('pilih_kami', array('alasan' =>$alasan));
+		$affected = $this->db->affected_rows();
+		if ($affected>0) {
+			header('HTTP/1.1 200 OK');
+		}else{
+			header('HTTP/1.1 500 Internal Server Error');
+			header('Content-Type: application/json; charset=UTF-8');
+			die(json_encode(array('message' => 'ERROR', 'code' => 1337)));
+		}
 	}
 	public function popup(){
 		$data = $this->data;

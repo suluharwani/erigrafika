@@ -24,4 +24,7 @@ class Mdl_footer extends CI_Model {
     $query = $this->db->get('contact', 1);
     return $query;
   }
+  public function alasan_list(){
+    return $this->db->get('pilih_kami');
+  }
 }

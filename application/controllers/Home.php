@@ -173,6 +173,7 @@ class Home extends CI_Controller {
 
 
 		//content
+		$data['alasan_memilih'] = $this->Mdl_footer->alasan_list();
 		if (isset($about_us_data->isi)) {
 			$data['about_us'] = $about_us_data->isi;
 		}else {
