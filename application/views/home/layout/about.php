@@ -28,15 +28,23 @@
   <div class="container">
     <div class="row align-items-center">
       <!-- About Thumbnail -->
-      <div class="col-12 col-lg-6">
-        <div class="about-us-thumbnail mb-80">
-          <img src="./img/bg-img/2.jpg" alt="">
-          <!-- Video Area -->
-          <div class="uza-video-area hi-icon-effect-8">
-            <a href="https://www.youtube.com/watch?v=sSakBz_eYzQ" class="hi-icon video-play-btn"><i class="fa fa-play" aria-hidden="true"></i></a>
+      <?php
+      if ($video->result()) {
+        foreach ($video->result() as $vid) {
+          ?>
+          <div class="col-12 col-lg-6">
+            <div class="about-us-thumbnail mb-80">
+              <img src="<?=base_url("assets/web_video/fix/$vid->gambar")?>" alt="">
+              <!-- Video Area -->
+              <div class="uza-video-area hi-icon-effect-8">
+                <a href="<?=$vid->link_video?>" class="hi-icon video-play-btn"><i class="fa fa-play" aria-hidden="true"></i></a>
+              </div>
+            </div>
           </div>
-        </div>
-      </div>
+          <?php
+        }
+      }
+      ?>
 
       <!-- About Us Content -->
       <div class="col-12 col-lg-6">
@@ -89,7 +97,7 @@
 
   <!-- About Background Pattern -->
   <div class="about-bg-pattern">
-    <img src="./img/core-img/curve-2.png" alt="">
+    <img src="<?=base_url('assets/home-master')?>/img/core-img/curve-2.png" alt="">
   </div>
 </section>
 <!-- ***** About Us Area End ***** -->

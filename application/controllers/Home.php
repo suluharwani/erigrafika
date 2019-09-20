@@ -166,7 +166,7 @@ class Home extends CI_Controller {
 		// $data['keunggulan'] = $this->db->get('web_keunggulan');
 		$data['review'] = $this->db->get('penilaian');
 		// $data['blog'] = $this->Mdl_post->post_home();
-		// $data['video'] = $this->db->get_where('web_video', array('status'=>1));
+		$data['video'] = $this->db->get_where('web_video', array('status'=>1));
 		// $data['portofolio'] = $this->db->get('web_portofolio', 10);
 		$data['sosmed'] = $this->Mdl_footer->web_sosmed();
 		$about_us_data = $this->Mdl_footer->about_us()->row();
