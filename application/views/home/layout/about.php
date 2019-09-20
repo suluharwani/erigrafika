@@ -41,20 +41,20 @@
                 <!-- About Us Content -->
                 <div class="col-12 col-lg-6">
                     <div class="section-heading mb-5">
-                        <h2>Our Mission</h2>
+                        <h2>Tentang Kami</h2>
                     </div>
 
                     <div class="about-us-content mb-80">
                         <div class="about-tab-area">
                             <ul class="nav nav-tabs mb-50" id="mona_modelTab" role="tablist">
                                 <li class="nav-item">
-                                    <a class="nav-link active" id="tab1" data-toggle="tab" href="#tab-1" role="tab" aria-controls="tab-1" aria-selected="true">CREATION</a>
+                                    <a class="nav-link active" id="tab1" data-toggle="tab" href="#tab-1" role="tab" aria-controls="tab-1" aria-selected="true">PERUSAHAAN</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" id="tab2" data-toggle="tab" href="#tab-2" role="tab" aria-controls="tab-2" aria-selected="false"> ANALYSIS</a>
+                                    <a class="nav-link" id="tab2" data-toggle="tab" href="#tab-2" role="tab" aria-controls="tab-2" aria-selected="false">LAYANAN</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" id="tab3" data-toggle="tab" href="#tab-3" role="tab" aria-controls="tab-3" aria-selected="false">STRATEGY</a>
+                                    <a class="nav-link" id="tab3" data-toggle="tab" href="#tab-3" role="tab" aria-controls="tab-3" aria-selected="false">MOTTO</a>
                                 </li>
                             </ul>
                         </div>
@@ -65,27 +65,19 @@
                                 <div class="tab-pane fade show active" id="tab-1" role="tabpanel" aria-labelledby="tab1">
                                     <!-- Tab Content Text -->
                                     <div class="tab-content-text">
-                                        <p>Lorem ipsum dolor sit amet, consetetur sadipscing esed diam nonumy eirmod tempor invidunt ut labore et dolore magna.</p>
-                                        <p>At vero eos et accusam et justo duo dolores et ea rebum. Stet gubergren no sea takimata sanctus est Lorem ipsum dolor sit amet ipsumlor eut consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt labore et dolore magna liquyam erat.</p>
-                                        <a href="#" class="btn uza-btn mt-30">Get In Touch</a>
+                                        <p><?=$about_us_perusahaan?></p>
                                     </div>
                                 </div>
-
                                 <div class="tab-pane fade" id="tab-2" role="tabpanel" aria-labelledby="tab2">
                                     <!-- Tab Content Text -->
                                     <div class="tab-content-text">
-                                        <p>At vero eos et accusam et justo duo dolores et ea rebum. Stet gubergren no sea takimata sanctus est Lorem ipsum dolor sit amet ipsumlor eut consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt labore et dolore magna liquyam erat.</p>
-                                        <p>Lorem ipsum dolor sit amet, consetetur sadipscing esed diam nonumy eirmod tempor invidunt ut labore et dolore magna.</p>
-                                        <a href="#" class="btn uza-btn mt-30">Get In Touch</a>
+                                        <p><?=$about_us_layanan?></p>
                                     </div>
                                 </div>
-
                                 <div class="tab-pane fade" id="tab-3" role="tabpanel" aria-labelledby="tab3">
                                     <!-- Tab Content Text -->
                                     <div class="tab-content-text">
-                                        <p>At vero eos et accusam et justo duo dolores et ea rebum. Stet gubergren no sea takimata. Lorem ipsum dolor sit amet, consetetur sadipscing esed diam nonumy eirmod tempor invidunt ut labore et dolore magna.</p>
-                                        <p>sanctus est Lorem ipsum dolor sit amet ipsumlor eut consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt labore et dolore magna liquyam erat.</p>
-                                        <a href="#" class="btn uza-btn mt-30">Get In Touch</a>
+                                        <p><?=$about_us_motto?></p>
                                     </div>
                                 </div>
                             </div>
@@ -110,8 +102,8 @@
                 <div class="col-12 col-lg-6">
                     <div class="choose-us-content mb-80">
                         <div class="section-heading mb-4">
-                            <h2>Why Choose Us</h2>
-                            <p>We’re Your Partner in Your Success</p>
+                            <h2>Alasan memilih kami</h2>
+                            <p>Kami adalah partner anda menuju success</p>
                         </div>
                         <ul>
                             <li><i class="fa fa-check" aria-hidden="true"></i> Distinctive Experts That Provide Effortless Expertise</li>
@@ -142,7 +134,7 @@
                 <div class="col-12">
                     <div class="section-heading text-center">
                         <h2>Team of Experts</h2>
-                        <p>We stay on top of our industry by being experts in yours.</p>
+                        <p>Kami konsisten pada industri kami dengan menjadi ahli di bidangnya.</p>
                     </div>
                 </div>
             </div>

@@ -1,6 +1,5 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
-
 class Admin extends CI_Controller {
 	var $data;
 	function __construct() {
@@ -157,10 +156,100 @@ class Admin extends CI_Controller {
 		$data['sosmed'] = $this->db->get('sosmed');
 		$this->load->view('admin/about_us', $data);
 	}
+	function tentang_kami_add(){
+
+	}
+	function show_perusahaan(){
+		$query = $this->db->get('about_us', 1)->result_array();
+		echo json_encode($query);
+	}
+	function show_layanan(){
+		$query = $this->db->get('about_us', 1)->result_array();
+		echo json_encode($query);
+	}
+	function show_motto(){
+		$query = $this->db->get('about_us', 1)->result_array();
+		echo json_encode($query);
+	}
 	function show_tentang(){
 		$query = $this->db->get('about_us', 1)->result_array();
 		echo json_encode($query);
 	}
+	function tambah_layanan_about(){
+		$this->form_validation->set_rules('layanan', 'About Us', 'required');
+		if ($this->form_validation->run() == TRUE)
+		{
+			$layanan = $this->input->post('layanan');
+			$object = array('layanan' =>$layanan
+		);
+		$check = $this->db->get('about_us');
+		if ($check->num_rows() >=1) {
+			$this->db->select_max('id');
+			$result= $this->db->get('about_us')->row_array();
+			$id = $result['id'];
+			$this->db->where('id', $id);
+			$query = $this->db->update('about_us', $object);
+		}else{
+			$query = $this->db->insert('about_us',$object);
+		}
+
+		echo json_encode($query);
+	}else{
+		header('HTTP/1.1 500 Internal Server Error');
+		header('Content-Type: application/json; charset=UTF-8');
+		die(json_encode(array('message' => 'ERROR', 'code' => 1337)));
+	}
+}
+function tambah_perusahaan(){
+	$this->form_validation->set_rules('perusahaan', 'About Us', 'required');
+	if ($this->form_validation->run() == TRUE)
+	{
+		$perusahaan = $this->input->post('perusahaan');
+		$object = array('perusahaan' =>$perusahaan
+	);
+	$check = $this->db->get('about_us');
+	if ($check->num_rows() >=1) {
+		$this->db->select_max('id');
+		$result= $this->db->get('about_us')->row_array();
+		$id = $result['id'];
+		$this->db->where('id', $id);
+		$query = $this->db->update('about_us', $object);
+	}else{
+		$query = $this->db->insert('about_us',$object);
+	}
+
+	echo json_encode($query);
+}else{
+	header('HTTP/1.1 500 Internal Server Error');
+	header('Content-Type: application/json; charset=UTF-8');
+	die(json_encode(array('message' => 'ERROR', 'code' => 1337)));
+}
+}
+function tambah_motto(){
+	$this->form_validation->set_rules('motto', 'About Us', 'required');
+	if ($this->form_validation->run() == TRUE)
+	{
+		$motto = $this->input->post('motto');
+		$object = array('motto' =>$motto
+	);
+	$check = $this->db->get('about_us');
+	if ($check->num_rows() >=1) {
+		$this->db->select_max('id');
+		$result= $this->db->get('about_us')->row_array();
+		$id = $result['id'];
+		$this->db->where('id', $id);
+		$query = $this->db->update('about_us', $object);
+	}else{
+		$query = $this->db->insert('about_us',$object);
+	}
+
+	echo json_encode($query);
+}else{
+	header('HTTP/1.1 500 Internal Server Error');
+	header('Content-Type: application/json; charset=UTF-8');
+	die(json_encode(array('message' => 'ERROR', 'code' => 1337)));
+}
+}
 	function tambah_about_us(){
 		$this->form_validation->set_rules('tentang', 'About Us', 'required');
 		if ($this->form_validation->run() == TRUE)

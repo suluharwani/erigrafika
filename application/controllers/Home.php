@@ -157,6 +157,7 @@ class Home extends CI_Controller {
 			);
 			$this->db->insert('pengunjung', $object);
 		}
+
 		//kunjungan web
 		$data['title'] = "Eri Grafika";
 		$data['nama'] = "Eri Grafika";
@@ -169,7 +170,30 @@ class Home extends CI_Controller {
 		// $data['portofolio'] = $this->db->get('web_portofolio', 10);
 		$data['sosmed'] = $this->Mdl_footer->web_sosmed();
 		$about_us_data = $this->Mdl_footer->about_us()->row();
-		$data['about_us'] = $about_us_data->isi;
+
+
+		//content
+		if (isset($about_us_data->isi)) {
+			$data['about_us'] = $about_us_data->isi;
+		}else {
+			$data['about_us'] = "";
+		}
+		if (isset($about_us_data->layanan)) {
+			$data['about_us_layanan'] = $about_us_data->layanan;
+		}else {
+			$data['about_us_layanan'] = "";
+		}
+		if (isset($about_us_data->motto)) {
+			$data['about_us_motto'] = $about_us_data->motto;
+		}else {
+			$data['about_us_motto'] = "";
+		}
+		if (isset($about_us_data->perusahaan)) {
+			$data['about_us_perusahaan'] = $about_us_data->perusahaan;
+		}else {
+			$data['about_us_perusahaan'] = "";
+		}
+		//end conten
 		//contact
 		$contact_data = $this->Mdl_footer->contact()->row();
 		if ($contact_data) {

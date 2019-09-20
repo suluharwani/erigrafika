@@ -14,6 +14,7 @@
 
   <!-- Main content -->
   <section class="content">
+
     <!-- Default box -->
     <div class="box">
       <div class="box-header with-border">
@@ -54,7 +55,84 @@
         </div>
         <!-- /.box-footer-->
       </div>
+    <!-- halaman about us -->
+    <div class="box">
+      <div class="box-header with-border">
+        <h3 class="box-title">Add Tentang Kami></h3>
 
+        <div class="box-tools pull-right">
+          <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip"
+          title="Collapse">
+          <i class="fa fa-minus"></i></button>
+          <button type="button" class="btn btn-box-tool" data-widget="remove" data-toggle="tooltip" title="Remove">
+            <i class="fa fa-times"></i></button>
+          </div>
+        </div>
+        <div class="box-body">
+          <div class="box box-primary">
+            <div class="box-header with-border">
+              <h3 class="box-title">Perusahaan</h3>
+            </div>
+            <!-- /.box-header -->
+            <!-- form start -->
+            <form enctype="multipart/form-data" id="submitperusahaan">
+              <div class="box-body">
+                <div class="form-group">
+                  <label for="tentang">Tentang Web</label>
+                  <textarea name="perusahaan" id="perusahaan" class="form-control perusahaan_view"  rows="8" cols="80"></textarea>
+                </div>
+              </div>
+              <!-- /.box-body -->
+              <div class="box-footer">
+                <button type="submit" id="btn_simpan_perusahaan" class="btn btn-primary">Submit</button>
+              </div>
+            </form>
+          </div>
+          <div class="box box-primary">
+            <div class="box-header with-border">
+              <h3 class="box-title">Layanan</h3>
+            </div>
+            <!-- /.box-header -->
+            <!-- form start -->
+            <form enctype="multipart/form-data" id="submitlayanan">
+              <div class="box-body">
+                <div class="form-group">
+                  <label for="layanan">Tentang Web</label>
+                  <textarea name="layanan" id="layanan" class="form-control layanan_view"  rows="8" cols="80"></textarea>
+                </div>
+              </div>
+              <!-- /.box-body -->
+              <div class="box-footer">
+                <button type="submit" id="btn_simpan_layanan" class="btn btn-primary">Submit</button>
+              </div>
+            </form>
+          </div>
+          <div class="box box-primary">
+            <div class="box-header with-border">
+              <h3 class="box-title">Motto</h3>
+            </div>
+            <!-- /.box-header -->
+            <!-- form start -->
+            <form enctype="multipart/form-data" id="submitmotto">
+              <div class="box-body">
+                <div class="form-group">
+                  <label for="motto">Tentang Web</label>
+                  <textarea name="motto" id="motto" class="form-control motto_view"  rows="8" cols="80"></textarea>
+                </div>
+              </div>
+              <!-- /.box-body -->
+              <div class="box-footer">
+                <button type="submit" id="btn_simpan_motto" class="btn btn-primary">Submit</button>
+              </div>
+            </form>
+          </div>
+        </div>
+        <!-- /.box-body -->
+        <div class="box-footer">
+          Footer
+        </div>
+        <!-- /.box-footer-->
+      </div>
     <!-- Default box -->
     <div class="box">
       <div class="box-header with-border">
@@ -205,6 +283,9 @@
     } );
     show_sosmed();
     show_tentang();
+    show_perusahaan();
+    show_layanan();
+    show_motto();
     function show_tentang(){
       $.ajax({
         type  : 'ajax',
@@ -217,6 +298,43 @@
 
       });
     }
+    function show_perusahaan(){
+      $.ajax({
+        type  : 'ajax',
+        url   : "<?php echo base_url('admin/show_perusahaan')?>",
+        async : false,
+        dataType : 'json',
+        success : function(data){
+              $('.perusahaan_view').val(data[0].perusahaan);
+        }
+
+      });
+    }
+    function show_layanan(){
+      $.ajax({
+        type  : 'ajax',
+        url   : "<?php echo base_url('admin/show_layanan')?>",
+        async : false,
+        dataType : 'json',
+        success : function(data){
+              $('.layanan_view').val(data[0].layanan);
+        }
+
+      });
+    }
+    function show_motto(){
+      $.ajax({
+        type  : 'ajax',
+        url   : "<?php echo base_url('admin/show_motto')?>",
+        async : false,
+        dataType : 'json',
+        success : function(data){
+              $('.motto_view').val(data[0].motto);
+        }
+
+      });
+    }
+
     function show_sosmed(){
       $.ajax({
         type  : 'ajax',
@@ -243,6 +361,106 @@
 
       });
     }
+    //submitperusahaan
+    $('#submitperusahaan').submit(function(e){
+      e.preventDefault();
+
+      $.ajax({
+       url:"<?php echo site_url('admin/tambah_perusahaan')?>",
+       type:"post",
+       data:new FormData(this),
+       processData:false,
+       contentType:false,
+       cache:false,
+       async:false,
+     // xhr: function(data){
+     //  $('#wait').show();
+     // },
+     beforeSend: function(data) {
+      $('#wait').show();
+    },
+    success: function(data){
+      swal ( "Sukses" ,  "About Us Perusahaan Berhasil Ditambahkan!" ,  "success", {
+        buttons: false,
+        timer: 1000,
+      } );
+    show_perusahaan();
+    },
+    error:function(data) {
+     swal ( "Gagal" ,  "About Us Perusahaan Gagal Ditambahkan!" ,  "error", {
+      buttons: false,
+      timer: 1000,
+    } );
+   }
+ });
+    });
+    //submitlayanan
+    $('#submitlayanan').submit(function(e){
+      e.preventDefault();
+
+      $.ajax({
+       url:"<?php echo site_url('admin/tambah_layanan_about')?>",
+       type:"post",
+       data:new FormData(this),
+       processData:false,
+       contentType:false,
+       cache:false,
+       async:false,
+     // xhr: function(data){
+     //  $('#wait').show();
+     // },
+     beforeSend: function(data) {
+      $('#wait').show();
+    },
+    success: function(data){
+      swal ( "Sukses" ,  "About Us Layanan Perusahaan Berhasil Ditambahkan!" ,  "success", {
+        buttons: false,
+        timer: 1000,
+      } );
+    show_layanan();
+    },
+    error:function(data) {
+     swal ( "Gagal" ,  "About Us Layanan Perusahaan Gagal Ditambahkan!" ,  "error", {
+      buttons: false,
+      timer: 1000,
+    } );
+   }
+ });
+    });
+    //submitmotto
+    $('#submitmotto').submit(function(e){
+      e.preventDefault();
+
+      $.ajax({
+       url:"<?php echo site_url('admin/tambah_motto')?>",
+       type:"post",
+       data:new FormData(this),
+       processData:false,
+       contentType:false,
+       cache:false,
+       async:false,
+     // xhr: function(data){
+     //  $('#wait').show();
+     // },
+     beforeSend: function(data) {
+      $('#wait').show();
+    },
+    success: function(data){
+      swal ( "Sukses" ,  "About Us Perusahaan Berhasil Ditambahkan!" ,  "success", {
+        buttons: false,
+        timer: 1000,
+      } );
+    show_motto();
+    },
+    error:function(data) {
+     swal ( "Gagal" ,  "About Us Perusahaan Gagal Ditambahkan!" ,  "error", {
+      buttons: false,
+      timer: 1000,
+    } );
+   }
+ });
+    });
+    //submit tentang
     $('#submittentang').submit(function(e){
       e.preventDefault();
 
@@ -293,13 +511,16 @@
       $('#wait').show();
     },
     success: function(data){
-        show_sosmed();
+      show_sosmed();
+      show_tentang();
+      show_perusahaan();
+      show_layanan();
+      show_motto();
       swal ( "Sukses" ,  "Social Media Berhasil Ditambahkan!" ,  "success", {
         buttons: false,
         timer: 1000,
       } );
 
-        show_sosmed();
      $("form").trigger("reset");
     },
     error:function(data) {
