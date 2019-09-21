@@ -377,8 +377,12 @@ public function blog(){
 public function team(){
 	$data = $this->data;
 	$this->_make_sure_is_admin();
-	$data['title'] = "Blog";
-	$this->load->view('admin/blog', $data);
+	$data['title'] = "Team";
+	$this->load->view('admin/team', $data);
+}
+function team_list(){
+	$query = $this->db->get('team');
+	echo $query->result();
 }
 public function backup_database(){
 	$this->load->dbutil();

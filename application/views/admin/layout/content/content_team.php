@@ -8,7 +8,7 @@
   function previewImage() {
     document.getElementById("image-preview").style.display = "block";
     var oFReader = new FileReader();
-    oFReader.readAsDataURL(document.getElementById("gambar_layanan").files[0]);
+    oFReader.readAsDataURL(document.getElementById("foto").files[0]);
 
     oFReader.onload = function(oFREvent) {
       document.getElementById("image-preview").src = oFREvent.target.result;
@@ -55,16 +55,20 @@
             <form enctype="multipart/form-data" id="submitlayanan">
               <div class="box-body">
                 <div class="form-group">
-                  <label for="judul_layanan">Judul</label>
-                  <input type="text" class="form-control" id="judul_layanan" name="judul_layanan" placeholder="Nama Layanan" required>
+                  <label for="nama">Nama Team</label>
+                  <input type="text" class="form-control" id="nama" name="nama" placeholder="Nama Team" required>
                 </div>
                 <div class="form-group">
-                  <label for="keterangan_layanan">Keterangan</label>
-                  <textarea class="form-control" id="keterangan_layanan" name="keterangan_layanan"></textarea>
+                  <label for="posisi">Posisi</label>
+                  <input type="text" class="form-control" id="posisi" name="posisi" placeholder="Nama Team" required>
                 </div>
                 <div class="form-group">
-                  <label for="gambar_layanan">Gambar</label>
-                  <input type="file" id="gambar_layanan" name="gambar_layanan" onchange="previewImage();" required>
+                  <label for="keterangan">Keterangan</label>
+                  <textarea class="form-control" id="keterangan" name="keterangan"></textarea>
+                </div>
+                <div class="form-group">
+                  <label for="foto">Foto</label>
+                  <input type="file" id="foto" name="foto" onchange="previewImage();" required>
                   <img id="image-preview" alt="image preview"/>
                 </div>
               </div>
@@ -86,7 +90,7 @@
       <!-- Default box -->
       <div class="box">
         <div class="box-header with-border">
-          <h3 class="box-title">Manage Video</h3>
+          <h3 class="box-title">Manage Team</h3>
 
           <div class="box-tools pull-right">
             <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip"
@@ -102,13 +106,14 @@
               <thead>
                 <tr>
                   <th>No</th>
-                  <th>Judul</th>
+                  <th>Nama</th>
+                  <th>Posisi</th>
                   <th>Keterangan</th>
                   <th>Gambar</th>
                   <th style="text-align: right;">Actions</th>
                 </tr>
               </thead>
-              <tbody id="layanan_list">
+              <tbody id="team_list">
 
               </tbody>
             </table>
@@ -186,7 +191,7 @@
     function show_layanan(){
       $.ajax({
         type  : 'ajax',
-        url   : "<?php echo base_url('admin/layanan_list')?>",
+        url   : "<?php echo base_url('admin/team_list')?>",
         async : false,
         dataType : 'json',
         success : function(data){
@@ -205,7 +210,7 @@
             '</td>'+
             '</tr>';
           }
-          $('#layanan_list').html(html);
+          $('#team_list').html(html);
         }
 
       });
