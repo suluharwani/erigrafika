@@ -1,12 +1,8 @@
-
-
 <!-- ***** Welcome Area Start ***** -->
 <section class="welcome-area">
   <div class="welcome-slides owl-carousel">
-
     <!-- Single Welcome Slide -->
     <?php
-
     foreach ($slider->result() as $slide) {?>
       <!-- Single Welcome Slide -->
       <div class="single-welcome-slide">
@@ -14,7 +10,6 @@
         <div class="background-curve">
           <img src="<?=base_url('assets/home-master/')?>img/core-img/curve-1.png" alt="">
         </div>
-
         <!-- Welcome Content -->
         <div class="welcome-content h-100">
           <div class="container h-100">
@@ -40,8 +35,6 @@
       <?php
     }
     ?>
-
-
   </div>
 </section>
 <!-- ***** Welcome Area End ***** -->
@@ -255,10 +248,3 @@ if ($video->result()) {
   </div>
 </section>
 <!-- ***** Portfolio Area End ***** -->
-
-<!-- ***** Blog Area Start ***** -->
-<section class="uza-blog-area">
-  <!-- Background Curve -->
-  <div class="blog-bg-curve">
-    <img src="<?=base_url('assets/home-master/')?>img/core-img/curve-4.png" alt="">
-  </div>

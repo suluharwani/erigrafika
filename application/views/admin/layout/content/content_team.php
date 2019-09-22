@@ -52,7 +52,7 @@
             </div>
             <!-- /.box-header -->
             <!-- form start -->
-            <form enctype="multipart/form-data" id="submitlayanan">
+            <form enctype="multipart/form-data" id="submitteam">
               <div class="box-body">
                 <div class="form-group">
                   <label for="nama">Nama Team</label>
@@ -107,9 +107,9 @@
                 <tr>
                   <th>No</th>
                   <th>Nama</th>
-                  <th>Posisi</th>
                   <th>Keterangan</th>
-                  <th>Gambar</th>
+                  <th>Foto</th>
+                  <th>Posisi</th>
                   <th style="text-align: right;">Actions</th>
                 </tr>
               </thead>
@@ -187,8 +187,8 @@
       $('#mydata').DataTable();
 
     } );
-    show_layanan();
-    function show_layanan(){
+    show_team();
+    function show_team(){
       $.ajax({
         type  : 'ajax',
         url   : "<?php echo base_url('admin/team_list')?>",
@@ -203,7 +203,8 @@
             '<td>'+ no++ +'</td>'+
             '<td>'+data[i].nama.substr(0, 50)+'</td>'+
             '<td>'+data[i].keterangan.substr(0, 50)+'</td>'+
-            '<td> <img src="<?php echo base_url('assets/layanan/thumb/')?>'+data[i].gambar+'"></td>'+
+            '<td> <img src="<?php echo base_url('assets/team/thumb/')?>'+data[i].foto+'"></td>'+
+            '<td>'+data[i].posisi.substr(0, 50)+'</td>'+
             '<td style="text-align:right;">'+
             '<a href="javascript:void(0);" class="btn btn-danger btn-sm video_delete" video_hapus_id="'+data[i].id+'" video_judul="'+data[i].nama+'"    >Delete</a>'+
             '<a href="javascript:void(0);" class="btn btn-success btn-sm video_aktivasi" video_aktif_id="'+data[i].id+'" video_judul="'+data[i].nama+'"    >Aktifkan</a>'+
@@ -215,11 +216,11 @@
 
       });
     }
-    $('#submitlayanan').submit(function(e){
+    $('#submitteam').submit(function(e){
       e.preventDefault();
 
       $.ajax({
-       url:"<?php echo site_url('admin/tambah_layanan')?>",
+       url:"<?php echo site_url('admin/tambah_team')?>",
        type:"post",
        data:new FormData(this),
        processData:false,
@@ -233,17 +234,17 @@
       $('#wait').show();
     },
     success: function(data){
-      show_layanan();
-      swal ( "Sukses" ,  "Layanan Berhasil Ditambahkan!" ,  "success", {
+      show_team();
+      swal ( "Sukses" ,  "Team Berhasil Ditambahkan!" ,  "success", {
         buttons: false,
         timer: 1000,
       } );
 
-      show_layanan();
+      show_team();
      $("form").trigger("reset");
     },
     error:function(data) {
-     swal ( "Gagal" ,  "Layanan Gagal Ditambahkan!" ,  "error", {
+     swal ( "Gagal" ,  "Team Gagal Ditambahkan!" ,  "error", {
       buttons: false,
       timer: 1000,
     } );
@@ -270,7 +271,7 @@
         success: function(data){
               // $('[name="kode"]').val("");
               $('#ModalHapusVideo').modal('hide');
-              show_layanan();
+              show_team();
               swal ( "Sukses" ,  "Video Berhasil Dihapus!" ,  "success", {
                 buttons: false,
                 timer: 1000,
@@ -297,7 +298,7 @@
         success: function(data){
               // $('[name="kode"]').val("");
               $('#ModalAktivasiVideo').modal('hide');
-              show_layanan();
+              show_team();
               swal ( "Sukses" ,  "Video Berhasil Diaktifkan!" ,  "success", {
                 buttons: false,
                 timer: 1000,

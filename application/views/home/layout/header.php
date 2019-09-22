@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="description" content="<?=$about_us?>">
@@ -178,8 +177,8 @@
                                 <li><a href="<?=base_url()?>">Home</a></li>
                                 <li><a href="<?=base_url('home/portofolio')?>">Portofolio</a></li>
                                 <li><a href="<?=base_url('home/about')?>">About</a></li>
-                                <li><a href="<?=base_url('home/blog')?>">Blog</a></li>
-                                <li><a href="<?=base_url('home/contact')?>">Contact</a></li>
+                                <!-- <li><a href="<?=base_url('home/blog')?>">Blog</a></li> -->
+                                <!-- <li><a href="<?=base_url('home/contact')?>">Contact</a></li> -->
                             </ul>
 
                             <!-- Get A Quote -->

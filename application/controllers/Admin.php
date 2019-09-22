@@ -382,7 +382,68 @@ public function team(){
 }
 function team_list(){
 	$query = $this->db->get('team');
-	echo $query->result();
+	echo json_encode($query->result());
+}
+function tambah_team(){
+		$data = $this->data;
+		$this->_make_sure_is_admin();
+		$adm = $this->_admin_data();
+		$id_admin = $adm['id_admin'];
+		$nama = $this->input->post('nama');
+		$this->load->library('upload');
+		$config['upload_path']          = './assets/team/asli/';
+		$config['allowed_types']        = 'gif|jpg|png|jpeg|pdf';
+		$config['max_size']             = 100000;
+		$config['max_width']            = 20000;
+		$config['max_height']           = 20000;
+		$config['file_name']            = $this->input->post('nama');
+		$this->load->library('upload', $config);
+		$this->upload->initialize($config);
+		if (!$this->upload->do_upload('foto')) {
+			$error = array('error' => $this->upload->display_errors());
+		} else {
+			$file = $this->upload->data();
+			$path =  "./assets/team/asli/".$file['file_name']."";
+			$new_path =  "./assets/team/thumb/";
+			$new_path_view =  "./assets/team/fix/";
+			$width = 150;
+			$height = 100;
+			$width_fix = 1366;
+			// $height_fix = 1200;
+			$this->load->library('image_lib');
+
+			$this->image_lib->initialize(array(
+				'image_library' => 'gd2',
+				'source_image' => $path,
+				'new_image' => $new_path,
+				'maintain_ratio' => true,
+				'master_dim' => 'width',
+				'width' => $width,
+				'height' => $height
+			));
+
+			$this->image_lib->resize();
+
+			$this->image_lib->initialize(array(
+				'image_library' => 'gd2',
+				'quality' =>'50%',
+				'source_image' => $path,
+				'new_image' => $new_path_view,
+				'maintain_ratio' => true,
+				'master_dim' => 'width',
+				'width' => $width_fix,
+				'height' => $width_fix*0.6
+			));
+			$this->image_lib->resize();
+		}
+		$object_foto = array(
+			'foto' => $file['file_name'],
+			'nama' => $nama,
+			'keterangan' => $this->input->post('keterangan'),
+			'posisi' => $this->input->post('posisi')
+		);
+		$query = $this->db->insert("team", $object_foto);
+		echo json_encode($query);
 }
 public function backup_database(){
 	$this->load->dbutil();
