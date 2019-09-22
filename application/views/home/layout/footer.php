@@ -23,42 +23,6 @@
         <div class="col-12 col-sm-6 col-lg-3">
           <div class="single-footer-widget mb-80">
             <!-- Widget Title -->
-            <h4 class="widget-title">Quick Link</h4>
-
-            <!-- Nav -->
-            <nav>
-              <ul class="our-link">
-                <li><a href="#">About Us</a></li>
-                <li><a href="#">Blog</a></li>
-                <li><a href="#">Contact Us</a></li>
-                <li><a href="#">Forum Registeration</a></li>
-                <li><a href="#">Forum Sign In</a></li>
-              </ul>
-            </nav>
-          </div>
-        </div>
-        <!-- Single Footer Widget -->
-        <div class="col-12 col-sm-6 col-lg-3">
-          <div class="single-footer-widget mb-80">
-            <!-- Widget Title -->
-            <h4 class="widget-title">Resources</h4>
-            <!-- Nav -->
-            <nav>
-              <ul class="our-link">
-                <li><a href="#">Customer Support</a></li>
-                <li><a href="#">Privacy</a></li>
-                <li><a href="#">Media &amp; Press</a></li>
-                <li><a href="#">Our Team</a></li>
-                <li><a href="#">Contact</a></li>
-              </ul>
-            </nav>
-          </div>
-        </div>
-
-        <!-- Single Footer Widget -->
-        <div class="col-12 col-sm-6 col-lg-3">
-          <div class="single-footer-widget mb-80">
-            <!-- Widget Title -->
             <h4 class="widget-title">About Us</h4>
             <p><?=$about_us?></p>
             <!-- Copywrite Text -->
