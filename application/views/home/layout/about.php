@@ -15,7 +15,6 @@
       </div>
     </div>
   </div>
-
   <!-- Background Curve -->
   <div class="breadcrumb-bg-curve">
     <img src="<?=base_url('assets/home-master')?>/img/core-img/curve-5.png" alt="">

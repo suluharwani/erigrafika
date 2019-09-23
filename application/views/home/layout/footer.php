@@ -33,7 +33,7 @@
             <div class="footer-social-info">
               <?php
               foreach ($sosmed->result() as $social) {?>
-                <a href="<?=$social->link?>" class="<?=$social->sosmed?>" data-toggle="tooltip" data-placement="top" title="<?=$social->sosmed?>"><i class="<?=$social->class?>"></i></a>
+                <a href="<?=$social->link?>" target="_blank" class="<?=$social->sosmed?>" data-toggle="tooltip" data-placement="top" title="<?=$social->sosmed?>"><i class="<?=$social->class?>"></i></a>
                 <?php
               }
               ?>
