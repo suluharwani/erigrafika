@@ -61,6 +61,12 @@ class Admin extends CI_Controller {
 		$data['title'] = "Alasan Memilih";
 		$this->load->view('admin/alasan', $data);
 	}
+	function hapus_alasan(){
+		$id = $this->input->post('id');
+		$this->db->where('id', $id);
+		$query = $this->db->delete('pilih_kami');
+		echo json_encode($query);
+	}
 	function alasan_list(){
 		$this->load->model('Mdl_footer');
 		$list = $this->Mdl_footer->alasan_list();
@@ -273,35 +279,41 @@ function tambah_motto(){
 	die(json_encode(array('message' => 'ERROR', 'code' => 1337)));
 }
 }
-	function tambah_about_us(){
-		$this->form_validation->set_rules('tentang', 'About Us', 'required');
-		if ($this->form_validation->run() == TRUE)
-		{
-			$tentang = $this->input->post('tentang');
-			$object = array('isi' =>$tentang
-		);
-		$check = $this->db->get('about_us');
-		if ($check->num_rows() >=1) {
-			$this->db->select_max('id');
-			$result= $this->db->get('about_us')->row_array();
-			$id = $result['id'];
-			$this->db->where('id', $id);
-			$query = $this->db->update('about_us', $object);
-		}else{
-			$query = $this->db->insert('about_us',$object);
-		}
-
-		echo json_encode($query);
+function tambah_about_us(){
+	$this->form_validation->set_rules('tentang', 'About Us', 'required');
+	if ($this->form_validation->run() == TRUE)
+	{
+		$tentang = $this->input->post('tentang');
+		$object = array('isi' =>$tentang
+	);
+	$check = $this->db->get('about_us');
+	if ($check->num_rows() >=1) {
+		$this->db->select_max('id');
+		$result= $this->db->get('about_us')->row_array();
+		$id = $result['id'];
+		$this->db->where('id', $id);
+		$query = $this->db->update('about_us', $object);
 	}else{
-		header('HTTP/1.1 500 Internal Server Error');
-		header('Content-Type: application/json; charset=UTF-8');
-		die(json_encode(array('message' => 'ERROR', 'code' => 1337)));
+		$query = $this->db->insert('about_us',$object);
 	}
+
+	echo json_encode($query);
+}else{
+	header('HTTP/1.1 500 Internal Server Error');
+	header('Content-Type: application/json; charset=UTF-8');
+	die(json_encode(array('message' => 'ERROR', 'code' => 1337)));
+}
 }
 function sosmed_list(){
 	$this->load->model('Mdl_footer');
 	$query = $this->Mdl_footer->web_sosmed()->result();
 	echo  json_encode($query);
+}
+function hapus_sosmed(){
+	$id = $this->input->post('id_sosmed');
+	$this->db->where('id', $id);
+	$query = $this->db->delete('web_sosmed');
+	echo json_encode($query);
 }
 function tambah_sosmed(){
 	$this->form_validation->set_rules('link_sosmed', 'Link', 'required|max_length[200]');
@@ -369,6 +381,32 @@ public function rating(){
 	$data['title'] = "Rating";
 	$this->load->view('admin/rating', $data);
 }
+function hapus_rating(){
+	$id = $this->input->post('id');
+	$query = $this->db->get_where('penilaian',array('id'=>$id));
+	foreach ($query->result() as $row) {
+		$gambar = $row->gambar;
+	}
+	$path1 =  "./assets/penilai/asli/".$gambar."";
+	$path2 =  "./assets/penilai/thumb/".$gambar."";
+	$path3 =  "./assets/penilai/fix/".$gambar."";
+	if (file_exists($path1)) {
+		unlink($path1);
+	}
+	if (file_exists($path2)) {
+		unlink($path2);
+	}
+	if (file_exists($path3)) {
+		unlink($path3);
+	}
+	$this->db->where('id', $id);
+	$hasil = $this->db->delete('penilaian');
+	echo json_encode($hasil);
+}
+function rating_list(){
+	$query = $this->db->get('penilaian');
+	echo json_encode($query->result());
+}
 public function blog(){
 	$data = $this->data;
 	$this->_make_sure_is_admin();
@@ -381,70 +419,92 @@ public function team(){
 	$data['title'] = "Team";
 	$this->load->view('admin/team', $data);
 }
+function hapus_team(){
+	$id = $this->input->post('id');
+	$query = $this->db->get_where('team',array('id'=>$id));
+	foreach ($query->result() as $row) {
+		$gambar = $row->foto;
+	}
+	$path1 =  "./assets/team/asli/".$gambar."";
+	$path2 =  "./assets/team/thumb/".$gambar."";
+	$path3 =  "./assets/team/fix/".$gambar."";
+	if (file_exists($path1)) {
+		unlink($path1);
+	}
+	if (file_exists($path2)) {
+		unlink($path2);
+	}
+	if (file_exists($path3)) {
+		unlink($path3);
+	}
+	$this->db->where('id', $id);
+	$hasil = $this->db->delete('team');
+	echo json_encode($hasil);
+}
 function team_list(){
 	$query = $this->db->get('team');
 	echo json_encode($query->result());
 }
 function tambah_team(){
-		$data = $this->data;
-		$this->_make_sure_is_admin();
-		$adm = $this->_admin_data();
-		$id_admin = $adm['id_admin'];
-		$nama = $this->input->post('nama');
-		$this->load->library('upload');
-		$config['upload_path']          = './assets/team/asli/';
-		$config['allowed_types']        = 'gif|jpg|png|jpeg|pdf';
-		$config['max_size']             = 100000;
-		$config['max_width']            = 20000;
-		$config['max_height']           = 20000;
-		$config['file_name']            = $this->input->post('nama');
-		$this->load->library('upload', $config);
-		$this->upload->initialize($config);
-		if (!$this->upload->do_upload('foto')) {
-			$error = array('error' => $this->upload->display_errors());
-		} else {
-			$file = $this->upload->data();
-			$path =  "./assets/team/asli/".$file['file_name']."";
-			$new_path =  "./assets/team/thumb/";
-			$new_path_view =  "./assets/team/fix/";
-			$width = 150;
-			$height = 100;
-			$width_fix = 1366;
-			// $height_fix = 1200;
-			$this->load->library('image_lib');
+	$data = $this->data;
+	$this->_make_sure_is_admin();
+	$adm = $this->_admin_data();
+	$id_admin = $adm['id_admin'];
+	$nama = $this->input->post('nama');
+	$this->load->library('upload');
+	$config['upload_path']          = './assets/team/asli/';
+	$config['allowed_types']        = 'gif|jpg|png|jpeg|pdf';
+	$config['max_size']             = 100000;
+	$config['max_width']            = 20000;
+	$config['max_height']           = 20000;
+	$config['file_name']            = $this->input->post('nama');
+	$this->load->library('upload', $config);
+	$this->upload->initialize($config);
+	if (!$this->upload->do_upload('foto')) {
+		$error = array('error' => $this->upload->display_errors());
+	} else {
+		$file = $this->upload->data();
+		$path =  "./assets/team/asli/".$file['file_name']."";
+		$new_path =  "./assets/team/thumb/";
+		$new_path_view =  "./assets/team/fix/";
+		$width = 150;
+		$height = 100;
+		$width_fix = 1366;
+		// $height_fix = 1200;
+		$this->load->library('image_lib');
 
-			$this->image_lib->initialize(array(
-				'image_library' => 'gd2',
-				'source_image' => $path,
-				'new_image' => $new_path,
-				'maintain_ratio' => true,
-				'master_dim' => 'width',
-				'width' => $width,
-				'height' => $height
-			));
+		$this->image_lib->initialize(array(
+			'image_library' => 'gd2',
+			'source_image' => $path,
+			'new_image' => $new_path,
+			'maintain_ratio' => true,
+			'master_dim' => 'width',
+			'width' => $width,
+			'height' => $height
+		));
 
-			$this->image_lib->resize();
+		$this->image_lib->resize();
 
-			$this->image_lib->initialize(array(
-				'image_library' => 'gd2',
-				'quality' =>'50%',
-				'source_image' => $path,
-				'new_image' => $new_path_view,
-				'maintain_ratio' => true,
-				'master_dim' => 'width',
-				'width' => $width_fix,
-				'height' => $width_fix*0.6
-			));
-			$this->image_lib->resize();
-		}
-		$object_foto = array(
-			'foto' => $file['file_name'],
-			'nama' => $nama,
-			'keterangan' => $this->input->post('keterangan'),
-			'posisi' => $this->input->post('posisi')
-		);
-		$query = $this->db->insert("team", $object_foto);
-		echo json_encode($query);
+		$this->image_lib->initialize(array(
+			'image_library' => 'gd2',
+			'quality' =>'50%',
+			'source_image' => $path,
+			'new_image' => $new_path_view,
+			'maintain_ratio' => true,
+			'master_dim' => 'width',
+			'width' => $width_fix,
+			'height' => $width_fix*0.6
+		));
+		$this->image_lib->resize();
+	}
+	$object_foto = array(
+		'foto' => $file['file_name'],
+		'nama' => $nama,
+		'keterangan' => $this->input->post('keterangan'),
+		'posisi' => $this->input->post('posisi')
+	);
+	$query = $this->db->insert("team", $object_foto);
+	echo json_encode($query);
 }
 public function backup_database(){
 	$this->load->dbutil();

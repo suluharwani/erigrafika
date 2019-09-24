@@ -132,24 +132,24 @@
   </div>
   <!-- /.content-wrapper -->
   <!--MODAL HAPUS-->
-  <div class="modal fade" id="ModalHapusVideo" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal fade" id="ModalHapusTeam" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
           <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">X</span></button> -->
-          <h4 class="modal-title" id="myModalLabel">Hapus Video</h4>
+          <h4 class="modal-title" id="myModalLabel">Hapus Team</h4>
         </div>
         <form class="form-horizontal">
           <div class="modal-body">
 
-            <input type="hidden" name="kode" id="id_video_hapus" value="">
-            <div class="alert alert-warning"><p>Apakah Anda yakin mau menghapus <u> <span id="nama_video_hapus"></span></u>?</p>
+            <input type="hidden" name="kode" id="id_team" value="">
+            <div class="alert alert-warning"><p>Apakah Anda yakin mau menghapus <u> <span id="nama_team"></span></u>?</p>
             </div>
 
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">Tutup</button>
-            <button class="btn_hapus btn btn-danger" id="btn_hapus_video">Hapus</button>
+            <button class="btn_hapus btn btn-danger" id="btn_hapus_team">Hapus</button>
           </div>
         </form>
       </div>
@@ -167,8 +167,8 @@
         <form class="form-horizontal">
           <div class="modal-body">
 
-            <input type="hidden" name="kode" id="id_video_aktivasi" value="">
-            <div class="alert alert-warning"><p>Apakah Anda akan mengaktifkan <u> <span id="nama_video_aktivasi"></span></u>?</p>
+            <input type="hidden" name="kode" id="id_team" value="">
+            <div class="alert alert-warning"><p>Apakah Anda akan mengaktifkan <u> <span id="nama"></span></u>?</p>
             </div>
 
           </div>
@@ -206,8 +206,7 @@
             '<td> <img src="<?php echo base_url('assets/team/thumb/')?>'+data[i].foto+'"></td>'+
             '<td>'+data[i].posisi.substr(0, 50)+'</td>'+
             '<td style="text-align:right;">'+
-            '<a href="javascript:void(0);" class="btn btn-danger btn-sm video_delete" video_hapus_id="'+data[i].id+'" video_judul="'+data[i].nama+'"    >Delete</a>'+
-            '<a href="javascript:void(0);" class="btn btn-success btn-sm video_aktivasi" video_aktif_id="'+data[i].id+'" video_judul="'+data[i].nama+'"    >Aktifkan</a>'+
+            '<a href="javascript:void(0);" class="btn btn-danger btn-sm delete_team" id_team="'+data[i].id+'" nama="'+data[i].nama+'"    >Delete</a>'+
             '</td>'+
             '</tr>';
           }
@@ -252,59 +251,40 @@
    }
  });
     });
-    $('#layanan_list').on('click','.video_delete',function(){
-      var id=$(this).attr('video_hapus_id');
-      var nama=$(this).attr('video_judul');
+    $('#team_list').on('click','.delete_team',function(){
+      var id=$(this).attr('id_team');
+      var nama=$(this).attr('nama');
 
-      $('#id_video_hapus').val(id);
-      $('#nama_video_hapus').html(nama);
-      $('#ModalHapusVideo').modal('show');
+      $('#id_team').val(id);
+      $('#nama_team').html(nama);
+      $('#ModalHapusTeam').modal('show');
 
     });
-    $('#btn_hapus_video').on('click',function(){
-      var id_video = $('#id_video_hapus').val();
+    $('#btn_hapus_team').on('click',function(){
+      var id = $('#id_team').val();
       $.ajax({
         type : "POST",
-        url  : "<?php echo site_url('admin/hapus_video')?>",
+        url  : "<?php echo site_url('admin/hapus_team')?>",
         dataType : "JSON",
-        data : {id_video:id_video},
+        data : {id:id},
         success: function(data){
               // $('[name="kode"]').val("");
-              $('#ModalHapusVideo').modal('hide');
+              $('#ModalHapusTeam').modal('hide');
               show_team();
-              swal ( "Sukses" ,  "Video Berhasil Dihapus!" ,  "success", {
+              swal ( "Sukses" ,  "Team Berhasil Dihapus!" ,  "success", {
                 buttons: false,
                 timer: 1000,
               } );
-            }
+            },
+            error:function(data) {
+             swal ( "Gagal" ,  "Team gagal dihapus!" ,  "error", {
+              buttons: false,
+              timer: 1000,
+            } );
+             $("form").trigger("reset");
+           }
           });
       return false;
     });
-    $('#layanan_list').on('click','.video_aktivasi',function(){
-      var id=$(this).attr('video_aktif_id');
-      var nama=$(this).attr('video_judul');
 
-      $('#id_video_aktivasi').val(id);
-      $('#nama_video_aktivasi').html(nama);
-      $('#ModalAktivasiVideo').modal('show');
-    });
-    $('#btn_aktivasi_video').on('click',function(){
-      var id_video = $('#id_video_aktivasi').val();
-      $.ajax({
-        type : "POST",
-        url  : "<?php echo site_url('admin/aktivasi_video')?>",
-        dataType : "JSON",
-        data : {id_video:id_video},
-        success: function(data){
-              // $('[name="kode"]').val("");
-              $('#ModalAktivasiVideo').modal('hide');
-              show_team();
-              swal ( "Sukses" ,  "Video Berhasil Diaktifkan!" ,  "success", {
-                buttons: false,
-                timer: 1000,
-              } );
-            }
-          });
-      return false;
-    });
   </script>

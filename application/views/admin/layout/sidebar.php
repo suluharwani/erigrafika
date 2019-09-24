@@ -6,7 +6,7 @@
       <!-- Sidebar user panel -->
       <div class="user-panel">
         <div class="pull-left image">
-          <img src="<?=base_url('assets/AdminLTE/')?>dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+          <img src="<?=base_url('assets/admin/')?>images/admin.png" class="img-circle" alt="User Image">
         </div>
         <div class="pull-left info">
           <p><?=$nama_admin?></p>
@@ -15,14 +15,14 @@
       </div>
       <!-- search form -->
       <form action="#" method="get" class="sidebar-form">
-        <div class="input-group">
+        <!-- <div class="input-group">
           <input type="text" name="q" class="form-control" placeholder="Search...">
           <span class="input-group-btn">
                 <button type="submit" name="search" id="search-btn" class="btn btn-flat">
                   <i class="fa fa-search"></i>
                 </button>
               </span>
-        </div>
+        </div> -->
       </form>
       <!-- /.search form -->
       <!-- sidebar menu: : style can be found in sidebar.less -->
@@ -54,7 +54,7 @@
             <li><a href="<?=base_url('admin/keunggulan')?>"><i class="fa fa-circle-o"></i> Keunggulan</a></li>
             <li><a href="<?=base_url('admin/portofolio')?>"><i class="fa fa-circle-o"></i> Portofolio</a></li>
             <li><a href="<?=base_url('admin/rating')?>"><i class="fa fa-circle-o"></i> Rating</a></li>
-            <li><a href="<?=base_url('admin/blog')?>"><i class="fa fa-circle-o"></i> Blog</a></li>
+            <!-- <li><a href="<?=base_url('admin/blog')?>"><i class="fa fa-circle-o"></i> Blog</a></li> -->
             <li><a href="<?=base_url('admin/team')?>"><i class="fa fa-circle-o"></i> Team</a></li>
             <li><a href="<?=base_url('admin/popup')?>"><i class="fa fa-circle-o"></i> Popup</a></li>
             <li><a href="<?=base_url('admin/alasan_memilih')?>"><i class="fa fa-circle-o"></i> Alasan Memilih Kami</a></li>

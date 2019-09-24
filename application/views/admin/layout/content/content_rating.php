@@ -30,63 +30,15 @@
   </section>
 
   <!-- Main content -->
-  <section class="content">  
+  <section class="content">
 
     <!-- Default box -->
     <div class="box">
-      <div class="box-header with-border">
-        <h3 class="box-title">Add Layanan</h3>
-
-        <div class="box-tools pull-right">
-          <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip"
-          title="Collapse">
-          <i class="fa fa-minus"></i></button>
-          <button type="button" class="btn btn-box-tool" data-widget="remove" data-toggle="tooltip" title="Remove">
-            <i class="fa fa-times"></i></button>
-          </div>
-        </div>
-        <div class="box-body">
-          <div class="box box-primary">
-            <div class="box-header with-border">
-              <h3 class="box-title">Input Data</h3>
-            </div>
-            <!-- /.box-header -->
-            <!-- form start -->
-            <form enctype="multipart/form-data" id="submitlayanan">
-              <div class="box-body">
-                <div class="form-group">
-                  <label for="judul_layanan">Judul</label>
-                  <input type="text" class="form-control" id="judul_layanan" name="judul_layanan" placeholder="Nama Layanan" required>
-                </div>
-                <div class="form-group">
-                  <label for="keterangan_layanan">Keterangan</label>
-                  <textarea class="form-control" id="keterangan_layanan" name="keterangan_layanan"></textarea>
-                </div>
-                <div class="form-group">
-                  <label for="gambar_layanan">Gambar</label>
-                  <input type="file" id="gambar_layanan" name="gambar_layanan" onchange="previewImage();" required>
-                  <img id="image-preview" alt="image preview"/>
-                </div>
-              </div>
-              <!-- /.box-body -->
-
-              <div class="box-footer">
-                <button type="submit" id="btn_simpan" class="btn btn-primary">Submit</button>
-              </div>
-            </form>
-          </div>
-        </div>
-        <!-- /.box-body -->
-        <div class="box-footer">
-          Footer
-        </div>
-        <!-- /.box-footer-->
-      </div>
       <!-- /.box -->
       <!-- Default box -->
       <div class="box">
         <div class="box-header with-border">
-          <h3 class="box-title">Manage Video</h3>
+          <h3 class="box-title">Manage Rating</h3>
 
           <div class="box-tools pull-right">
             <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip"
@@ -102,16 +54,18 @@
               <thead>
                 <tr>
                   <th>No</th>
-                  <th>Judul</th>
-                  <th>Keterangan</th>
-                  <th>Gambar</th>
+                  <th>Nama</th>
+                  <th>Perusahaan</th>
+                  <th>keterangan</th>
+                  <th>Bintang</th>
+                  <th>Tanggal</th>
                   <th style="text-align: right;">Actions</th>
                 </tr>
               </thead>
-              <tbody id="layanan_list">
+              <tbody id="rating_list">
 
               </tbody>
-            </table>  
+            </table>
           </div>
         </div>
         <!-- /.box-body -->
@@ -152,24 +106,24 @@
   </div>
   <!--END MODAL HAPUS-->
    <!--MODAL HAPUS-->
-  <div class="modal fade" id="ModalAktivasiVideo" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal fade" id="ModalDelete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
           <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">X</span></button> -->
-          <h4 class="modal-title" id="myModalLabel">Aktifkan Video</h4>
+          <h4 class="modal-title" id="myModalLabel">Delete Rating</h4>
         </div>
         <form class="form-horizontal">
           <div class="modal-body">
 
-            <input type="hidden" name="kode" id="id_video_aktivasi" value="">
-            <div class="alert alert-warning"><p>Apakah Anda akan mengaktifkan <u> <span id="nama_video_aktivasi"></span></u>?</p>
+            <input type="hidden" name="id_delete" id="id_delete" value="">
+            <div class="alert alert-warning"><p>Apakah Anda akan menghapus <u> <span id="nama"></span></u>?</p>
             </div>
 
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">Tutup</button>
-            <button class="btn_aktivasi btn btn-success" id="btn_aktivasi_video">Aktifkan</button>
+            <button class="btn_aktivasi btn btn-warning" id="btn_hapus">Hapus</button>
           </div>
         </form>
       </div>
@@ -186,7 +140,7 @@
     function show_layanan(){
       $.ajax({
         type  : 'ajax',
-        url   : "<?php echo base_url('admin/layanan_list')?>",
+        url   : "<?php echo base_url('admin/rating_list')?>",
         async : false,
         dataType : 'json',
         success : function(data){
@@ -197,107 +151,51 @@
             html += '<tr>'+
             '<td>'+ no++ +'</td>'+
             '<td>'+data[i].nama.substr(0, 50)+'</td>'+
+            '<td>'+data[i].perusahaan.substr(0, 50)+'</td>'+
             '<td>'+data[i].keterangan.substr(0, 50)+'</td>'+
-            '<td> <img src="<?php echo base_url('assets/layanan/thumb/')?>'+data[i].gambar+'"></td>'+
+            '<td>'+data[i].stars.substr(0, 50)+'</td>'+
+            '<td>'+data[i].tanggal+'</td>'+
             '<td style="text-align:right;">'+
-            '<a href="javascript:void(0);" class="btn btn-danger btn-sm video_delete" video_hapus_id="'+data[i].id+'" video_judul="'+data[i].nama+'"    >Delete</a>'+
-            '<a href="javascript:void(0);" class="btn btn-success btn-sm video_aktivasi" video_aktif_id="'+data[i].id+'" video_judul="'+data[i].nama+'"    >Aktifkan</a>'+
+            '<a href="javascript:void(0);" class="btn btn-danger btn-sm rating_delete" id="'+data[i].id+'" nama="'+data[i].nama+'"    >Delete</a>'+
             '</td>'+
             '</tr>';
           }
-          $('#layanan_list').html(html);
+          $('#rating_list').html(html);
         }
 
       });
-    }
-    $('#submitlayanan').submit(function(e){
-      e.preventDefault(); 
+    };
+    $('#rating_list').on('click','.rating_delete',function(){
+      var id=$(this).attr('id');
+      var nama=$(this).attr('nama');
 
-      $.ajax({
-       url:"<?php echo site_url('admin/tambah_layanan')?>",
-       type:"post",
-       data:new FormData(this),
-       processData:false,
-       contentType:false,
-       cache:false,
-       async:false,
-     // xhr: function(data){
-     //  $('#wait').show();
-     // },
-     beforeSend: function(data) {
-      $('#wait').show();
-    },
-    success: function(data){
-      show_layanan();
-      swal ( "Sukses" ,  "Layanan Berhasil Ditambahkan!" ,  "success", {
-        buttons: false,
-        timer: 1000,
-      } );
-
-      show_layanan();
-     $("form").trigger("reset");
-    },
-    error:function(data) {
-     swal ( "Gagal" ,  "Layanan Gagal Ditambahkan!" ,  "error", {
-      buttons: false,
-      timer: 1000,
-    } );
-    $("form").trigger("reset");
-   }
- });
+      $('#id_delete').val(id);
+      $('#nama').html(nama);
+      $('#ModalDelete').modal('show');
     });
-    $('#layanan_list').on('click','.video_delete',function(){
-      var id=$(this).attr('video_hapus_id');
-      var nama=$(this).attr('video_judul');
-
-      $('#id_video_hapus').val(id);
-      $('#nama_video_hapus').html(nama);
-      $('#ModalHapusVideo').modal('show');
-
-    });
-    $('#btn_hapus_video').on('click',function(){
-      var id_video = $('#id_video_hapus').val();
+    $('#btn_hapus').on('click',function(){
+      var id = $('#id_delete').val();
       $.ajax({
         type : "POST",
-        url  : "<?php echo site_url('admin/hapus_video')?>",
+        url  : "<?php echo site_url('admin/hapus_rating')?>",
         dataType : "JSON",
-        data : {id_video:id_video},
+        data : {id:id},
         success: function(data){
               // $('[name="kode"]').val("");
-              $('#ModalHapusVideo').modal('hide');
+              $('#ModalDelete').modal('hide');
               show_layanan();
-              swal ( "Sukses" ,  "Video Berhasil Dihapus!" ,  "success", {
+              swal ( "Sukses" ,  "Rating berhasil dihapus!" ,  "success", {
                 buttons: false,
                 timer: 1000,
               } );
-            }
-          });
-      return false;
-    });
-    $('#layanan_list').on('click','.video_aktivasi',function(){
-      var id=$(this).attr('video_aktif_id');
-      var nama=$(this).attr('video_judul');
-
-      $('#id_video_aktivasi').val(id);
-      $('#nama_video_aktivasi').html(nama);
-      $('#ModalAktivasiVideo').modal('show');
-    });
-    $('#btn_aktivasi_video').on('click',function(){
-      var id_video = $('#id_video_aktivasi').val();
-      $.ajax({
-        type : "POST",
-        url  : "<?php echo site_url('admin/aktivasi_video')?>",
-        dataType : "JSON",
-        data : {id_video:id_video},
-        success: function(data){
-              // $('[name="kode"]').val("");
-              $('#ModalAktivasiVideo').modal('hide');
-              show_layanan();
-              swal ( "Sukses" ,  "Video Berhasil Diaktifkan!" ,  "success", {
-                buttons: false,
-                timer: 1000,
-              } );
-            }
+            },
+            error:function(data) {
+             swal ( "Gagal" ,  "Rating gagal dihapus!" ,  "error", {
+              buttons: false,
+              timer: 1000,
+            } );
+             $("form").trigger("reset");
+           }
           });
       return false;
     });

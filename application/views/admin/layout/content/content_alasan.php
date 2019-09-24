@@ -103,22 +103,22 @@
   </div>
   <!-- /.content-wrapper -->
   <!--MODAL HAPUS-->
-  <div class="modal fade" id="ModalHapusVideo" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal fade" id="AlasanModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
           <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">X</span></button> -->
-          <h4 class="modal-title" id="myModalLabel">Hapus Video</h4>
+          <h4 class="modal-title" id="myModalLabel">Hapus Alasan</h4>
         </div>
         <form class="form-horizontal">
           <div class="modal-body">
-            <input type="hidden" name="kode" id="id_video_hapus" value="">
-            <div class="alert alert-warning"><p>Apakah Anda yakin mau menghapus <u> <span id="nama_video_hapus"></span></u>?</p>
+            <input type="hidden" name="kode" id="id_alasan" value="">
+            <div class="alert alert-warning"><p>Apakah Anda yakin mau menghapus <u> <span id="nama"></span></u>?</p>
             </div>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">Tutup</button>
-            <button class="btn_hapus btn btn-danger" id="btn_hapus_video">Hapus</button>
+            <button class="btn_hapus btn btn-danger" id="btn_hapus_alasan">Hapus</button>
           </div>
         </form>
       </div>
@@ -170,7 +170,7 @@
             '<td>'+ no++ +'</td>'+
             '<td>'+data[i].alasan+'</td>'+
             '<td style="text-align:right;">'+
-            '<a href="javascript:void(0);" class="btn btn-danger btn-sm video_delete" video_hapus_id="'+data[i].id+'" video_judul="'+data[i].judul+'"    >Delete</a>'+
+            '<a href="javascript:void(0);" class="btn btn-danger btn-sm alasan_delete" hapus_id="'+data[i].id+'" alasan="'+data[i].alasan+'"    >Delete</a>'+
             '</td>'+
             '</tr>';
           }
@@ -207,27 +207,27 @@
    }
  });
     });
-    $('#blog_list').on('click','.video_delete',function(){
-      var id=$(this).attr('video_hapus_id');
-      var nama=$(this).attr('video_judul');
+    $('#alasan_list').on('click','.alasan_delete',function(){
+      var id=$(this).attr('hapus_id');
+      var alasan=$(this).attr('alasan');
 
-      $('#id_video_hapus').val(id);
-      $('#nama_video_hapus').html(nama);
-      $('#ModalHapusVideo').modal('show');
+      $('#id_alasan').val(id);
+      $('#nama').html(alasan);
+      $('#AlasanModal').modal('show');
 
     });
-    $('#btn_hapus_video').on('click',function(){
-      var id_video = $('#id_video_hapus').val();
+    $('#btn_hapus_alasan').on('click',function(){
+      var id = $('#id_alasan').val();
       $.ajax({
         type : "POST",
-        url  : "<?php echo site_url('admin/hapus_video')?>",
+        url  : "<?php echo site_url('admin/hapus_alasan')?>",
         dataType : "JSON",
-        data : {id_video:id_video},
+        data : {id:id},
         success: function(data){
               // $('[name="kode"]').val("");
-              $('#ModalHapusVideo').modal('hide');
-              show_contact();
-              swal ( "Sukses" ,  "Video Berhasil Dihapus!" ,  "success", {
+              $('#AlasanModal').modal('hide');
+              show_alasan();
+              swal ( "Sukses" ,  "Alasan Berhasil Dihapus!" ,  "success", {
                 buttons: false,
                 timer: 1000,
               } );
@@ -235,31 +235,5 @@
           });
       return false;
     });
-    $('#blog_list').on('click','.video_aktivasi',function(){
-      var id=$(this).attr('video_aktif_id');
-      var nama=$(this).attr('video_judul');
 
-      $('#id_video_aktivasi').val(id);
-      $('#nama_video_aktivasi').html(nama);
-      $('#ModalAktivasiVideo').modal('show');
-    });
-    $('#btn_aktivasi_video').on('click',function(){
-      var id_video = $('#id_video_aktivasi').val();
-      $.ajax({
-        type : "POST",
-        url  : "<?php echo site_url('admin/aktivasi_video')?>",
-        dataType : "JSON",
-        data : {id_video:id_video},
-        success: function(data){
-              // $('[name="kode"]').val("");
-              $('#ModalAktivasiVideo').modal('hide');
-              show_contact();
-              swal ( "Sukses" ,  "Video Berhasil Diaktifkan!" ,  "success", {
-                buttons: false,
-                timer: 1000,
-              } );
-            }
-          });
-      return false;
-    });
   </script>
