@@ -117,7 +117,7 @@
               <tbody id="video_list">
 
               </tbody>
-            </table>  
+            </table>
           </div>
         </div>
         <!-- /.box-body -->
@@ -181,6 +181,30 @@
       </div>
     </div>
   </div>
+  <!--MODAL HAPUS-->
+ <div class="modal fade" id="ModalAktivasiVideo_batal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+   <div class="modal-dialog" role="document">
+     <div class="modal-content">
+       <div class="modal-header">
+         <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">X</span></button> -->
+         <h4 class="modal-title" id="myModalLabel">Batalkan Video</h4>
+       </div>
+       <form class="form-horizontal">
+         <div class="modal-body">
+
+           <input type="hidden" name="kode" id="id_video_aktivasi" value="">
+           <div class="alert alert-warning"><p>Apakah Anda akan menonaktifkan <u> <span id="nama_video_aktivasi"></span></u>?</p>
+           </div>
+
+         </div>
+         <div class="modal-footer">
+           <button type="button" class="btn btn-default" data-dismiss="modal">Tutup</button>
+           <button class="btn_aktivasi btn btn-warning" id="btn_aktivasi_video_batal">Nonaktifkan</button>
+         </div>
+       </form>
+     </div>
+   </div>
+ </div>
   <!--END MODAL HAPUS-->
 
   <script type="text/javascript">
@@ -202,21 +226,33 @@
             no = i+1;
             if (data[i].status == '1') {
               var status_video = "aktif";
+              html += '<tr>'+
+              '<td>'+ no++ +'</td>'+
+              '<td>'+data[i].judul.substr(0, 50)+'</td>'+
+              '<td>'+data[i].keterangan.substr(0, 50)+'</td>'+
+              '<td> <img src="<?php echo base_url('assets/web_video/thumb/')?>'+data[i].gambar+'"></td>'+
+              '<td> <iframe height="85" src="'+data[i].link_video.replace("watch?v=","embed/")+'" frameborder="0" allowfullscreen></iframe></td>'+
+              '<td>'+ status_video +'</td>'+
+              '<td style="text-align:right;">'+
+              '<a href="javascript:void(0);" class="btn btn-warning btn-sm video_aktivasi_batal" video_aktif_id="'+data[i].id+'" video_judul="'+data[i].judul+'"    >Nonaktifkan</a>'+
+              '</td>'+
+              '</tr>';
             }else{
               var status_video = "tidak aktif";
+              html += '<tr>'+
+              '<td>'+ no++ +'</td>'+
+              '<td>'+data[i].judul.substr(0, 50)+'</td>'+
+              '<td>'+data[i].keterangan.substr(0, 50)+'</td>'+
+              '<td> <img src="<?php echo base_url('assets/web_video/thumb/')?>'+data[i].gambar+'"></td>'+
+              '<td> <iframe height="85" src="'+data[i].link_video.replace("watch?v=","embed/")+'" frameborder="0" allowfullscreen></iframe></td>'+
+              '<td>'+ status_video +'</td>'+
+              '<td style="text-align:right;">'+
+              '<a href="javascript:void(0);" class="btn btn-danger btn-sm video_delete" video_hapus_id="'+data[i].id+'" video_judul="'+data[i].judul+'"    >Delete</a>'+
+              '<a href="javascript:void(0);" class="btn btn-success btn-sm video_aktivasi" video_aktif_id="'+data[i].id+'" video_judul="'+data[i].judul+'"    >Aktifkan</a>'+
+              '</td>'+
+              '</tr>';
             }
-            html += '<tr>'+
-            '<td>'+ no++ +'</td>'+
-            '<td>'+data[i].judul.substr(0, 50)+'</td>'+
-            '<td>'+data[i].keterangan.substr(0, 50)+'</td>'+
-            '<td> <img src="<?php echo base_url('assets/web_video/thumb/')?>'+data[i].gambar+'"></td>'+
-            '<td> <iframe height="85" src="'+data[i].link_video.replace("watch?v=","embed/")+'" frameborder="0" allowfullscreen></iframe></td>'+
-            '<td>'+ status_video +'</td>'+
-            '<td style="text-align:right;">'+
-            '<a href="javascript:void(0);" class="btn btn-danger btn-sm video_delete" video_hapus_id="'+data[i].id+'" video_judul="'+data[i].judul+'"    >Delete</a>'+
-            '<a href="javascript:void(0);" class="btn btn-success btn-sm video_aktivasi" video_aktif_id="'+data[i].id+'" video_judul="'+data[i].judul+'"    >Aktifkan</a>'+
-            '</td>'+
-            '</tr>';
+
           }
           $('#video_list').html(html);
         }
@@ -225,7 +261,7 @@
     }
 
     $('#submitvideo').submit(function(e){
-      e.preventDefault(); 
+      e.preventDefault();
 
       $.ajax({
        url:"<?php echo site_url('admin/tambah_video')?>",
@@ -238,9 +274,6 @@
      // xhr: function(data){
      //  $('#wait').show();
      // },
-     beforeSend: function(data) {
-      $('#wait').show();
-    },
     success: function(data){
       show_video();
       swal ( "Sukses" ,  "Foto Slider Berhasil Ditambahkan!" ,  "success", {
@@ -310,6 +343,33 @@
               $('#ModalAktivasiVideo').modal('hide');
               show_video();
               swal ( "Sukses" ,  "Video Berhasil Diaktifkan!" ,  "success", {
+                buttons: false,
+                timer: 1000,
+              } );
+            }
+          });
+      return false;
+    });
+    $('#video_list').on('click','.video_aktivasi_batal',function(){
+      var id=$(this).attr('video_aktif_id');
+      var nama=$(this).attr('video_judul');
+
+      $('#id_video_aktivasi').val(id);
+      $('#nama_video_aktivasi').html(nama);
+      $('#ModalAktivasiVideo_batal').modal('show');
+    });
+    $('#btn_aktivasi_video_batal').on('click',function(){
+      var id_video = $('#id_video_aktivasi').val();
+      $.ajax({
+        type : "POST",
+        url  : "<?php echo site_url('admin/aktivasi_video_batal')?>",
+        dataType : "JSON",
+        data : {id_video:id_video},
+        success: function(data){
+              // $('[name="kode"]').val("");
+              $('#ModalAktivasiVideo_batal').modal('hide');
+              show_video();
+              swal ( "Sukses" ,  "Video Berhasil Dinonaktifkan!" ,  "success", {
                 buttons: false,
                 timer: 1000,
               } );

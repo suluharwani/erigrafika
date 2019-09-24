@@ -197,6 +197,7 @@ class Admin extends CI_Controller {
 		$query = $this->db->get('about_us', 1)->result_array();
 		echo json_encode($query);
 	}
+
 	function tambah_layanan_about(){
 		$this->form_validation->set_rules('layanan', 'About Us', 'required');
 		if ($this->form_validation->run() == TRUE)
@@ -480,6 +481,28 @@ public function keunggulan(){
 	$data['title'] = "Keunggulan";
 	$this->load->view('admin/keunggulan', $data);
 }
+function hapus_keunggulan(){
+	$id = $this->input->post('id_keunggulan');
+	$query = $this->db->get_where('web_keunggulan',array('id'=>$id));
+	foreach ($query->result() as $row) {
+		$gambar = $row->gambar;
+	}
+	$path1 =  "./assets/layanan/asli/".$gambar."";
+	$path2 =  "./assets/layanan/thumb/".$gambar."";
+	$path3 =  "./assets/layanan/fix/".$gambar."";
+	if (file_exists($path1)) {
+		unlink($path1);
+	}
+	if (file_exists($path2)) {
+		unlink($path2);
+	}
+	if (file_exists($path3)) {
+		unlink($path3);
+	}
+	$this->db->where('id', $id);
+	$hasil = $this->db->delete('web_keunggulan');
+	echo json_encode($hasil);
+}
 public function portofolio(){
 	$data = $this->data;
 	$this->_make_sure_is_admin();
@@ -645,6 +668,28 @@ function layanan_list(){
 	$this->load->model('Mdl_layanan');
 	$query = $this->Mdl_layanan->list_layanan()->result();
 	echo json_encode($query);
+}
+function hapus_layanan(){
+	$id = $this->input->post('id_layanan');
+	$query = $this->db->get_where('web_layanan',array('id'=>$id));
+	foreach ($query->result() as $row) {
+		$gambar = $row->gambar;
+	}
+	$path1 =  "./assets/layanan/asli/".$gambar."";
+	$path2 =  "./assets/layanan/thumb/".$gambar."";
+	$path3 =  "./assets/layanan/fix/".$gambar."";
+	if (file_exists($path1)) {
+		unlink($path1);
+	}
+	if (file_exists($path2)) {
+		unlink($path2);
+	}
+	if (file_exists($path3)) {
+		unlink($path3);
+	}
+	$this->db->where('id', $id);
+	$hasil = $this->db->delete('web_layanan');
+	echo json_encode($hasil);
 }
 function tambah_layanan(){
 	$data = $this->data;
@@ -905,6 +950,21 @@ function hapus_gambar_video($id){
 	if (file_exists($path3)) {
 		unlink($path3);
 	}
+
+}
+function aktivasi_video_batal(){
+	$id = $this->input->post('id_video');
+	$video_aktif = $this->db->get_where('web_video', array('status'=>1))->result();
+	// if ($video_aktif) {
+	// 	foreach ($video_aktif as $value) {
+	// 		$id_aktif = $value->id;
+	// 		$this->db->where('id', $id_aktif);
+	// 		$this->db->update('web_video', array('status'=>0));
+	// 	}
+	// }
+	$this->db->where('id', $id);
+	$query = $this->db->update('web_video', array('status'=>0));
+	echo json_encode($query);
 
 }
 function aktivasi_video(){

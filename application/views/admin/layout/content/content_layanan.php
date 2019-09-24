@@ -30,7 +30,7 @@
   </section>
 
   <!-- Main content -->
-  <section class="content">  
+  <section class="content">
 
     <!-- Default box -->
     <div class="box">
@@ -111,7 +111,7 @@
               <tbody id="layanan_list">
 
               </tbody>
-            </table>  
+            </table>
           </div>
         </div>
         <!-- /.box-body -->
@@ -127,24 +127,24 @@
   </div>
   <!-- /.content-wrapper -->
   <!--MODAL HAPUS-->
-  <div class="modal fade" id="ModalHapusVideo" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal fade" id="modallayananhapus" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
           <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">X</span></button> -->
-          <h4 class="modal-title" id="myModalLabel">Hapus Video</h4>
+          <h4 class="modal-title" id="myModalLabel">Hapus Layanan</h4>
         </div>
         <form class="form-horizontal">
           <div class="modal-body">
 
-            <input type="hidden" name="kode" id="id_video_hapus" value="">
-            <div class="alert alert-warning"><p>Apakah Anda yakin mau menghapus <u> <span id="nama_video_hapus"></span></u>?</p>
+            <input type="hidden" name="kode" id="id_layanan" value="">
+            <div class="alert alert-warning"><p>Apakah Anda yakin mau menghapus <u> <span id="nama_layanan"></span></u>?</p>
             </div>
 
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">Tutup</button>
-            <button class="btn_hapus btn btn-danger" id="btn_hapus_video">Hapus</button>
+            <button class="btn_hapus btn btn-danger" id="btn_hapus_layanan">Hapus</button>
           </div>
         </form>
       </div>
@@ -200,8 +200,7 @@
             '<td>'+data[i].keterangan.substr(0, 50)+'</td>'+
             '<td> <img src="<?php echo base_url('assets/layanan/thumb/')?>'+data[i].gambar+'"></td>'+
             '<td style="text-align:right;">'+
-            '<a href="javascript:void(0);" class="btn btn-danger btn-sm video_delete" video_hapus_id="'+data[i].id+'" video_judul="'+data[i].nama+'"    >Delete</a>'+
-            '<a href="javascript:void(0);" class="btn btn-success btn-sm video_aktivasi" video_aktif_id="'+data[i].id+'" video_judul="'+data[i].nama+'"    >Aktifkan</a>'+
+            '<a href="javascript:void(0);" class="btn btn-danger btn-sm layanan_delete" layanan_id="'+data[i].id+'" layanan_judul="'+data[i].nama+'"    >Delete</a>'+
             '</td>'+
             '</tr>';
           }
@@ -211,7 +210,7 @@
       });
     }
     $('#submitlayanan').submit(function(e){
-      e.preventDefault(); 
+      e.preventDefault();
 
       $.ajax({
        url:"<?php echo site_url('admin/tambah_layanan')?>",
@@ -246,31 +245,38 @@
    }
  });
     });
-    $('#layanan_list').on('click','.video_delete',function(){
-      var id=$(this).attr('video_hapus_id');
-      var nama=$(this).attr('video_judul');
+    $('#layanan_list').on('click','.layanan_delete',function(){
+      var id=$(this).attr('layanan_id');
+      var nama=$(this).attr('layanan_judul');
 
-      $('#id_video_hapus').val(id);
-      $('#nama_video_hapus').html(nama);
-      $('#ModalHapusVideo').modal('show');
+      $('#id_layanan').val(id);
+      $('#nama_layanan').html(nama);
+      $('#modallayananhapus').modal('show');
 
     });
-    $('#btn_hapus_video').on('click',function(){
-      var id_video = $('#id_video_hapus').val();
+    $('#btn_hapus_layanan').on('click',function(){
+      var id_layanan = $('#id_layanan').val();
       $.ajax({
         type : "POST",
-        url  : "<?php echo site_url('admin/hapus_video')?>",
+        url  : "<?php echo site_url('admin/hapus_layanan')?>",
         dataType : "JSON",
-        data : {id_video:id_video},
+        data : {id_layanan:id_layanan},
         success: function(data){
               // $('[name="kode"]').val("");
-              $('#ModalHapusVideo').modal('hide');
+              $('#modallayananhapus').modal('hide');
               show_layanan();
-              swal ( "Sukses" ,  "Video Berhasil Dihapus!" ,  "success", {
+              swal ( "Sukses" ,  "Layanan Berhasil Dihapus!" ,  "success", {
                 buttons: false,
                 timer: 1000,
               } );
-            }
+            },
+            error:function(data) {
+             swal ( "Gagal" ,  "Layanan gagal dihapus!" ,  "error", {
+              buttons: false,
+              timer: 1000,
+            } );
+             $("form").trigger("reset");
+           }
           });
       return false;
     });
