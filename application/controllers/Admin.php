@@ -509,6 +509,57 @@ public function portofolio(){
 	$data['title'] = "Portofolio";
 	$this->load->view('admin/portofolio', $data);
 }
+function hapus_portofolio(){
+	$id = $this->input->post('id_portofolio');
+	$query = $this->db->get_where('web_portofolio',array('id'=>$id));
+	if ($query->result()) {
+		foreach ($query->result() as $row) {
+			$gambar = $row->gambar;
+		}
+		$path1 =  "./assets/portofolio/asli/".$gambar."";
+		$path2 =  "./assets/portofolio/thumb/".$gambar."";
+		$path3 =  "./assets/portofolio/fix/".$gambar."";
+		if (file_exists($path1)) {
+			unlink($path1);
+		}
+		if (file_exists($path2)) {
+			unlink($path2);
+		}
+		if (file_exists($path3)) {
+			unlink($path3);
+		}
+	}
+	$this->db->where('id', $id);
+	$hasil = $this->db->delete('web_portofolio');
+	echo json_encode($hasil);
+}
+
+function hapus_cat_portofolio(){
+	$id = $this->input->post('id_cat');
+	$query = $this->db->get_where('web_portofolio',array('id_portofolio'=>$id));
+	if ($query->result()) {
+		foreach ($query->result() as $row) {
+			$gambar = $row->gambar;
+		}
+		$path1 =  "./assets/portofolio/asli/".$gambar."";
+		$path2 =  "./assets/portofolio/thumb/".$gambar."";
+		$path3 =  "./assets/portofolio/fix/".$gambar."";
+		if (file_exists($path1)) {
+			unlink($path1);
+		}
+		if (file_exists($path2)) {
+			unlink($path2);
+		}
+		if (file_exists($path3)) {
+			unlink($path3);
+		}
+	}
+	$this->db->where('id_portofolio', $id);
+	$hapus_portofolio = $this->db->delete('web_portofolio');
+	$this->db->where('id', $id);
+	$hasil = $this->db->delete('portofolio_kategori');
+	echo json_encode($hasil);
+}
 function tambah_portofolio(){
 	$data = $this->data;
 	$this->_make_sure_is_admin();

@@ -30,7 +30,7 @@
   </section>
 
   <!-- Main content -->
-  <section class="content">  
+  <section class="content">
     <!-- Default box -->
     <div class="box">
       <div class="box-header with-border">
@@ -98,7 +98,7 @@
               </thead>
               <tbody id="kategori_portofolio_list">
               </tbody>
-            </table>  
+            </table>
           </div>
         </div>
         <!-- /.box-body -->
@@ -198,7 +198,7 @@
                 <tbody id="portofolio_list">
 
                 </tbody>
-              </table>  
+              </table>
             </div>
           </div>
           <!-- /.box-body -->
@@ -214,55 +214,54 @@
     </div>
     <!-- /.content-wrapper -->
     <!--MODAL HAPUS-->
-    <div class="modal fade" id="ModalHapusVideo" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal fade" id="ModalHapus_cat" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
             <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">X</span></button> -->
-            <h4 class="modal-title" id="myModalLabel">Hapus Video</h4>
+            <h4 class="modal-title" id="myModalLabel">Hapus Kategori</h4>
           </div>
           <form class="form-horizontal">
             <div class="modal-body">
-
-              <input type="hidden" name="kode" id="id_video_hapus" value="">
-              <div class="alert alert-warning"><p>Apakah Anda yakin mau menghapus <u> <span id="nama_video_hapus"></span></u>?</p>
+              <input type="hidden" name="kode" id="id_cat_hapus" value="">
+              <div class="alert alert-warning"><p>Apakah Anda yakin mau menghapus <u> <span id="nama_cat"></span></u>?</p>
+              <div class="alert alert-warning"><p><b>Portofolio yang memiliki kategori ini Juga akan dihapus</b></p>
               </div>
-
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-default" data-dismiss="modal">Tutup</button>
-              <button class="btn_hapus btn btn-danger" id="btn_hapus_video">Hapus</button>
+              <button class="btn_hapus btn btn-danger" id="btn_hapus_cat">Hapus</button>
             </div>
           </form>
         </div>
       </div>
     </div>
+  </div>
     <!--END MODAL HAPUS-->
     <!--MODAL HAPUS-->
-    <div class="modal fade" id="ModalAktivasiVideo" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal fade" id="ModalHapus_portofolio" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
             <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">X</span></button> -->
-            <h4 class="modal-title" id="myModalLabel">Aktifkan Video</h4>
+            <h4 class="modal-title" id="myModalLabel">Hapus Portofolio</h4>
           </div>
           <form class="form-horizontal">
             <div class="modal-body">
-
-              <input type="hidden" name="kode" id="id_video_aktivasi" value="">
-              <div class="alert alert-warning"><p>Apakah Anda akan mengaktifkan <u> <span id="nama_video_aktivasi"></span></u>?</p>
+              <input type="hidden" name="kode" id="id_portofolio_hapus" value="">
+              <div class="alert alert-warning"><p>Apakah Anda yakin mau menghapus <u> <span id="nama_portofolio"></span></u>?</p>
               </div>
-
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-default" data-dismiss="modal">Tutup</button>
-              <button class="btn_aktivasi btn btn-success" id="btn_aktivasi_video">Aktifkan</button>
+              <button class="btn_hapus btn btn-danger" id="btn_hapus_portofolio">Hapus</button>
             </div>
           </form>
         </div>
       </div>
     </div>
     <!--END MODAL HAPUS-->
+
 
     <script type="text/javascript">
       $(document).ready(function() {
@@ -287,7 +286,7 @@
               '<td>'+ no++ +'</td>'+
               '<td>'+data[i].nama.substr(0, 50)+'</td>'+
               '<td style="text-align:right;">'+
-              '<a href="javascript:void(0);" class="btn btn-danger btn-sm video_delete" video_hapus_id="'+data[i].id+'" video_judul="'+data[i].nama+'"    >Delete</a>'+
+              '<a href="javascript:void(0);" class="btn btn-danger btn-sm kategori_delete" cat_id="'+data[i].id+'" nama="'+data[i].nama+'"    >Delete</a>'+
               '</td>'+
               '</tr>';
             }
@@ -326,8 +325,7 @@
               '<td>'+data[i].keterangan.substr(0, 50)+'</td>'+
               '<td> <img src="<?php echo base_url('assets/portofolio/thumb/')?>'+data[i].gambar+'"></td>'+
               '<td style="text-align:right;">'+
-              '<a href="javascript:void(0);" class="btn btn-danger btn-sm video_delete" video_hapus_id="'+data[i].id+'" video_judul="'+data[i].nama+'"    >Delete</a>'+
-              '<a href="javascript:void(0);" class="btn btn-success btn-sm video_aktivasi" video_aktif_id="'+data[i].id+'" video_judul="'+data[i].nama+'"    >Aktifkan</a>'+
+              '<a href="javascript:void(0);" class="btn btn-danger btn-sm portofolio_delete" id="'+data[i].id+'" nama="'+data[i].nama+'"    >Delete</a>'+
               '</td>'+
               '</tr>';
             }
@@ -337,7 +335,7 @@
         });
       }
       $('#submitportofolio').submit(function(e){
-        e.preventDefault(); 
+        e.preventDefault();
 
         $.ajax({
          url:"<?php echo site_url('admin/tambah_portofolio')?>",
@@ -373,37 +371,46 @@
    }
  });
       });
-      $('#portofolio_list').on('click','.video_delete',function(){
-        var id=$(this).attr('video_hapus_id');
-        var nama=$(this).attr('video_judul');
+      $('#kategori_portofolio_list').on('click','.kategori_delete',function(){
+        var id=$(this).attr('cat_id');
+        var nama=$(this).attr('nama');
 
-        $('#id_video_hapus').val(id);
-        $('#nama_video_hapus').html(nama);
-        $('#ModalHapusVideo').modal('show');
+        $('#id_cat_hapus').val(id);
+        $('#nama_cat').html(nama);
+        $('#ModalHapus_cat').modal('show');
 
       });
-      $('#btn_hapus_video').on('click',function(){
-        var id_video = $('#id_video_hapus').val();
+      $('#btn_hapus_cat').on('click',function(){
+        var id_cat = $('#id_cat_hapus').val();
         $.ajax({
           type : "POST",
-          url  : "<?php echo site_url('admin/hapus_video')?>",
+          url  : "<?php echo site_url('admin/hapus_cat_portofolio')?>",
           dataType : "JSON",
-          data : {id_video:id_video},
+          data : {id_cat:id_cat},
           success: function(data){
               // $('[name="kode"]').val("");
-              $('#ModalHapusVideo').modal('hide');
+              $('#ModalHapus_cat').modal('hide');
               show_portofolio();
-              swal ( "Sukses" ,  "Video Berhasil Dihapus!" ,  "success", {
+              show_kategori_portofolio();
+              list_kategori_portofolio();
+              swal ( "Sukses" ,  "Kategori Berhasil Dihapus!" ,  "success", {
                 buttons: false,
                 timer: 1000,
               } );
-            }
+            },
+            error:function(data) {
+             swal ( "Gagal" ,  "Kategori gagal dihapus!" ,  "error", {
+              buttons: false,
+              timer: 1000,
+            } );
+             $("form").trigger("reset");
+           }
           });
         return false;
       });
       $('#portofolio_list').on('click','.video_aktivasi',function(){
         var id=$(this).attr('video_aktif_id');
-        var nama=$(this).attr('video_judul');
+        var nama=$(this).attr('nama');
 
         $('#id_video_aktivasi').val(id);
         $('#nama_video_aktivasi').html(nama);
@@ -436,24 +443,42 @@
         $("form").trigger("reset");
         return false;
       });
-      $('#btn_aktivasi_video').on('click',function(){
-        var id_video = $('#id_video_aktivasi').val();
+      $('#portofolio_list').on('click','.portofolio_delete',function(){
+        var id=$(this).attr('id');
+        var nama=$(this).attr('nama');
+
+        $('#id_portofolio_hapus').val(id);
+        $('#nama_portofolio').html(nama);
+        $('#ModalHapus_portofolio').modal('show');
+
+      });
+      $('#btn_hapus_portofolio').on('click',function(){
+        var id_portofolio = $('#id_portofolio_hapus').val();
         $.ajax({
           type : "POST",
-          url  : "<?php echo site_url('admin/aktivasi_video')?>",
+          url  : "<?php echo site_url('admin/hapus_portofolio')?>",
           dataType : "JSON",
-          data : {id_video:id_video},
+          data : {id_portofolio:id_portofolio},
           success: function(data){
               // $('[name="kode"]').val("");
-              $('#ModalAktivasiVideo').modal('hide');
+              $('#ModalHapus_portofolio').modal('hide');
               show_portofolio();
-              swal ( "Sukses" ,  "Video Berhasil Diaktifkan!" ,  "success", {
+              show_kategori_portofolio();
+              list_kategori_portofolio();
+              swal ( "Sukses" ,  "Portofolio Berhasil Dihapus!" ,  "success", {
                 buttons: false,
                 timer: 1000,
               } );
-            }
+            },
+            error:function(data) {
+             swal ( "Gagal" ,  "Portofolio gagal dihapus!" ,  "error", {
+              buttons: false,
+              timer: 1000,
+            } );
+             $("form").trigger("reset");
+           }
           });
         return false;
       });
-      
+
     </script>
